@@ -8,7 +8,7 @@
     <head>
         <%
             Users currentSession = (Users) session.getAttribute("currentSession");
-            List<Profileposts> listaPost = currentSession.getProfilepostsList();
+            List<Profileposts> postList = currentSession.getProfilepostsList();
         %>
         <title>Red social</title>
         <meta charset="utf-8">
@@ -102,7 +102,7 @@
                 </div>
                 <div class="col-sm-8">
                     <%
-                        for (Profileposts p : listaPost) {
+                        for (Profileposts p : postList) {
                             Post post = p.getPost();
                     %>
                     <%
