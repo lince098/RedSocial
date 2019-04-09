@@ -22,23 +22,26 @@
             .right {
                 position: relative;
                 right: 0px;
-                width: 270px;
-                padding: 10px;
+                padding-top: 9px;
+                padding-bottom: 9px;
             } 
             .navbar-toggler {
                 position: relative;
                 right: 0px;
                 margin-left: 150px;
             } 
+            hr.style1{
+                border-top: 1px solid #8c8b8b;
+            }
+            .postButton{
+                float:right; 
+                margin-top: 12px; 
+                padding-left: 40px; 
+                padding-right: 40px;
+            }
         </style>
-
     </head>
     <body>
-
-        <div class="jumbotron text-center" style="margin-bottom:0">
-            <h1>Red social</h1>
-        </div>
-
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">Main Page</a>
@@ -48,7 +51,8 @@
             </button>
             <div class="collapse navbar-collapse" id="collapsibleNavbar">
                 <ul class="nav navbar-nav">
-                    <li class="active">
+                    <%-- <li class="active"> --%>
+                    <li>
                         <a class="nav-link" href="#">FriendList</a>
                     </li>
                     <li>
@@ -56,12 +60,12 @@
                     </li>
                 </ul>
             </div>  
-            <div class="right">
-                <input type="text" placeholder="Search.." name="search" style="right">
-                <button type="submit">
+            <form class="form-inline mr-auto right">
+                <input class="form-control" type="text" placeholder="Search.." name="search">
+                <button class="btn btn-primary" type="submit">
                     <i class="fa fa-search"></i>
                 </button>
-            </div>
+            </form>
         </nav>
 
         <div class="container" style="margin-top:30px">
@@ -89,9 +93,6 @@
                     --%>
                     <ul class="nav nav-pills flex-column">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">Create Post</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="#">Edit Profile</a>
                         </li>
                         <li class="nav-item">
@@ -101,28 +102,37 @@
                     <hr class="d-sm-none">
                 </div>
                 <div class="col-sm-8">
+                    <form>
+                        <textarea class="form-control" name="PostMessage" id="PostMessage" rows="3" placeholder="What are you thinking?"></textarea>
+                        <select class="form-control" id="sel1" style="margin-top: 12px;">
+                            <option>Public</option>
+                            <option>Only friends</option>
+                            <option>Private</option>
+                        </select>
+                        <input type="submit" class="btn btn-primary postButton" value="Post">
+                    </form>
+                    <br/>
+                    <br/>
                     <%
                         for (Profileposts p : postList) {
                             Post post = p.getPost();
                     %>
+                    <hr class="style1">
                     <%
                         if (post.getAuthor().getProfilePicture().equals(null)) {
                     %>
-                    <img src="/img/icon.jpg" class="rounded-circle" width="50" height="50"><%= post.getAuthor().getName() %> <%= post.getAuthor().getSurname() %>
+                    <img src="/img/icon.jpg" class="rounded-circle" width="50" height="50"><%= post.getAuthor().getName()%> <%= post.getAuthor().getSurname()%>
                     <%
                     } else {
                     %>
-                    <img src="<%= post.getAuthor().getProfilePicture()%>" class="rounded-circle" width="50" height="50"><%= post.getAuthor().getName() %> <%= post.getAuthor().getSurname() %>
+                    <img src="<%= post.getAuthor().getProfilePicture()%>" class="rounded-circle" width="50" height="50"><%= post.getAuthor().getName()%> <%= post.getAuthor().getSurname()%>
                     <%
                         }
                     %>
-                    
-                    <h2><%= post.getTitle() %></h2>
-                    <h5><%= post.getDate().toString() %></h5>
+                    <h2><%= post.getTitle()%></h2>
+                    <h5><%= post.getDate().toString()%></h5>
                     <%-- <img src="<%= post.getPostPhoto() %>" style="height:200px;"> --%>
                     <p><%= post.getText()%></p>
-
-                    <br>
                     <%
                         }
                     %>
