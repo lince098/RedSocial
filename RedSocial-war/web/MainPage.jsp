@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="RedSocialEntities.Post"%>
 <%@page import="RedSocialEntities.Profileposts"%>
 <%@page import="java.util.List"%>
@@ -8,7 +9,10 @@
     <head>
         <%
             Users currentSession = (Users) session.getAttribute("currentSession");
-            List<Profileposts> postList = currentSession.getProfilepostsList();
+            List<Profileposts> postList = new ArrayList<Profileposts>();
+            if (currentSession != null && !currentSession.getProfilepostsList().isEmpty()) {
+                postList = currentSession.getProfilepostsList();
+            }
         %>
         <title>Red social</title>
         <meta charset="utf-8">
@@ -44,7 +48,7 @@
     <body>
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">Main Page</a>
+                <a class="navbar-brand" href="MainPage.jsp">Main Page</a>
             </div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
                 <span class="navbar-toggler-icon"></span>
@@ -53,7 +57,7 @@
                 <ul class="nav navbar-nav">
                     <%-- <li class="active"> --%>
                     <li>
-                        <a class="nav-link" href="#">FriendList</a>
+                        <a class="nav-link" href="FriendlistPage.jsp">FriendList</a>
                     </li>
                     <li>
                         <a class="nav-link" href="#">Groups</a>
@@ -74,11 +78,13 @@
                     <h2>About Me</h2>
                     <h5>Name:</h5>
                     <p><%= currentSession.getName()%></p>
+                    <h5>Surname:</h5>
+                    <p><%= currentSession.getSurname()%></p>
                     <h5>Profile photo:</h5>
                     <%
-                        if (currentSession.getProfilePicture().equals(null)) {
+                        if (currentSession.getProfilePicture()==null) {
                     %>
-                    <img src="/img/icon.jpg" width="100" height="100">
+                    <img src="img/icon.jpg" width="100" height="100">
                     <%
                     } else {
                     %>
@@ -102,38 +108,40 @@
                     <hr class="d-sm-none">
                 </div>
                 <div class="col-sm-8">
-                    <form>
-                        <textarea class="form-control" name="PostMessage" id="PostMessage" rows="3" placeholder="What are you thinking?"></textarea>
-                        <select class="form-control" id="sel1" style="margin-top: 12px;">
-                            <option>Public</option>
-                            <option>Only friends</option>
-                            <option>Private</option>
+                    <form action="SubmitPostServlet">
+                        <textarea class="form-control" name="title" id="title" rows="1" placeholder="Title"></textarea>
+                        <textarea class="form-control" name="postMessage" id="postMessage" rows="3" placeholder="What are you thinking?"></textarea>
+                        <select class="form-control" name="vision" id="vision" style="margin-top: 12px;">
+                            <option name="Public">Public</option>
+                            <option name="FriendsOnly">Friends only</option>
                         </select>
                         <input type="submit" class="btn btn-primary postButton" value="Post">
                     </form>
                     <br/>
                     <br/>
                     <%
-                        for (Profileposts p : postList) {
-                            Post post = p.getPost();
+                        if (!postList.equals(null)) {
+                            for (Profileposts p : postList) {
+                                Post post = p.getPost();
                     %>
                     <hr class="style1">
                     <%
                         if (post.getAuthor().getProfilePicture().equals(null)) {
                     %>
-                    <img src="/img/icon.jpg" class="rounded-circle" width="50" height="50"><%= post.getAuthor().getName()%> <%= post.getAuthor().getSurname()%>
+                    <img src="/img/icon.jpg" class="rounded-circle" width="50" height="50">
                     <%
                     } else {
                     %>
-                    <img src="<%= post.getAuthor().getProfilePicture()%>" class="rounded-circle" width="50" height="50"><%= post.getAuthor().getName()%> <%= post.getAuthor().getSurname()%>
+                    <img src="<%= post.getAuthor().getProfilePicture()%>" class="rounded-circle" width="50" height="50">
                     <%
                         }
                     %>
+                    <%= post.getAuthor().getName()%> <%= post.getAuthor().getSurname()%>
                     <h2><%= post.getTitle()%></h2>
                     <h5><%= post.getDate().toString()%></h5>
-                    <%-- <img src="<%= post.getPostPhoto() %>" style="height:200px;"> --%>
                     <p><%= post.getText()%></p>
                     <%
+                            }
                         }
                     %>
                 </div>
