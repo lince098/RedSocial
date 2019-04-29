@@ -55,12 +55,7 @@ public class SubmitPostServlet extends HttpServlet {
         String message = request.getParameter("postMessage");
         String vision = request.getParameter("vision");
         Users author = (Users) request.getSession().getAttribute("currentSession");
-        /*
-        String pattern = "dd MM yyyy HH:mm:ss.SSS";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Europe/London"));
-        String date = simpleDateFormat.format(new Date());
-        */
+        
         Post p = new Post();
         p.setAuthor(author);
         p.setText(message);
