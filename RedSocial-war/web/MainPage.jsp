@@ -19,6 +19,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -82,7 +83,7 @@
                     <p><%= currentSession.getSurname()%></p>
                     <h5>Profile photo:</h5>
                     <%
-                        if (currentSession.getProfilePicture()==null) {
+                        if (currentSession.getProfilePicture() == null) {
                     %>
                     <img src="img/icon.jpg" width="100" height="100">
                     <%
@@ -102,7 +103,23 @@
                             <a class="nav-link" href="#">Edit Profile</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">View Messages</a>
+                            <%
+                                if (currentSession.getMessagesList().isEmpty()) {
+                            %>
+                            <a class="btn btn-outline-primary" href="#">
+                                Messages
+                                <i class="far fa-envelope-open"></i>
+                            </a>
+                            <%
+                            } else {
+                            %>
+                            <a class="btn btn-primary" href="#">
+                                Messages
+                                <i class="far fa-envelope"></i>
+                            </a>
+                            <%
+                                }
+                            %>
                         </li>
                     </ul>
                     <hr class="d-sm-none">
