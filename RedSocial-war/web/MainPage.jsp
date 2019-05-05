@@ -47,7 +47,7 @@
         </style>
     </head>
     <body>
-        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark form-inline">
             <div class="navbar-header">
                 <a class="navbar-brand" href="MainPage.jsp">Main Page</a>
             </div>
@@ -65,7 +65,7 @@
                     </li>
                 </ul>
             </div>  
-            <form class="form-inline mr-auto right">
+            <form class="form-inline right input-group">
                 <input class="form-control" type="text" placeholder="Search.." name="search">
                 <button class="btn btn-primary" type="submit">
                     <i class="fa fa-search"></i>
@@ -73,7 +73,7 @@
             </form>
         </nav>
 
-        <div class="container" style="margin-top:30px">
+        <div class="container col-9" style="margin-top:30px">
             <div class="row">
                 <div class="col-sm-4">
                     <h2>About Me</h2>
@@ -100,7 +100,7 @@
                     --%>
                     <ul class="nav nav-pills flex-column">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Edit Profile</a>
+                            <a class="nav-link" href="EditUser.jsp">Edit Profile</a>
                         </li>
                         <li class="nav-item">
                             <%
