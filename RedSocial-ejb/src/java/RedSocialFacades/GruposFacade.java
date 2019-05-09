@@ -5,7 +5,7 @@
  */
 package RedSocialFacades;
 
-import RedSocialEntities.Groups;
+import RedSocialEntities.Grupos;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author PabloGL
  */
 @Stateless
-public class GroupsFacade extends AbstractFacade<Groups> {
+public class GruposFacade extends AbstractFacade<Grupos> {
 
     @PersistenceContext(unitName = "RedSocial-ejbPU")
     private EntityManager em;
@@ -25,8 +25,8 @@ public class GroupsFacade extends AbstractFacade<Groups> {
         return em;
     }
 
-    public GroupsFacade() {
-        super(Groups.class);
+    public GruposFacade() {
+        super(Grupos.class);
     }
     
 }

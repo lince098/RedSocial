@@ -8,8 +8,14 @@
             String error = (String) request.getAttribute("error");
             String success = (String) request.getAttribute("success");
         %>
+       <!--
+        <style>
+            body{
+                background-image: URL(Backgrounds/grupo-gente.jpg) 
+            }
+        </style> -->
     </head>
-    <body>
+    <body background-image="Backgrounds/grupo-gente.jpg">
         <div class="container col-7">
             <div class="bg-light p-4 rounded">
                 <h1 class="text-primary">Register</h1>

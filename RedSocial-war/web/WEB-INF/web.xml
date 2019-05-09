@@ -6,6 +6,6 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>Login.jsp</welcome-file>
+        <welcome-file>ServletPruebaGrupos2</welcome-file>
     </welcome-file-list>
 </web-app>

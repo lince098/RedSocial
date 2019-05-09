@@ -9,7 +9,6 @@ import RedSocialEntities.Users;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -32,12 +31,6 @@ public class UsersFacade extends AbstractFacade<Users> {
         super(Users.class);
     }
 
-    /**
-     *
-     * @param email
-     * @param password
-     * @return null if not found any user or the user in case it founds it
-     */
     public List<Users> checkCredentials(String email, String password) {
         Query q = em.createQuery("SELECT u FROM Users u WHERE u.email = :email and u.password = :password");
         q.setParameter("email", email);
@@ -45,5 +38,4 @@ public class UsersFacade extends AbstractFacade<Users> {
 
         return (List<Users>) q.getResultList();
     }
-
 }

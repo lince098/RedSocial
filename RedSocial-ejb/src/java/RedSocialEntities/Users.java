@@ -37,9 +37,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "users")
 @XmlRootElement
 @NamedQueries({
-    //OurNamedQueries
-    
-    //DefaultQueries
     @NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u")
     , @NamedQuery(name = "Users.findById", query = "SELECT u FROM Users u WHERE u.id = :id")
     , @NamedQuery(name = "Users.findByEmail", query = "SELECT u FROM Users u WHERE u.email = :email")
@@ -90,7 +87,9 @@ public class Users implements Serializable {
     @Column(name = "isAdmin")
     private Short isAdmin;
     @ManyToMany(mappedBy = "usersList")
-    private List<Groups> groupsList;
+    private List<Grupos> gruposList;
+    @ManyToMany(mappedBy = "usersList1")
+    private List<Grupos> gruposList1;
     @JoinTable(name = "friendship", joinColumns = {
         @JoinColumn(name = "user1", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "user2", referencedColumnName = "id")})
@@ -98,8 +97,8 @@ public class Users implements Serializable {
     private List<Users> usersList;
     @ManyToMany(mappedBy = "usersList")
     private List<Users> usersList1;
-    @ManyToMany(mappedBy = "usersList1")
-    private List<Groups> groupsList1;
+    @ManyToMany(mappedBy = "usersList2")
+    private List<Grupos> gruposList2;
     @JoinTable(name = "friendshippetition", joinColumns = {
         @JoinColumn(name = "applicant", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "requested", referencedColumnName = "id")})
@@ -204,12 +203,21 @@ public class Users implements Serializable {
     }
 
     @XmlTransient
-    public List<Groups> getGroupsList() {
-        return groupsList;
+    public List<Grupos> getGruposList() {
+        return gruposList;
     }
 
-    public void setGroupsList(List<Groups> groupsList) {
-        this.groupsList = groupsList;
+    public void setGruposList(List<Grupos> gruposList) {
+        this.gruposList = gruposList;
+    }
+
+    @XmlTransient
+    public List<Grupos> getGruposList1() {
+        return gruposList1;
+    }
+
+    public void setGruposList1(List<Grupos> gruposList1) {
+        this.gruposList1 = gruposList1;
     }
 
     @XmlTransient
@@ -231,12 +239,12 @@ public class Users implements Serializable {
     }
 
     @XmlTransient
-    public List<Groups> getGroupsList1() {
-        return groupsList1;
+    public List<Grupos> getGruposList2() {
+        return gruposList2;
     }
 
-    public void setGroupsList1(List<Groups> groupsList1) {
-        this.groupsList1 = groupsList1;
+    public void setGruposList2(List<Grupos> gruposList2) {
+        this.gruposList2 = gruposList2;
     }
 
     @XmlTransient
@@ -317,5 +325,5 @@ public class Users implements Serializable {
     public String toString() {
         return "RedSocialEntities.Users[ id=" + id + " ]";
     }
-
+    
 }
