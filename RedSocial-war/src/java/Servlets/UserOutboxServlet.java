@@ -3,15 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Servlets;
 
 import RedSocialEntities.Messages;
 import RedSocialEntities.Users;
-import RedSocialFacades.MessagesFacade;
 import java.io.IOException;
 import java.util.List;
-import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "UserOutboxServlet", urlPatterns = {"/UserOutboxServlet"})
 public class UserOutboxServlet extends HttpServlet {
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -37,13 +34,13 @@ public class UserOutboxServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        Users currentUser = (Users)request.getSession().getAttribute("currentSession");
 
+        Users currentUser = (Users) request.getSession().getAttribute("currentSession");
+        
         List<Messages> listaMensajesSalientes = currentUser.getMessagesList1();
 
-        request.setAttribute("salientes", listaMensajesSalientes);
-        
+        request.setAttribute("listaSalientes", listaMensajesSalientes);
+
         RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/UserOutbox.jsp");
         rd.forward(request, response);
     }

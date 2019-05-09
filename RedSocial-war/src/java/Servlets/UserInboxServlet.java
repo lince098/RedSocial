@@ -37,10 +37,10 @@ public class UserInboxServlet extends HttpServlet {
             throws ServletException, IOException {
 
         Users currentUser = (Users)request.getSession().getAttribute("currentSession");
-
+        
         List<Messages> listaMensajesEntrantes = currentUser.getMessagesList();
 
-        request.setAttribute("entrantes", listaMensajesEntrantes);
+        request.setAttribute("listaEntrantes", listaMensajesEntrantes);
         
         RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/UserInbox.jsp");
         rd.forward(request, response);
