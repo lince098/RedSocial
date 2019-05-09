@@ -31,17 +31,24 @@ public class GrouppostsFacade extends AbstractFacade<Groupposts> {
     public GrouppostsFacade() {
         super(Groupposts.class);
     }
+    
+    
+    public List<Groupposts> onlyNPublicGroupPosts(int n, Grupos group) {
+        Query q;
+        q = this.getEntityManager().createQuery("SELECT gp FROM Groupposts gp JOIN gp.post p  WHERE  gp.grupo = :grupo AND gp.vision = 'Public'  ORDER BY p.date DESC");
 
-    public List<Groupposts> onlyPublicGroupPosts(int n, Grupos g) {
-        Query q = this.getEntityManager().createQuery("SELECT gp FROM Groupposts gp JOIN gp.post p  WHERE  gp.grupo == :grupo AND gp.vision == 'Public'  ORDER BY DESC(p.date) LIMIT :n");
-
-        q.setParameter("n", n);
-        q.setParameter("grupo", g);
+        q.setMaxResults(n);
+        q.setParameter("grupo", group);
 
         return q.getResultList();
     }
 
-    public List<Groupposts> EveryGroupPosts(int n, Grupos g) {
-        return null;
+    public List<Groupposts> everyNGroupPosts(int n, Grupos group) {
+       Query q = this.getEntityManager().createQuery("SELECT gp FROM Groupposts gp JOIN gp.post p  WHERE  gp.grupo = :grupo ORDER BY p.date DESC");
+
+        q.setMaxResults(n);
+        q.setParameter("grupo", group);
+
+        return q.getResultList();
     }
 }

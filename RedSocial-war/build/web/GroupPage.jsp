@@ -5,6 +5,8 @@
 --%>
 
 
+<%@page import="java.util.List"%>
+<%@page import="sun.nio.cs.ext.GB18030"%>
 <%@page import="Services.GrupoService"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="RedSocialEntities.Groupposts"%>
@@ -21,6 +23,10 @@
     
     groupId
 
+    Sends to PetitionListServlet
+    
+    group (id)
+
 -->
 
 
@@ -34,9 +40,14 @@
         <%
             Users currentSession = (Users) session.getAttribute("currentSession");
             Grupos group = (Grupos) request.getAttribute("group");
+            List<Groupposts> postList = (List) request.getAttribute("postList");
             boolean isAdmin = (Boolean) request.getAttribute("isAdmin"), isMember = (Boolean) request.getAttribute("isMember");
+            
+            String disablePublish= isMember?"":"disabled";
+            
             SimpleDateFormat dfPost = new SimpleDateFormat("dd-MM-yyyy HH:mm");
             SimpleDateFormat dfGroupCreationDate = new SimpleDateFormat("dd-MM-yyyy");
+            int numberOfPetitions = GrupoService.getGroupJoinPetitions(group).size();
         %>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -62,6 +73,10 @@
                         <input type="hidden" value="<%= group.getId()%>" name="groupId">
                     </form>
 
+                    <form   id="petitionListForm" action="PetitionListServlet" >
+                        <input type="hidden" value="<%= group.getId()%>" name="groupId">
+                    </form>
+
                     <form id="cancelForm" action="GroupCancelPetition"  >
                         <input type="hidden" value="<%= group.getId()%>" name="groupId">
                     </form>
@@ -69,7 +84,7 @@
                     <form id="joinForm" action="GroupJoinPetition"  >
                         <input type="hidden" value="<%= group.getId()%>" name="groupId">
                     </form>
-                    
+
                     <form id="leaveGroupForm" action="LeaveGroup"  >
                         <input type="hidden" value="<%= group.getId()%>" name="groupId">
                     </form>
@@ -104,7 +119,7 @@
                     <button type="button" class="btn btn-primary btn-sm btn-info" onclick="location.href = '/value'">
                         Edit
                     </button>
-                    <button type="button" class="btn btn-primary btn-sm btn-info">Join petitions</button>
+                    <button type="submit" form="petitionListForm" formmethod="post" class="btn btn-primary btn-sm btn-info">Join petitions <%= numberOfPetitions%></button>
                     <%
                         }
                     %>
@@ -203,7 +218,7 @@
                     <br><br>
                     <div class="btn-toolbar justify-content-between">
                         <div class="btn-group">
-                            <button type="submit" class="btn btn-primary">Publish</button>
+                            <button type="submit" class="btn btn-primary" <%= disablePublish %>>Publish</button>
                         </div>
                     </div>
                 </div>
@@ -211,13 +226,12 @@
 
         </div>
 
-
+                    <%= postList.size()%>
 
         <%
 
-            int i = 0;
             // Cambiar por post to show y hacer las queries que saquen los 10 primeros publicos y 10 primeros (publicos y de grupo)
-            for (Groupposts p : group.getGrouppostsList()) {
+            for (Groupposts p : postList) {
         %>
         <div class="card-body">
             <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"><%= dfPost.format(p.getPost().getDate())%></i>   
@@ -239,10 +253,7 @@
             </div>
         </div>
         <%
-                if (i > 10) {
-                    return;
-                }
-                i++;
+
             }
         %>
 

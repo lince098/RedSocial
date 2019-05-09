@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlets;
+package GroupServlets;
 
 import RedSocialEntities.Grupos;
 import RedSocialEntities.Users;
 import RedSocialFacades.GruposFacade;
+import RedSocialFacades.UsersFacade;
 import Services.GrupoService;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,9 +23,11 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author PabloGL
  */
-@WebServlet(name = "GroupCancelPetition", urlPatterns = {"/GroupCancelPetition"})
-public class GroupCancelPetition extends HttpServlet {
+@WebServlet(name = "AcceptPetition", urlPatterns = {"/AcceptPetition"})
+public class AcceptPetition extends HttpServlet {
 
+    @EJB
+    UsersFacade uf;
     @EJB
     GruposFacade gf;
 
@@ -40,24 +42,21 @@ public class GroupCancelPetition extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Users u = (Users) request.getSession().getAttribute("currentSession");
 
-        Integer id = Integer.parseInt(request.getParameter("groupId"));
-
-        Grupos g = gf.find(id);
+        Integer groupId = Integer.parseInt(request.getParameter("groupId"));
+        Integer userId = Integer.parseInt(request.getParameter("userId"));
         
-        List<Users> joinsPetitions = GrupoService.getGroupJoinPetitions(g);
-        if (joinsPetitions.contains(u)) {
-            joinsPetitions.remove(u);
-        }
-
-        gf.edit(g);
-
-        request.setAttribute("group", g);
-        request.setAttribute("isAdmin", false);
-        request.setAttribute("isMember", false);
-
-        request.getRequestDispatcher("/GroupPage.jsp").forward(request, response);
+        Grupos group = gf.find(groupId);
+        Users user  = uf.find(userId);
+        
+        GrupoService.getGroupJoinPetitions(group).remove(user);
+        GrupoService.getMembers(group).add(user);
+        
+        gf.edit(group);
+        
+        request.setAttribute("group", group);
+        
+        request.getRequestDispatcher("/PetitionListServlet").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

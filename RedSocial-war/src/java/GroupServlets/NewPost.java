@@ -1,12 +1,29 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package Servlets;
+/*  
+        Recive:
+        
+        receiverGroup (id)
+        author  Usa currentSession
+        postText
+        visibilidad
 
+        Devuelve hacia : 
+
+        
+ */
+package GroupServlets;
+
+import RedSocialEntities.Groupposts;
+import RedSocialEntities.Grupos;
+import RedSocialEntities.Post;
+import RedSocialEntities.Users;
+import RedSocialFacades.GrouppostsFacade;
+import RedSocialFacades.GruposFacade;
+import RedSocialFacades.PostFacade;
+import RedSocialFacades.UsersFacade;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,8 +34,17 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author PabloGL
  */
-@WebServlet(name = "PetitionListServlet", urlPatterns = {"/PetitionListServlet"})
-public class PetitionListServlet extends HttpServlet {
+@WebServlet(name = "NewPost", urlPatterns = {"/NewPost"})
+public class NewPost extends HttpServlet {
+
+    @EJB
+    GruposFacade gf;
+    @EJB
+    UsersFacade uf;
+    @EJB
+    GrouppostsFacade gpf;
+    @EJB
+    PostFacade pf;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,19 +57,51 @@ public class PetitionListServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet PetitionListServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet PetitionListServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+
+        /*
+        groupReceiver (id)
+        postText
+        visibilidad
+         */
+        Users currentSession = (Users) request.getSession().getAttribute("currentSession");
+
+        Grupos grupo = gf.find(Integer.parseInt(request.getParameter("receiverGroup")));
+
+        String text = request.getParameter("postText");
+        String visibilidad = request.getParameter("visibilidad");
+
+        Post post = new Post();
+        post.setAuthor(currentSession);
+        post.setDate(new Date());
+        post.setText(text);
+        post.setTitle("titulo");
+
+        pf.create(post);
+        
+        Groupposts gp = new Groupposts();
+        gp.setPost(post);
+        gp.setGrupo(grupo);
+        gp.setVision(visibilidad);
+        gp.setId(post.getId());
+
+        //relación autor
+        currentSession.getPostList().add(post);
+        uf.edit(currentSession);
+
+        post.setGroupposts(gp);
+        
+        gpf.create(gp);
+
+        pf.edit(post);
+
+        grupo.getGrouppostsList().add(gp);
+
+        gf.edit(grupo);
+
+        request.setAttribute("group", grupo);
+
+        request.getRequestDispatcher("/GroupPageServlet").forward(request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

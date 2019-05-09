@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlets;
+package GroupServlets;
 
-import RedSocialEntities.Users;
-import RedSocialFacades.UsersFacade;
+import RedSocialEntities.Grupos;
+import RedSocialFacades.GruposFacade;
 import java.io.IOException;
-import java.util.List;
+import java.io.PrintWriter;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,17 +16,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author PabloGL
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/loginServlet"})
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "PetitionListServlet", urlPatterns = {"/PetitionListServlet"})
+public class PetitionListServlet extends HttpServlet {
 
     @EJB
-    UsersFacade usersFacade;
+    GruposFacade gf;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,27 +39,21 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        //Chequear email y password parametros : "email","password"
-        String email = request.getParameter("email"), password = request.getParameter("password");
-        List<Users> userList = usersFacade.checkCredentials(email, password);
-        
-        if (userList.isEmpty()) {
-            //Si no se encuentra usuario error como el de abajo
-            String error = "No user found with that credentials.";
-            request.setAttribute("loginError", error);
+        String groupIdS = request.getParameter("groupId");
+        Grupos group;
 
-            RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/Login.jsp");
-            rd.forward(request, response);
+        if (groupIdS == null) {
+            group = (Grupos) request.getAttribute("group");
         } else {
-            Users user = userList.get(0);
-            
-            //En caso de ser encontrado llevarlo a la pagina principal con su usuario en la sesión para gestionar todo.
-            
-            request.getSession().setAttribute("currentSession", user);
-            
-            RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/MainPage.jsp");
-            rd.forward(request, response);
+            group = gf.find(Integer.parseInt(groupIdS));
         }
+
+        request.setAttribute("group", group);
+
+        RequestDispatcher rd = request.getRequestDispatcher("/JoinPetitionsList.jsp");
+        
+        rd.forward(request, response);
+//response.sendRedirect("/JoinPetitionsList.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

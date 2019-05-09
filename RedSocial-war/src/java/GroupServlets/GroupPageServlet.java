@@ -1,14 +1,25 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+    Receives
 
+    groupId
+
+ */
+package GroupServlets;
+
+/*
+        Receives: 
+        parametro :"groupId"
+        session "currentSession"
+        Returns : "group" "groupAdmin" "groupMember"           
+        forwardTo-to : Group Page
+ */
 import RedSocialEntities.Grupos;
 import RedSocialEntities.Users;
+import RedSocialFacades.GrouppostsFacade;
 import RedSocialFacades.GruposFacade;
-import RedSocialFacades.UsersFacade;
+import Services.GrupoService;
 import java.io.IOException;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,13 +32,13 @@ import javax.servlet.http.HttpSession;
  *
  * @author PabloGL
  */
-@WebServlet(urlPatterns = {"/ServletPruebaGrupos1"})
-public class ServletPruebaGrupos1 extends HttpServlet {
+@WebServlet(name = "GroupPageServlet", urlPatterns = {"/GroupPageServlet"})
+public class GroupPageServlet extends HttpServlet {
 
     @EJB
-    UsersFacade uf;
-    @EJB
     GruposFacade gf;
+    @EJB
+    GrouppostsFacade gpf;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,15 +52,41 @@ public class ServletPruebaGrupos1 extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        Grupos g = gf.find(1);
-        Users u = uf.find(1);
+        HttpSession session = request.getSession();
 
-        HttpSession sesion = request.getSession();
+        String groupIdS = request.getParameter("groupId");
+        Grupos groupToShow;
 
-        sesion.setAttribute("currentSession", u);
-        request.setAttribute("group", g);
-       
-        request.getRequestDispatcher("/GroupPageServlet").forward(request, response);
+        //Por si lo paso como atributo
+        if (groupIdS == null) {
+            groupToShow = (Grupos) request.getAttribute("group");
+            
+        } else {
+            groupToShow = gf.find(Integer.parseInt(groupIdS));
+        }
+
+        request.setAttribute("group", groupToShow);
+
+        // Comprobar si pertenece al grupo y añadirlo al request
+        List<Users> members = GrupoService.getMembers(groupToShow);
+        Users currentSession = (Users) session.getAttribute("currentSession");
+
+        if (members.contains(currentSession)) {
+
+            //Comprobar si es admin y añadirlo al request
+            List<Users> adminList = GrupoService.getAdmins(groupToShow);
+            boolean esAdmin = adminList.contains(currentSession);
+            request.setAttribute("isAdmin", esAdmin);
+            request.setAttribute("isMember", true);
+            request.setAttribute("postList", gpf.everyNGroupPosts(20, groupToShow));
+
+        } else {
+            request.setAttribute("isAdmin", false);
+            request.setAttribute("isMember", false);
+            request.setAttribute("postList", gpf.onlyNPublicGroupPosts(20, groupToShow));
+        }
+
+        request.getRequestDispatcher("/GroupPage.jsp").forward(request, response);
 
     }
 

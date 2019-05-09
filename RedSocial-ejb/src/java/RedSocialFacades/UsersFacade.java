@@ -38,4 +38,5 @@ public class UsersFacade extends AbstractFacade<Users> {
 
         return (List<Users>) q.getResultList();
     }
+
 }

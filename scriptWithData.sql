@@ -146,7 +146,7 @@ CREATE TABLE `groupposts` (
 
 LOCK TABLES `groupposts` WRITE;
 /*!40000 ALTER TABLE `groupposts` DISABLE KEYS */;
-INSERT INTO `groupposts` VALUES (1,1,'Public'),(6,1,'Public'),(7,1,'Group'),(8,1,'Public'),(9,1,'Public'),(10,1,'Public'),(11,1,'Public');
+INSERT INTO `groupposts` VALUES (16,1,'Public'),(17,1,'Public'),(18,1,'Group');
 /*!40000 ALTER TABLE `groupposts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -217,7 +217,7 @@ CREATE TABLE `messages` (
   `receiver` int(11) NOT NULL,
   `title` varchar(50) NOT NULL,
   `text` varchar(200) NOT NULL,
-  `date` date NOT NULL,
+  `date` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `Message_Sender_Id_FK_idx` (`sender`),
   KEY `Message_Receiver_Id_FK_idx` (`receiver`),
@@ -246,13 +246,13 @@ CREATE TABLE `post` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(50) NOT NULL,
   `text` varchar(200) NOT NULL,
-  `date` date NOT NULL,
+  `date` datetime NOT NULL,
   `author` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `dsff_idx` (`date`),
   KEY `authorofpost_idx` (`author`),
   CONSTRAINT `authorofpost` FOREIGN KEY (`author`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -261,7 +261,7 @@ CREATE TABLE `post` (
 
 LOCK TABLES `post` WRITE;
 /*!40000 ALTER TABLE `post` DISABLE KEYS */;
-INSERT INTO `post` VALUES (1,'titulo que a saber donde pongo','Fue un dia amargo pero soleado','1998-02-23',1),(4,'titulo','asdasf','2019-05-08',2),(5,'titulo','Prueb2','2019-05-08',2),(6,'titulo','FFFFFFFFFFFFFFF','2019-05-08',2),(7,'titulo','VAMOOOS QUE FURULAAA','2019-05-08',2),(8,'titulo','A tOPEEEE','2019-05-08',2),(9,'titulo','A tOPEEEE','2019-05-08',2),(10,'titulo','A tOPEEEE','2019-05-08',2),(11,'titulo','Prueba Tras actualizar','2019-05-08',2);
+INSERT INTO `post` VALUES (16,'titulo','Primer Post','2019-05-09 00:00:00',1),(17,'titulo','Segundo Post','2019-05-09 00:00:00',1),(18,'titulo','Tercer Post Solo para miembros','2019-05-09 00:00:00',1);
 /*!40000 ALTER TABLE `post` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -333,4 +333,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-05-09 12:13:12
+-- Dump completed on 2019-05-10  0:10:31

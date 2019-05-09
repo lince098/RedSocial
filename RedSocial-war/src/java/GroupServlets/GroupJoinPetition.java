@@ -1,42 +1,31 @@
 /*
-    Receives
-
-    groupId
-
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
-package Servlets;
+package GroupServlets;
 
-/*
-        Receives: 
-        parametro :"groupId"
-        session "currentSession"
-        Returns : "group" "groupAdmin" "groupMember"           
-        forwardTo-to : Group Page
- */
 import RedSocialEntities.Grupos;
 import RedSocialEntities.Users;
 import RedSocialFacades.GruposFacade;
 import Services.GrupoService;
 import java.io.IOException;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author PabloGL
  */
-@WebServlet(name = "GroupPageServlet", urlPatterns = {"/GroupPageServlet"})
-public class GroupPageServlet extends HttpServlet {
+@WebServlet(name = "GroupJoinPetition", urlPatterns = {"/GroupJoinPetition"})
+public class GroupJoinPetition extends HttpServlet {
 
-    @EJB
-    GruposFacade gf;
-
+    @EJB GruposFacade gf;
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -49,42 +38,17 @@ public class GroupPageServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
-
-        String groupIdS = request.getParameter("groupId");
-
-        Integer groupId;
-
-        //Por si lo paso como atributo
-        if (groupIdS == null) {
-            groupId = (Integer) request.getAttribute("groupId");
-        } else {
-            groupId = Integer.parseInt(groupIdS);
-        }
-
-        Grupos groupToShow = gf.find(groupId);
-
-        request.setAttribute("group", groupToShow);
-
-        // Comprobar si pertenece al grupo y añadirlo al request
-        List<Users> members = GrupoService.getMembers(groupToShow);
-        Users currentSession = (Users) session.getAttribute("currentSession");
-
-        if (members.contains(currentSession)) {
-
-            //Comprobar si es admin y añadirlo al request
-            List<Users> adminList = GrupoService.getAdmins(groupToShow);
-            boolean esAdmin = adminList.contains(currentSession);
-            request.setAttribute("isAdmin", esAdmin);
-            request.setAttribute("isMember", true);
-
-        } else {
-            request.setAttribute("isAdmin", false);
-            request.setAttribute("isMember", false);
-        }
-
-        request.getRequestDispatcher("/GroupPage.jsp").forward(request, response);
-
+        Users u = (Users) request.getSession().getAttribute("currentSession");
+        
+        Integer id = Integer.parseInt(request.getParameter("groupId"));
+        
+        Grupos g = gf.find(id);
+        GrupoService.getGroupJoinPetitions(g).add(u);
+        gf.edit(g);
+        
+        request.setAttribute("group", g);
+        
+        request.getRequestDispatcher("/GroupPageServlet").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

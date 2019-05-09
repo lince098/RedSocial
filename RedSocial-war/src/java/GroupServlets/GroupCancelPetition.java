@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlets;
+package GroupServlets;
 
 import RedSocialEntities.Grupos;
 import RedSocialEntities.Users;
@@ -11,6 +11,7 @@ import RedSocialFacades.GruposFacade;
 import Services.GrupoService;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,11 +23,12 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author PabloGL
  */
-@WebServlet(name = "GroupJoinPetition", urlPatterns = {"/GroupJoinPetition"})
-public class GroupJoinPetition extends HttpServlet {
+@WebServlet(name = "GroupCancelPetition", urlPatterns = {"/GroupCancelPetition"})
+public class GroupCancelPetition extends HttpServlet {
 
-    @EJB GruposFacade gf;
-    
+    @EJB
+    GruposFacade gf;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,20 +40,22 @@ public class GroupJoinPetition extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         Users u = (Users) request.getSession().getAttribute("currentSession");
-        
+
         Integer id = Integer.parseInt(request.getParameter("groupId"));
-        
+
         Grupos g = gf.find(id);
-        GrupoService.getGroupJoinPetitions(g).add(u);
+        
+        List<Users> joinsPetitions = GrupoService.getGroupJoinPetitions(g);
+        if (joinsPetitions.contains(u)) {
+            joinsPetitions.remove(u);
+        }
+
         gf.edit(g);
-        
+
         request.setAttribute("group", g);
-        request.setAttribute("isAdmin", false);
-        request.setAttribute("isMember", false);
-        
-        request.getRequestDispatcher("/GroupPage.jsp").forward(request, response);
+
+        request.getRequestDispatcher("/GroupPageServlet").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

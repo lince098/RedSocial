@@ -1,28 +1,17 @@
-/*  
-        Recive:
-        
-        receiverGroup (id)
-        author  Usa currentSession
-        postText
-        visibilidad
-
-        Devuelve hacia : 
-
-        
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
-package Servlets;
+package GroupServlets;
 
-import RedSocialEntities.Groupposts;
 import RedSocialEntities.Grupos;
-import RedSocialEntities.Post;
 import RedSocialEntities.Users;
-import RedSocialFacades.GrouppostsFacade;
 import RedSocialFacades.GruposFacade;
-import RedSocialFacades.PostFacade;
-import RedSocialFacades.UsersFacade;
+import Services.GrupoService;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,17 +23,11 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author PabloGL
  */
-@WebServlet(name = "NewPost", urlPatterns = {"/NewPost"})
-public class NewPost extends HttpServlet {
+@WebServlet(name = "LeaveGroup", urlPatterns = {"/LeaveGroup"})
+public class LeaveGroup extends HttpServlet {
 
     @EJB
     GruposFacade gf;
-    @EJB
-    UsersFacade uf;
-    @EJB
-    GrouppostsFacade gpf;
-    @EJB
-    PostFacade pf;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -57,51 +40,43 @@ public class NewPost extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        Users u = (Users) request.getSession().getAttribute("currentSession");
+        Integer id = Integer.parseInt(request.getParameter("groupId"));
+        Grupos g = gf.find(id);
+        gf.edit(g);
+        List<Users> admins = GrupoService.getAdmins(g);
+        List<Users> members = GrupoService.getMembers(g);
+        if (admins.contains(u)) {
+            if (admins.size() - 1 == 0) {
+                if (members.size() > 1) {//Name new admin
+                    int i = 0;
+                    while (u.equals(members.get(i))) {
+                        i++;
+                    }
 
-        /*
-        groupReceiver (id)
-        postText
-        visibilidad
-         */
-        Users currentSession = (Users) request.getSession().getAttribute("currentSession");
+                    admins.add(members.get(i));
+                    admins.remove(u);
+                } else { //Elimina el grupo
+                    gf.remove(g);
 
-        Grupos grupo = gf.find(Integer.parseInt(request.getParameter("receiverGroup")));
+                    request.getRequestDispatcher("pagina principal").forward(request, response);
+                    return;
+                }
 
-        String text = request.getParameter("postText");
-        String visibilidad = request.getParameter("visibilidad");
-
-        Post post = new Post();
-        post.setAuthor(currentSession);
-        post.setDate(new Date());
-        post.setText(text);
-        post.setTitle("titulo");
-
-        pf.create(post);
+            } else {
+                admins.remove(u);
+                members.remove(u);
+            }
+        } else {
+            members.remove(u);
+        }
         
-        Groupposts gp = new Groupposts();
-        gp.setPost(post);
-        gp.setGrupo(grupo);
-        gp.setVision(visibilidad);
-        gp.setId(post.getId());
+        gf.edit(g);
 
-        //relación autor
-        currentSession.getPostList().add(post);
-        uf.edit(currentSession);
-
-        post.setGroupposts(gp);
         
-        gpf.create(gp);
-
-        pf.edit(post);
-
-        grupo.getGrouppostsList().add(gp);
-
-        gf.edit(grupo);
-
-        request.setAttribute("groupId", grupo.getId());
+        request.setAttribute("group", g);
 
         request.getRequestDispatcher("/GroupPageServlet").forward(request, response);
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -3,27 +3,31 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlets;
+package UserServlets;
 
-import RedSocialEntities.Grupos;
-import RedSocialFacades.GruposFacade;
+import RedSocialEntities.Users;
+import RedSocialFacades.UsersFacade;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.List;
 import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author PabloGL
  */
-@WebServlet(name = "GroupMemberlist", urlPatterns = {"/GroupMemberlist"})
-public class GroupMemberlist extends HttpServlet {
+@WebServlet(name = "LoginServlet", urlPatterns = {"/loginServlet"})
+public class LoginServlet extends HttpServlet {
 
-    @EJB GruposFacade gf;
+    @EJB
+    UsersFacade usersFacade;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -35,14 +39,28 @@ public class GroupMemberlist extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Integer id = Integer.parseInt(request.getParameter("groupId"));
+
+        //Chequear email y password parametros : "email","password"
+        String email = request.getParameter("email"), password = request.getParameter("password");
+        List<Users> userList = usersFacade.checkCredentials(email, password);
         
-        Grupos group = gf.find(id);
-        
-        request.setAttribute("group", group);
-        
-        request.getRequestDispatcher("/GroupMemberList.jsp").forward(request, response);
-    
+        if (userList.isEmpty()) {
+            //Si no se encuentra usuario error como el de abajo
+            String error = "No user found with that credentials.";
+            request.setAttribute("loginError", error);
+
+            RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/Login.jsp");
+            rd.forward(request, response);
+        } else {
+            Users user = userList.get(0);
+            
+            //En caso de ser encontrado llevarlo a la pagina principal con su usuario en la sesión para gestionar todo.
+            
+            request.getSession().setAttribute("currentSession", user);
+            
+            RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/MainPage.jsp");
+            rd.forward(request, response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

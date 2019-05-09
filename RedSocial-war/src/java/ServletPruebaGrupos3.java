@@ -51,23 +51,10 @@ public class ServletPruebaGrupos3 extends HttpServlet {
         sesion.setAttribute("currentSession", u);
         request.setAttribute("group", g);
         
-        List<Users> members = GrupoService.getMembers(g);
-
-        if (members.contains(u)) {
-
-            //Comprobar si es admin y añadirlo al request
-            List<Users> adminList = GrupoService.getAdmins(g);
-            boolean esAdmin = adminList.contains(u);
-            request.setAttribute("isAdmin", esAdmin);
-            request.setAttribute("isMember", true);
-
-        } else {
-            request.setAttribute("isAdmin", false);
-            request.setAttribute("isMember", false);
-        }
+     
 
         
-        request.getRequestDispatcher("/GroupPage.jsp").forward(request, response);
+        request.getRequestDispatcher("/GroupPageServlet").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

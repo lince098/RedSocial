@@ -3,26 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package GroupServlets;
 
 import RedSocialEntities.Grupos;
 import RedSocialEntities.Users;
 import RedSocialFacades.GruposFacade;
 import RedSocialFacades.UsersFacade;
+import Services.GrupoService;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author PabloGL
  */
-@WebServlet(urlPatterns = {"/ServletPruebaGrupos1"})
-public class ServletPruebaGrupos1 extends HttpServlet {
+@WebServlet(name = "IgnorePetition", urlPatterns = {"/IgnorePetition"})
+public class IgnorePetition extends HttpServlet {
 
     @EJB
     UsersFacade uf;
@@ -40,17 +42,20 @@ public class ServletPruebaGrupos1 extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        Integer groupId = Integer.parseInt(request.getParameter("groupId"));
+        Integer userId = Integer.parseInt(request.getParameter("userId"));
 
-        Grupos g = gf.find(1);
-        Users u = uf.find(1);
+        Grupos group = gf.find(groupId);
+        Users user = uf.find(userId);
 
-        HttpSession sesion = request.getSession();
+        GrupoService.getGroupJoinPetitions(group).remove(user);
+        
 
-        sesion.setAttribute("currentSession", u);
-        request.setAttribute("group", g);
-       
-        request.getRequestDispatcher("/GroupPageServlet").forward(request, response);
+        gf.edit(group);
 
+        request.setAttribute("group", group);
+
+        request.getRequestDispatcher("/PetitionListServlet").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

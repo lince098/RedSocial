@@ -3,29 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package GroupServlets;
 
 import RedSocialEntities.Grupos;
-import RedSocialEntities.Users;
 import RedSocialFacades.GruposFacade;
-import RedSocialFacades.UsersFacade;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author PabloGL
  */
-@WebServlet(urlPatterns = {"/ServletPruebaGrupos1"})
-public class ServletPruebaGrupos1 extends HttpServlet {
+@WebServlet(name = "GroupMemberlist", urlPatterns = {"/GroupMemberlist"})
+public class GroupMemberlist extends HttpServlet {
 
-    @EJB
-    UsersFacade uf;
     @EJB
     GruposFacade gf;
 
@@ -41,15 +38,21 @@ public class ServletPruebaGrupos1 extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        Grupos g = gf.find(1);
-        Users u = uf.find(1);
+        String idS = request.getParameter("groupId");
 
-        HttpSession sesion = request.getSession();
+        Grupos group;
 
-        sesion.setAttribute("currentSession", u);
-        request.setAttribute("group", g);
-       
-        request.getRequestDispatcher("/GroupPageServlet").forward(request, response);
+        if (idS == null) {
+            group = (Grupos) request.getAttribute("group");
+            
+        } else {
+            Integer id = Integer.parseInt(idS);
+            group = gf.find(id);
+        }
+
+        request.setAttribute("group", group);
+
+        request.getRequestDispatcher("/GroupMemberList.jsp").forward(request, response);
 
     }
 

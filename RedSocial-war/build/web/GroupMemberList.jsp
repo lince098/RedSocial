@@ -8,6 +8,7 @@
 
 --%>
 
+<%@page import="java.util.List"%>
 <%@page import="RedSocialEntities.Users"%>
 <%@page import="Services.GrupoService"%>
 <%@page import="RedSocialEntities.Grupos"%>
@@ -21,6 +22,11 @@
 
         <%
             Grupos group = (Grupos) request.getAttribute("group");
+
+            List<Users> memberList = GrupoService.getMembers(group);
+            List<Users> adminsList = GrupoService.getAdmins(group);
+            Users currentSession = (Users) request.getSession().getAttribute("currentSession");
+            boolean isAdmin = adminsList.contains(currentSession);
         %>
     </head>
     <body>
@@ -45,13 +51,22 @@
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
 
+                    <%
+                        if (isAdmin) {
+                    %>
+                    <th scope="col">Eliminate</th>
+                    <th scope="col">Promote</th>
+
+                    <%
+                        }
+                    %>
                 </tr>
             </thead>
             <tbody>
 
                 <%
                     int i = 1;
-                    for (Users u : GrupoService.getAdmins(group)) {
+                    for (Users u : adminsList) {
                 %>
                 <tr>
                     <th scope="row"><%= i%></th>
@@ -73,17 +88,53 @@
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
 
+                    <%
+                        if (isAdmin) {
+
+                    %>
+                    <th scope="col">Eliminate</th>
+                    <th scope ="col">Promote</th>
+
+                    <%                        }
+                    %>
+
                 </tr>
             </thead>
             <tbody>
 
-                <%
-                    i = 1;
-                    for (Users u : GrupoService.getMembers(group)) {
+                <%                    i = 1;
+                    for (Users u : memberList) {
                 %>
                 <tr>
                     <th scope="row"><%= i%></th>
                     <td><%= u.getName()%> <%= u.getSurname()%></td>
+
+                    <%
+                        if (isAdmin) {
+                            if (!adminsList.contains(u)) {
+                    %>
+                    <td><a>Eliminate</a></td>
+                    <%
+                    } else {
+                    %>
+                    <td>Admin</td>
+                    <%
+                        }
+                    %>
+
+                    <%
+                        if (!adminsList.contains(u)) {
+                    %>
+                    <td><a>Make Admin</a></td>
+                    <%
+                    } else {
+                    %>
+                    <td>Admin</td>
+                    <%
+                            }
+                        }
+                    %>
+
                 </tr>
 
                 <%
