@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : UserChat
     Created on : 07-may-2019, 20:30:44
     Author     : Alae Akalay
@@ -7,6 +7,7 @@
 <%@page import="RedSocialEntities.Messages"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <%
     List<Messages> inbox = (List) request.getAttribute("listaEntrantes");
@@ -36,7 +37,7 @@
         <h2>Inbox:</h2>
 
         <table>
-            <tr> 
+            <tr>
                 <th>Tittle</th>
                 <th>Date:</th>
                 <th>From:</th>
@@ -50,11 +51,19 @@
                 <td><%= m.getDate().toString()%></td>
                 <td><%= m.getSender().getName()%></td>
                 <td><%= m.getText()%></td>
+                <td>
+                    <form action="ReplyMessageServlet">
+                        <input type="hidden" name="messageSender" value="<%= m.getSender().getId()%>">
+                        <input type="hidden" name="messageTitle" value="<%= m.getTitle()%>">
+                        <button>Reply</button>
+                    </form>
+                </td>
             </tr>
             <%
                 }
             %>
             <a href="UserOutboxServlet">Check Outbox</a>
+            <a href="">Create new message.</a>
         </table>
-    </body> 
+    </body>
 </html>
