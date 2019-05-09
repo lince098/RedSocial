@@ -8,12 +8,7 @@ package Servlets;
 import RedSocialEntities.Users;
 import RedSocialFacades.UsersFacade;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -59,7 +54,6 @@ public class RegistroServlet extends HttpServlet {
 
             RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/Register.jsp");
             rd.forward(request, response);
-            return;
         }
 
         Users u = new Users();
