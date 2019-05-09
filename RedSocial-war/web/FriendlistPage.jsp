@@ -101,41 +101,41 @@
                     <%
                         if (u.getProfilePicture().equals(null)) {
                     %>
-                    <a class ="customLink" href="MainPage.jsp">
+                    <a class ="customLink" href="#">
                         <img src="/img/icon.jpg" class="rounded-circle" width="50" height="50">
                         <%= u.getName()%> <%= u.getSurname()%>
                     </a>
-                    <button type="button" class="btn btn-primary">
+                    <a href="AddFriendServlet?id=<%= u.getId() %>" class="btn btn-primary">
                         <i class="material-icons">
                             add
                         </i>
                         Add friend
-                    </button>
-                    <button type="button" class="btn btn-danger">
+                    </a>
+                    <a href="RemoveFriendRequest?id=<%= u.getId() %>" class="btn btn-danger">
                         <i class="material-icons">
                             delete
                         </i>
                         Remove
-                    </button>
+                    </a>
                     <%
                     } else {
                     %>
-                    <a class ="customLink" href="MainPage.jsp">
+                    <a class ="customLink" href="#">
                         <img src="<%= u.getProfilePicture()%>" class="rounded-circle" width="50" height="50">
                         <%= u.getName()%> <%= u.getSurname()%>
                     </a>
-                    <button type="button" class="btn btn-primary">
+                    <a href="AddFriendServlet?id=<%= u.getId() %>" class="btn btn-primary">
                         <i class="material-icons">
                             add
                         </i>
                         Add friend
-                    </button>
-                    <button type="button" class="btn btn-danger">
+                    </a>
+                    <a href="RemoveFriendRequest?id=<%= u.getId() %>" class="btn btn-danger">
                         <i class="material-icons">
                             delete
                         </i>
                         Remove
-                    </button>
+                    </a>
                     <%
                         }
                     %>
@@ -156,29 +156,29 @@
                     <%
                         if (u.getProfilePicture().equals(null)) {
                     %>
-                    <a class ="customLink" href="MainPage.jsp">
+                    <a class ="customLink" href="#">
                         <img src="/img/icon.jpg" class="rounded-circle" width="50" height="50">
                         <%= u.getName()%> <%= u.getSurname()%>
                     </a>
-                    <button type="button" class="btn btn-danger">
+                    <a href="RemoveFriendServlet?id=<%= u.getId() %>" class="btn btn-danger">
                         <i class="material-icons">
                             delete
                         </i>
                         Remove
-                    </button>
+                    </a>
                     <%
                     } else {
                     %>
-                    <a class ="customLink" href="MainPage.jsp">
+                    <a class ="customLink" href="#">
                         <img src="<%= u.getProfilePicture()%>" class="rounded-circle" width="50" height="50">
                         <%= u.getName()%> <%= u.getSurname()%>
                     </a>
-                    <button type="button" class="btn btn-danger">
+                    <a href="RemoveFriendServlet?id=<%= u.getId() %>" class="btn btn-danger">
                         <i class="material-icons">
                             delete
                         </i>
                         Remove
-                    </button>
+                    </a>
                     <%
                                 }
                             }

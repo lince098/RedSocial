@@ -106,14 +106,14 @@
                             <%
                                 if (currentSession.getMessagesList().isEmpty()) {
                             %>
-                            <a class="btn btn-outline-primary" href="#">
+                            <a class="btn btn-outline-primary" href="UserInboxServlet">
                                 Messages
                                 <i class="far fa-envelope-open"></i>
                             </a>
                             <%
                             } else {
                             %>
-                            <a class="btn btn-primary" href="#">
+                            <a class="btn btn-primary" href="UserInboxServlet">
                                 Messages
                                 <i class="far fa-envelope"></i>
                             </a>
