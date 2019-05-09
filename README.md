@@ -10,10 +10,20 @@ DONE:
 - UserOutbox.jsp* (add send message)
 - FriendlistPage.jsp* (click on image or name of users of the page, needs a servlet to load the user to see his userPage)
 
+IN PROGRESS:
+-
+- Reply message
+
 TO DO:
 -
+- Rework relations done before for new database
 - GroupPage
+- Group posts
 - Create group
 - Edit group
 - Join group petition
+- Search groups
+- Search people
+- Friendship request
+- Create message between people
 - ...
