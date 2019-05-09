@@ -14,6 +14,8 @@ DONE:
 IN PROGRESS:
 -
 - Send message
+- Search groups
+- Search people
 
 TO DO:
 -
@@ -23,8 +25,6 @@ TO DO:
 - Create group
 - Edit group
 - Join group petition
-- Search groups
-- Search people
 - Friendship request
 - Create message between people
 - ...
