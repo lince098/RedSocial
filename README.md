@@ -15,15 +15,17 @@ DONE:
 - Create group
 - Join group petition
 - Admins group powers
-
-IN PROGRESS:
--
 - Send message
 - Search groups
 - Search people
 - Edit group
 
+IN PROGRESS:
+-
+
+
 TO DO:
 -
 - Rework relations done before for new database
+- Search groups has to use new methods of new database
 - Friendship request
