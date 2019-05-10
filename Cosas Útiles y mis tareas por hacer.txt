@@ -28,12 +28,13 @@ public List<Groupposts> onlyNPublicGroupPosts(int n, Grupos group) {
 
 
 
-grouppost clicar en nombre y redirigir al usuario
+grouppost clicar en nombre y redirigir al usuario NECESITO SABER HACIA DONDE REDIRIGIR
 
-Sentencias jpql que recojan los post tanto para solo publicas como para ambas ordenadas por fecha decreciente limit N
 
-Concurrencia entre servlets? como lograrla
 
-LeaveGroup.java En el caso que se borra el grupo no está la redirección hecha.	
+
+LeaveGroup.java En el caso que se borra el grupo no está la redirección hecha HACIA LA PAG INICIAL.
+
+FALTA POR PONERLE HEADERS A MIS JSP	
 	
 	
