@@ -113,7 +113,8 @@
                         if (isAdmin) {
                             if (!adminsList.contains(u)) {
                     %>
-                    <td><a>Eliminate</a></td>
+                    <td><a href="<%= request.getContextPath() %>/EliminateFromGroup?groupId=<%= group.getId() %>&userId=<%= u.getId() %>">
+                            Eliminate</a></td>
                     <%
                     } else {
                     %>
@@ -125,7 +126,7 @@
                     <%
                         if (!adminsList.contains(u)) {
                     %>
-                    <td><a>Make Admin</a></td>
+                    <td><a href="<%= request.getContextPath() %>/MakeAdminGroup?groupId=<%= group.getId() %>&userId=<%= u.getId() %>">Make Admin</a></td>
                     <%
                     } else {
                     %>

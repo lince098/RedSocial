@@ -226,7 +226,6 @@
 
         </div>
 
-                    <%= postList.size()%>
 
         <%
 

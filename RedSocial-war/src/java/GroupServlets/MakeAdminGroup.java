@@ -24,13 +24,13 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author PabloGL
  */
-@WebServlet(name = "AcceptPetition", urlPatterns = {"/AcceptPetition"})
-public class AcceptPetition extends HttpServlet {
+@WebServlet(name = "MakeAdminGroup", urlPatterns = {"/MakeAdminGroup"})
+public class MakeAdminGroup extends HttpServlet {
 
     @EJB
-    UsersFacade uf;
-    @EJB
     GruposFacade gf;
+    @EJB
+    UsersFacade uf;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,23 +43,22 @@ public class AcceptPetition extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        Integer groupId = Integer.parseInt(request.getParameter("groupId"));
         Integer userId = Integer.parseInt(request.getParameter("userId"));
-        
-        Grupos group = gf.find(groupId);
-        Users user  = uf.find(userId);
-        
-        GrupoService.getGroupJoinPetitions(group).remove(user);
-        GrupoService.getMembers(group).add(user);
-        UserService.getGrupos(user).add(group);
-        
+        Integer groupId = Integer.parseInt(request.getParameter("groupId"));
+
+        Grupos grupo = gf.find(groupId);
+        Users user = uf.find(userId);
+
+        GrupoService.getAdmins(grupo).add(user);
+        UserService.getAdministratedGroups(user).add(grupo);
+
+        gf.edit(grupo);
         uf.edit(user);
-        gf.edit(group);
-        
-        request.setAttribute("group", group);
-        
-        request.getRequestDispatcher("/PetitionListServlet").forward(request, response);
+
+        request.setAttribute("group", grupo);
+
+        request.getRequestDispatcher("/GroupMemberlist").forward(request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

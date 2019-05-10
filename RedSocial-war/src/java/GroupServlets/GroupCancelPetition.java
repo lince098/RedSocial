@@ -8,7 +8,9 @@ package GroupServlets;
 import RedSocialEntities.Grupos;
 import RedSocialEntities.Users;
 import RedSocialFacades.GruposFacade;
+import RedSocialFacades.UsersFacade;
 import Services.GrupoService;
+import Services.UserService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -28,6 +30,8 @@ public class GroupCancelPetition extends HttpServlet {
 
     @EJB
     GruposFacade gf;
+    @EJB
+    UsersFacade uf;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,13 +49,15 @@ public class GroupCancelPetition extends HttpServlet {
         Integer id = Integer.parseInt(request.getParameter("groupId"));
 
         Grupos g = gf.find(id);
-        
+
         List<Users> joinsPetitions = GrupoService.getGroupJoinPetitions(g);
         if (joinsPetitions.contains(u)) {
             joinsPetitions.remove(u);
+            UserService.getGroupJoinPetitions(u).remove(g);
         }
 
         gf.edit(g);
+        uf.edit(u);
 
         request.setAttribute("group", g);
 

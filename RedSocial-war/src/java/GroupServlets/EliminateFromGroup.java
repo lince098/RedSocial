@@ -10,6 +10,7 @@ import RedSocialEntities.Users;
 import RedSocialFacades.GruposFacade;
 import RedSocialFacades.UsersFacade;
 import Services.GrupoService;
+import Services.UserService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -50,19 +51,16 @@ public class EliminateFromGroup extends HttpServlet {
         Grupos grupo = gf.find(groupId);
         Users user = uf.find(userId);
 
-        List<Users> members = GrupoService.getMembers(grupo);
+        GrupoService.getMembers(grupo).remove(user);
+        UserService.getGrupos(user).remove(grupo);
 
-        members.remove(user);
-        
-        
         gf.edit(grupo);
-        
+        uf.edit(user);
+
         request.setAttribute("group", grupo);
-        
+
         request.getRequestDispatcher("/GroupMemberlist").forward(request, response);
 
-        
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

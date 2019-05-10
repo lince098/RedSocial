@@ -8,7 +8,9 @@ package GroupServlets;
 import RedSocialEntities.Grupos;
 import RedSocialEntities.Users;
 import RedSocialFacades.GruposFacade;
+import RedSocialFacades.UsersFacade;
 import Services.GrupoService;
+import Services.UserService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -28,6 +30,8 @@ public class LeaveGroup extends HttpServlet {
 
     @EJB
     GruposFacade gf;
+    @EJB
+    UsersFacade uf;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,41 +44,48 @@ public class LeaveGroup extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Users u = (Users) request.getSession().getAttribute("currentSession");
+        Users currentSession = (Users) request.getSession().getAttribute("currentSession");
         Integer id = Integer.parseInt(request.getParameter("groupId"));
-        Grupos g = gf.find(id);
-        gf.edit(g);
-        List<Users> admins = GrupoService.getAdmins(g);
-        List<Users> members = GrupoService.getMembers(g);
-        if (admins.contains(u)) {
+        Grupos group = gf.find(id);
+        gf.edit(group);
+        List<Users> admins = GrupoService.getAdmins(group);
+        List<Users> members = GrupoService.getMembers(group);
+        List<Grupos> administeredGroups = UserService.getAdministratedGroups(currentSession);
+        List<Grupos> groupMembership = UserService.getGrupos(currentSession);
+
+        if (admins.contains(currentSession)) {
             if (admins.size() - 1 == 0) {
                 if (members.size() > 1) {//Name new admin
                     int i = 0;
-                    while (u.equals(members.get(i))) {
+                    while (currentSession.equals(members.get(i))) {
                         i++;
                     }
 
                     admins.add(members.get(i));
-                    admins.remove(u);
+                    admins.remove(currentSession);
+                    administeredGroups.remove(group);
                 } else { //Elimina el grupo
-                    gf.remove(g);
+                    gf.remove(group);
 
                     request.getRequestDispatcher("pagina principal").forward(request, response);
                     return;
                 }
 
             } else {
-                admins.remove(u);
-                members.remove(u);
+                admins.remove(currentSession);
+                members.remove(currentSession);
+                groupMembership.remove(group);
+                administeredGroups.remove(group);
             }
         } else {
-            members.remove(u);
+            members.remove(currentSession);
+            groupMembership.remove(group);
         }
-        
-        gf.edit(g);
 
-        
-        request.setAttribute("group", g);
+        gf.edit(group);
+        uf.edit(currentSession);
+
+        request.setAttribute("group", group);
 
         request.getRequestDispatcher("/GroupPageServlet").forward(request, response);
     }

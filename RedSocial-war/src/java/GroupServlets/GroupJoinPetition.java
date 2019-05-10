@@ -8,7 +8,9 @@ package GroupServlets;
 import RedSocialEntities.Grupos;
 import RedSocialEntities.Users;
 import RedSocialFacades.GruposFacade;
+import RedSocialFacades.UsersFacade;
 import Services.GrupoService;
+import Services.UserService;
 import java.io.IOException;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -24,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "GroupJoinPetition", urlPatterns = {"/GroupJoinPetition"})
 public class GroupJoinPetition extends HttpServlet {
 
+    @EJB UsersFacade uf;
     @EJB GruposFacade gf;
     
     /**
@@ -44,6 +47,9 @@ public class GroupJoinPetition extends HttpServlet {
         
         Grupos g = gf.find(id);
         GrupoService.getGroupJoinPetitions(g).add(u);
+        UserService.getGroupJoinPetitions(u).add(g);
+        
+        uf.edit(u);
         gf.edit(g);
         
         request.setAttribute("group", g);

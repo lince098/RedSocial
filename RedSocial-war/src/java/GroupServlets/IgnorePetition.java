@@ -10,6 +10,7 @@ import RedSocialEntities.Users;
 import RedSocialFacades.GruposFacade;
 import RedSocialFacades.UsersFacade;
 import Services.GrupoService;
+import Services.UserService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.ejb.EJB;
@@ -49,10 +50,11 @@ public class IgnorePetition extends HttpServlet {
         Users user = uf.find(userId);
 
         GrupoService.getGroupJoinPetitions(group).remove(user);
-        
+        UserService.getGroupJoinPetitions(user).remove(group);
 
         gf.edit(group);
-
+        uf.edit(user);
+        
         request.setAttribute("group", group);
 
         request.getRequestDispatcher("/PetitionListServlet").forward(request, response);

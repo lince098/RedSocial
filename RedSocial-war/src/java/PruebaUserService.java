@@ -3,14 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package GroupServlets;
 
-import RedSocialEntities.Grupos;
 import RedSocialEntities.Users;
-import RedSocialFacades.GruposFacade;
 import RedSocialFacades.UsersFacade;
-import Services.GrupoService;
-import Services.UserService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.ejb.EJB;
@@ -24,14 +19,11 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author PabloGL
  */
-@WebServlet(name = "AcceptPetition", urlPatterns = {"/AcceptPetition"})
-public class AcceptPetition extends HttpServlet {
+@WebServlet(urlPatterns = {"/PruebaUserService"})
+public class PruebaUserService extends HttpServlet {
 
-    @EJB
-    UsersFacade uf;
-    @EJB
-    GruposFacade gf;
-
+    @EJB UsersFacade uf;
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -43,23 +35,11 @@ public class AcceptPetition extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        Integer groupId = Integer.parseInt(request.getParameter("groupId"));
-        Integer userId = Integer.parseInt(request.getParameter("userId"));
         
-        Grupos group = gf.find(groupId);
-        Users user  = uf.find(userId);
+        Users user = uf.find(3);
+        request.getSession().setAttribute("user",user );
         
-        GrupoService.getGroupJoinPetitions(group).remove(user);
-        GrupoService.getMembers(group).add(user);
-        UserService.getGrupos(user).add(group);
-        
-        uf.edit(user);
-        gf.edit(group);
-        
-        request.setAttribute("group", group);
-        
-        request.getRequestDispatcher("/PetitionListServlet").forward(request, response);
+        request.getRequestDispatcher("/Pruebas/PruebaUserService.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
