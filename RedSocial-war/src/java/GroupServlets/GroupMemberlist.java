@@ -51,7 +51,7 @@ public class GroupMemberlist extends HttpServlet {
 
         request.setAttribute("group", group);
 
-        request.getRequestDispatcher("/GroupMemberList.jsp").forward(request, response);
+        request.getRequestDispatcher("/GroupPages/GroupMemberList.jsp").forward(request, response);
 
     }
 

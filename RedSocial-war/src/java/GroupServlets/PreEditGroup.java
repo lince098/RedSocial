@@ -1,7 +1,8 @@
-/**
- * @author Pablo Gamarro Lozano
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
-
 package GroupServlets;
 
 import RedSocialEntities.Grupos;
@@ -9,7 +10,6 @@ import RedSocialFacades.GruposFacade;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,12 +20,11 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author PabloGL
  */
-@WebServlet(name = "PetitionListServlet", urlPatterns = {"/PetitionListServlet"})
-public class PetitionListServlet extends HttpServlet {
+@WebServlet(name = "PreEditGroup", urlPatterns = {"/PreEditGroup"})
+public class PreEditGroup extends HttpServlet {
 
-    @EJB
-    GruposFacade gf;
-
+       @EJB GruposFacade gf;
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -37,22 +36,15 @@ public class PetitionListServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        String groupIdS = request.getParameter("groupId");
-        Grupos group;
-
-        if (groupIdS == null) {
-            group = (Grupos) request.getAttribute("group");
-        } else {
-            group = gf.find(Integer.parseInt(groupIdS));
-        }
-
-        request.setAttribute("group", group);
-
-        RequestDispatcher rd = request.getRequestDispatcher("/GroupPages/JoinPetitionsList.jsp");
         
-        rd.forward(request, response);
-//response.sendRedirect("/JoinPetitionsList.jsp");
+        Integer groupId = Integer.parseInt(request.getParameter("groupId"));
+        Grupos group = gf.find(groupId);
+        request.setAttribute("group", group);
+        
+        request.getRequestDispatcher("/GroupPages/EditGroup.jsp").forward(request, response);
+        
+        
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

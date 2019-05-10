@@ -49,7 +49,7 @@ public class LoginServlet extends HttpServlet {
             String error = "No user found with that credentials.";
             request.setAttribute("loginError", error);
 
-            RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/Login.jsp");
+            RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/UserPages/Login.jsp");
             rd.forward(request, response);
         } else {
             Users user = userList.get(0);
@@ -58,7 +58,7 @@ public class LoginServlet extends HttpServlet {
             
             request.getSession().setAttribute("currentSession", user);
             
-            RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/MainPage.jsp");
+            RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/UserPages/MainPage.jsp");
             rd.forward(request, response);
         }
     }

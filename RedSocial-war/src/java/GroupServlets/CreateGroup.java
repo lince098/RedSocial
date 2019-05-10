@@ -1,31 +1,31 @@
 /**
- * @author Pablo Gamarro Lozano
+ *
+ * @author PabloGL
  */
-
 package GroupServlets;
 
 import RedSocialEntities.Grupos;
+import RedSocialEntities.Users;
 import RedSocialFacades.GruposFacade;
+import RedSocialFacades.UsersFacade;
+import Services.GrupoService;
+import Services.UserService;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author PabloGL
- */
-@WebServlet(name = "PetitionListServlet", urlPatterns = {"/PetitionListServlet"})
-public class PetitionListServlet extends HttpServlet {
 
-    @EJB
-    GruposFacade gf;
+@WebServlet(name = "CreateGroup", urlPatterns = {"/CreateGroup"})
+public class CreateGroup extends HttpServlet {
 
+    @EJB GruposFacade gf;
+    @EJB UsersFacade uf;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,21 +38,35 @@ public class PetitionListServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String groupIdS = request.getParameter("groupId");
-        Grupos group;
-
-        if (groupIdS == null) {
-            group = (Grupos) request.getAttribute("group");
-        } else {
-            group = gf.find(Integer.parseInt(groupIdS));
-        }
-
-        request.setAttribute("group", group);
-
-        RequestDispatcher rd = request.getRequestDispatcher("/GroupPages/JoinPetitionsList.jsp");
+        String name = request.getParameter("name");
+        String description = request.getParameter("description");
         
-        rd.forward(request, response);
-//response.sendRedirect("/JoinPetitionsList.jsp");
+        if (name == null || description == null) {
+            request.setAttribute("error", "Se ha dejado un parámetro nulo.");
+            request.getRequestDispatcher("CreateGroup.jsp").forward(request, response);
+        }
+       
+        Users currentSession = (Users) request.getSession().getAttribute("currentSession");
+        
+        Grupos group = new Grupos();
+        group.setCreationDate(new Date());
+        group.setDescription(description);
+        group.setName(name);     
+       
+        gf.create(group);
+        
+        GrupoService.getAdmins(group).add(currentSession);
+        GrupoService.getMembers(group).add(currentSession);
+        UserService.getGrupos(currentSession).add(group);
+        UserService.getAdministratedGroups(currentSession).add(group);
+        
+        gf.edit(group);
+        uf.edit(currentSession);
+        
+        request.setAttribute("group", group);
+        
+        request.getRequestDispatcher("/GroupPageServlet").forward(request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

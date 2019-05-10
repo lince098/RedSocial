@@ -84,7 +84,7 @@ public class GroupPageServlet extends HttpServlet {
             request.setAttribute("postList", gpf.onlyNPublicGroupPosts(20, groupToShow));
         }
 
-        request.getRequestDispatcher("/GroupPage.jsp").forward(request, response);
+        request.getRequestDispatcher("/GroupPages/GroupPage.jsp").forward(request, response);
 
     }
 

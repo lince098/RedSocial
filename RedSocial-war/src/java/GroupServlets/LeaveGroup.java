@@ -63,6 +63,7 @@ public class LeaveGroup extends HttpServlet {
                     admins.add(members.get(i));
                     admins.remove(currentSession);
                     administeredGroups.remove(group);
+                    groupMembership.remove(group);
                 } else { //Elimina el grupo
                     gf.remove(group);
 

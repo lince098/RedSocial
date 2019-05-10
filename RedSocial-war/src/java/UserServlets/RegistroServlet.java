@@ -52,7 +52,7 @@ public class RegistroServlet extends HttpServlet {
 
             request.setAttribute("error", "There are some null parameters.");
 
-            RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/Register.jsp");
+            RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/UserPages/Register.jsp");
             rd.forward(request, response);
             return;
         }
@@ -72,7 +72,7 @@ public class RegistroServlet extends HttpServlet {
         request.setAttribute("success", "The registration proccess was succesfully.");
         usersFacade.create(u);
 
-        RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/Register.jsp");
+        RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/UserPages/Register.jsp");
         rd.forward(request, response);
 
     }

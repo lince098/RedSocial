@@ -18,6 +18,9 @@
         %>
     </head>
     <body>
+        <%= request.getContextPath() %> <%= request.getPathInfo() %> <%= request.getAuthType() %> 
+        <%= request.getRequestURI() %> <%= request.getServerName() %> <%= request.getLocalName() %>
+        
         <h1>Lista de grupos</h1> <br>
         <ul>
             <%for (Grupos g : UserService.getGrupos(u)) {%>

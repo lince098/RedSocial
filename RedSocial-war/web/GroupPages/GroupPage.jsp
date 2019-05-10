@@ -91,6 +91,10 @@
                         <input type="hidden" value="<%= group.getId()%>" name="groupId">
                     </form>
 
+                    <form id="editGroupForm" action="PreEditGroup"  >
+                        <input type="hidden" value="<%= group.getId()%>" name="groupId">
+                    </form>
+                    
                     <%
                         // Si el usuario no esta dentro del grupo  y ha mandado petición
                         if (!isMember && GrupoService.getGroupJoinPetitions(group).contains(currentSession)) {
@@ -118,7 +122,7 @@
                     <%
                         if (isAdmin) {
                     %>
-                    <button type="button" class="btn btn-primary btn-sm btn-info" onclick="location.href = '/value'">
+                    <button type="submit" class="btn btn-primary btn-sm btn-info" form="editGroupForm" >
                         Edit
                     </button>
                     <button type="submit" form="petitionListForm" formmethod="post" class="btn btn-primary btn-sm btn-info">Join petitions <%= numberOfPetitions%></button>
