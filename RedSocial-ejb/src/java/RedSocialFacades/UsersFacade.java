@@ -9,7 +9,6 @@ import RedSocialEntities.Users;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -45,5 +44,9 @@ public class UsersFacade extends AbstractFacade<Users> {
 
         return (List<Users>) q.getResultList();
     }
-
+    
+    public List<Users> findBySearchText(String searchText) {
+        Query q = em.createNamedQuery("Users.findBySearchText").setParameter("searchText", searchText);
+        return (List<Users>) q.getResultList();
+    }
 }

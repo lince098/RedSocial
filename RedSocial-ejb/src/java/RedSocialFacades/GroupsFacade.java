@@ -6,9 +6,11 @@
 package RedSocialFacades;
 
 import RedSocialEntities.Groups;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -29,4 +31,8 @@ public class GroupsFacade extends AbstractFacade<Groups> {
         super(Groups.class);
     }
     
+    public List<Groups> findBySearchText(String searchText) {
+        Query q = em.createNamedQuery("Groups.findBySearchText").setParameter("searchText", searchText);
+        return (List<Groups>) q.getResultList();
+    }
 }

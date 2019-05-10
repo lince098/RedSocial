@@ -38,7 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     //OurNamedQueries
-    
+
     //DefaultQueries
     @NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u")
     , @NamedQuery(name = "Users.findById", query = "SELECT u FROM Users u WHERE u.id = :id")
@@ -49,7 +49,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Users.findByBirthday", query = "SELECT u FROM Users u WHERE u.birthday = :birthday")
     , @NamedQuery(name = "Users.findByGender", query = "SELECT u FROM Users u WHERE u.gender = :gender")
     , @NamedQuery(name = "Users.findByProfilePicture", query = "SELECT u FROM Users u WHERE u.profilePicture = :profilePicture")
-    , @NamedQuery(name = "Users.findByIsAdmin", query = "SELECT u FROM Users u WHERE u.isAdmin = :isAdmin")})
+    , @NamedQuery(name = "Users.findByIsAdmin", query = "SELECT u FROM Users u WHERE u.isAdmin = :isAdmin")
+    , @NamedQuery(name = "Users.findBySearchText", query = "SELECT u FROM Users u WHERE CONCAT(u.name,' ',u.surname) LIKE CONCAT(:searchText,'%')")})
 public class Users implements Serializable {
 
     private static final long serialVersionUID = 1L;

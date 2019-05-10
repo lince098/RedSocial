@@ -42,7 +42,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Groups.findById", query = "SELECT g FROM Groups g WHERE g.id = :id")
     , @NamedQuery(name = "Groups.findByName", query = "SELECT g FROM Groups g WHERE g.name = :name")
     , @NamedQuery(name = "Groups.findByNumberLimit", query = "SELECT g FROM Groups g WHERE g.numberLimit = :numberLimit")
-    , @NamedQuery(name = "Groups.findByCreationDate", query = "SELECT g FROM Groups g WHERE g.creationDate = :creationDate")})
+    , @NamedQuery(name = "Groups.findByCreationDate", query = "SELECT g FROM Groups g WHERE g.creationDate = :creationDate")
+    , @NamedQuery(name = "Groups.findBySearchText", query = "SELECT g FROM Groups g WHERE g.name Like CONCAT(:name,'%')")})
 public class Groups implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -181,5 +182,5 @@ public class Groups implements Serializable {
     public String toString() {
         return "RedSocialEntities.Groups[ id=" + id + " ]";
     }
-    
+
 }

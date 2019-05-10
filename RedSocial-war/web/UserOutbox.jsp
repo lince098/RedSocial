@@ -56,5 +56,6 @@
             %>
         </table>
         <a href="UserInboxServlet">Check Inbox</a>
+        <a href="SearchServlet?filter=1">Create new message</a>
     </body> 
 </html>

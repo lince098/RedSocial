@@ -63,7 +63,7 @@
                 }
             %>
             <a href="UserOutboxServlet">Check Outbox</a>
-            <a href="">Create new message.</a>
+            <a href="SearchServlet?filter=1">Create new message</a>
         </table>
     </body>
 </html>
