@@ -98,21 +98,19 @@
                     <h2>Pending friendship request:</h2>
                     <%
                         for (Users u : friendsPetitionList) {
-                    %>
-                    <%
-                        if (u.getProfilePicture().equals(null)) {
+                            if (u.getProfilePicture().equals(null)) {
                     %>
                     <a class ="customLink" href="#">
                         <img src="/img/icon.jpg" class="rounded-circle" width="50" height="50">
                         <%= u.getName()%> <%= u.getSurname()%>
                     </a>
-                    <a href="AddFriendServlet?id=<%= u.getId() %>" class="btn btn-primary">
+                    <a href="AddFriendServlet?id=<%= u.getId()%>" class="btn btn-primary">
                         <i class="material-icons">
                             add
                         </i>
                         Add friend
                     </a>
-                    <a href="RemoveFriendRequest?id=<%= u.getId() %>" class="btn btn-danger">
+                    <a href="RemoveFriendRequest?id=<%= u.getId()%>" class="btn btn-danger">
                         <i class="material-icons">
                             delete
                         </i>
@@ -125,13 +123,13 @@
                         <img src="<%= u.getProfilePicture()%>" class="rounded-circle" width="50" height="50">
                         <%= u.getName()%> <%= u.getSurname()%>
                     </a>
-                    <a href="AddFriendServlet?id=<%= u.getId() %>" class="btn btn-primary">
+                    <a href="AddFriendServlet?id=<%= u.getId()%>" class="btn btn-primary">
                         <i class="material-icons">
                             add
                         </i>
                         Add friend
                     </a>
-                    <a href="RemoveFriendRequest?id=<%= u.getId() %>" class="btn btn-danger">
+                    <a href="RemoveFriendRequest?id=<%= u.getId()%>" class="btn btn-danger">
                         <i class="material-icons">
                             delete
                         </i>
@@ -161,7 +159,7 @@
                         <img src="/img/icon.jpg" class="rounded-circle" width="50" height="50">
                         <%= u.getName()%> <%= u.getSurname()%>
                     </a>
-                    <a href="RemoveFriendServlet?id=<%= u.getId() %>" class="btn btn-danger">
+                    <a href="RemoveFriendServlet?id=<%= u.getId()%>" class="btn btn-danger">
                         <i class="material-icons">
                             delete
                         </i>
@@ -174,7 +172,7 @@
                         <img src="<%= u.getProfilePicture()%>" class="rounded-circle" width="50" height="50">
                         <%= u.getName()%> <%= u.getSurname()%>
                     </a>
-                    <a href="RemoveFriendServlet?id=<%= u.getId() %>" class="btn btn-danger">
+                    <a href="RemoveFriendServlet?id=<%= u.getId()%>" class="btn btn-danger">
                         <i class="material-icons">
                             delete
                         </i>

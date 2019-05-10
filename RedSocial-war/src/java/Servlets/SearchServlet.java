@@ -54,7 +54,9 @@ public class SearchServlet extends HttpServlet {
         List<Users> listUsers = new ArrayList<>();
         List<Groups> listGroups = new ArrayList<>();
         String searchText = request.getParameter("search");
-
+        if(searchText==null){
+            searchText = "";
+        }
         switch (filter) {
             case 1:
                 //1 == only people
