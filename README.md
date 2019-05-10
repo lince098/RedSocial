@@ -22,10 +22,9 @@ DONE:
 
 IN PROGRESS:
 -
-
+- Search groups has to use new methods of new database
 
 TO DO:
 -
 - Rework relations done before for new database
-- Search groups has to use new methods of new database
 - Friendship request
