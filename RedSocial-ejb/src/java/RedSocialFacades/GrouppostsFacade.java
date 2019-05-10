@@ -31,8 +31,13 @@ public class GrouppostsFacade extends AbstractFacade<Groupposts> {
     public GrouppostsFacade() {
         super(Groupposts.class);
     }
-    
-    
+
+    /**
+     * @Author Pablo Gamarro Lozano
+     * @param n
+     * @param group
+     * @return
+     */
     public List<Groupposts> onlyNPublicGroupPosts(int n, Grupos group) {
         Query q;
         q = this.getEntityManager().createQuery("SELECT gp FROM Groupposts gp JOIN gp.post p  WHERE  gp.grupo = :grupo AND gp.vision = 'Public'  ORDER BY p.date DESC");
@@ -43,8 +48,14 @@ public class GrouppostsFacade extends AbstractFacade<Groupposts> {
         return q.getResultList();
     }
 
+    /**
+     * @Author Pablo Gamarro Lozano
+     * @param n
+     * @param group
+     * @return
+     */
     public List<Groupposts> everyNGroupPosts(int n, Grupos group) {
-       Query q = this.getEntityManager().createQuery("SELECT gp FROM Groupposts gp JOIN gp.post p  WHERE  gp.grupo = :grupo ORDER BY p.date DESC");
+        Query q = this.getEntityManager().createQuery("SELECT gp FROM Groupposts gp JOIN gp.post p  WHERE  gp.grupo = :grupo ORDER BY p.date DESC");
 
         q.setMaxResults(n);
         q.setParameter("grupo", group);

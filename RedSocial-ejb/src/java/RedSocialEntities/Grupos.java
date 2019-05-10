@@ -41,7 +41,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Grupos.findAll", query = "SELECT g FROM Grupos g")
     , @NamedQuery(name = "Grupos.findById", query = "SELECT g FROM Grupos g WHERE g.id = :id")
     , @NamedQuery(name = "Grupos.findByName", query = "SELECT g FROM Grupos g WHERE g.name = :name")
-    , @NamedQuery(name = "Grupos.findByNumberLimit", query = "SELECT g FROM Grupos g WHERE g.numberLimit = :numberLimit")
     , @NamedQuery(name = "Grupos.findByCreationDate", query = "SELECT g FROM Grupos g WHERE g.creationDate = :creationDate")
     , @NamedQuery(name = "Grupos.findByImagePath", query = "SELECT g FROM Grupos g WHERE g.imagePath = :imagePath")})
 public class Grupos implements Serializable {
@@ -57,8 +56,6 @@ public class Grupos implements Serializable {
     @Size(min = 1, max = 25)
     @Column(name = "name")
     private String name;
-    @Column(name = "numberLimit")
-    private Integer numberLimit;
     @Lob
     @Size(max = 65535)
     @Column(name = "description")
@@ -113,14 +110,6 @@ public class Grupos implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Integer getNumberLimit() {
-        return numberLimit;
-    }
-
-    public void setNumberLimit(Integer numberLimit) {
-        this.numberLimit = numberLimit;
     }
 
     public String getDescription() {

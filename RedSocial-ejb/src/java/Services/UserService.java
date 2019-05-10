@@ -1,7 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * @author Pablo Gamarro Lozano
+ *
+ * Hecho sólo para no tener que estar lidiando con cambiar nombres a las 
+ * funciones cada vez que se le hace un refactor a la BD
  */
 package Services;
 
@@ -19,15 +20,15 @@ import javax.ejb.LocalBean;
 @LocalBean
 public class UserService {
 
-    public static List<Grupos> getGrupos(Users user){
+    public static List<Grupos> getGrupos(Users user) {
         return user.getGruposList2();
     }
-    
-    public static List<Grupos> getAdministratedGroups(Users user){
+
+    public static List<Grupos> getAdministratedGroups(Users user) {
         return user.getGruposList1();
     }
-    
-    public static List<Grupos> getGroupJoinPetitions(Users user){
+
+    public static List<Grupos> getGroupJoinPetitions(Users user) {
         return user.getGruposList();
     }
 }

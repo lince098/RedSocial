@@ -2,6 +2,8 @@
     Document   : GroupPage
     Created on : 29-abr-2019, 10:33:34
     Author     : PabloGL
+
+    The frontend was mostly made by kamila
 --%>
 
 

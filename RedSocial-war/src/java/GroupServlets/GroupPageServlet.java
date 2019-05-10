@@ -1,9 +1,7 @@
-/*
-    Receives
-
-    groupId
-
+/**
+ * @author Pablo Gamarro Lozano
  */
+
 package GroupServlets;
 
 /*

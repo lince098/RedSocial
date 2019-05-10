@@ -1,0 +1,39 @@
+public List<Users> checkCredentials(String email, String password) 
+{
+        Query q = em.createQuery("SELECT u FROM Users u WHERE u.email = :email and u.password = :password");
+        q.setParameter("email", email);
+        q.setParameter("password", password);
+
+        return (List<Users>) q.getResultList();
+}
+
+public List<Groupposts> onlyNPublicGroupPosts(int n, Grupos group) {
+        Query q;
+        q = this.getEntityManager().createQuery("SELECT gp FROM Groupposts gp JOIN gp.post p  WHERE  gp.grupo = :grupo AND gp.vision = 'Public'  ORDER BY p.date DESC");
+
+        q.setMaxResults(n);
+        q.setParameter("grupo", group);
+
+        return q.getResultList();
+    }
+
+    public List<Groupposts> everyNGroupPosts(int n, Grupos group) {
+       Query q = this.getEntityManager().createQuery("SELECT gp FROM Groupposts gp JOIN gp.post p  WHERE  gp.grupo = :grupo ORDER BY p.date DESC");
+
+        q.setMaxResults(n);
+        q.setParameter("grupo", group);
+
+        return q.getResultList();
+    }
+
+
+
+grouppost clicar en nombre y redirigir al usuario
+
+Sentencias jpql que recojan los post tanto para solo publicas como para ambas ordenadas por fecha decreciente limit N
+
+Concurrencia entre servlets? como lograrla
+
+LeaveGroup.java En el caso que se borra el grupo no está la redirección hecha.	
+	
+	

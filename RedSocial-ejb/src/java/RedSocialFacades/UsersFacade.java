@@ -12,10 +12,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-/**
- *
- * @author PabloGL
- */
 @Stateless
 public class UsersFacade extends AbstractFacade<Users> {
 
@@ -31,6 +27,12 @@ public class UsersFacade extends AbstractFacade<Users> {
         super(Users.class);
     }
 
+    /**
+     * @author Pablo Gamarro Lozano
+     * @param email
+     * @param password
+     * @return
+     */
     public List<Users> checkCredentials(String email, String password) {
         Query q = em.createQuery("SELECT u FROM Users u WHERE u.email = :email and u.password = :password");
         q.setParameter("email", email);

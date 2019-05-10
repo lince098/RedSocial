@@ -38,7 +38,7 @@ CREATE TABLE `belongtogroup` (
 
 LOCK TABLES `belongtogroup` WRITE;
 /*!40000 ALTER TABLE `belongtogroup` DISABLE KEYS */;
-INSERT INTO `belongtogroup` VALUES (1,1),(3,1);
+INSERT INTO `belongtogroup` VALUES (2,1),(3,1);
 /*!40000 ALTER TABLE `belongtogroup` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -117,7 +117,7 @@ CREATE TABLE `groupadmins` (
 
 LOCK TABLES `groupadmins` WRITE;
 /*!40000 ALTER TABLE `groupadmins` DISABLE KEYS */;
-INSERT INTO `groupadmins` VALUES (1,1),(1,3);
+INSERT INTO `groupadmins` VALUES (1,2),(1,3);
 /*!40000 ALTER TABLE `groupadmins` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -146,7 +146,7 @@ CREATE TABLE `groupposts` (
 
 LOCK TABLES `groupposts` WRITE;
 /*!40000 ALTER TABLE `groupposts` DISABLE KEYS */;
-INSERT INTO `groupposts` VALUES (16,1,'Public'),(17,1,'Public'),(18,1,'Group');
+INSERT INTO `groupposts` VALUES (16,1,'Public'),(17,1,'Public'),(18,1,'Group'),(19,1,'Public');
 /*!40000 ALTER TABLE `groupposts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -160,7 +160,6 @@ DROP TABLE IF EXISTS `grupos`;
 CREATE TABLE `grupos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(25) NOT NULL,
-  `numberLimit` int(11) DEFAULT NULL,
   `description` text,
   `creation_date` date DEFAULT NULL,
   `imagePath` varchar(45) DEFAULT NULL,
@@ -174,7 +173,7 @@ CREATE TABLE `grupos` (
 
 LOCK TABLES `grupos` WRITE;
 /*!40000 ALTER TABLE `grupos` DISABLE KEYS */;
-INSERT INTO `grupos` VALUES (1,'Grupo Guay',20,'Es un grupo muy guay','2009-01-16',NULL),(2,'Grupo chorra',20,'es un grupo muy chorra','2009-02-14',NULL);
+INSERT INTO `grupos` VALUES (1,'Grupo Guay','Es un grupo muy guay','2009-01-16',NULL),(2,'Grupo chorra','es un grupo muy chorra','2009-02-14',NULL);
 /*!40000 ALTER TABLE `grupos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -252,7 +251,7 @@ CREATE TABLE `post` (
   KEY `dsff_idx` (`date`),
   KEY `authorofpost_idx` (`author`),
   CONSTRAINT `authorofpost` FOREIGN KEY (`author`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -261,7 +260,7 @@ CREATE TABLE `post` (
 
 LOCK TABLES `post` WRITE;
 /*!40000 ALTER TABLE `post` DISABLE KEYS */;
-INSERT INTO `post` VALUES (16,'titulo','Primer Post','2019-05-09 00:00:00',1),(17,'titulo','Segundo Post','2019-05-09 00:00:00',1),(18,'titulo','Tercer Post Solo para miembros','2019-05-09 00:00:00',1);
+INSERT INTO `post` VALUES (16,'titulo','Primer Post','2019-05-08 12:00:00',1),(17,'titulo','Segundo Post','2019-05-08 20:00:00',1),(18,'titulo','Tercer Post Solo para miembros','2019-05-08 22:00:00',1),(19,'titulo','Cuarto post solo para miembros comprobando el date time','2019-05-09 22:17:19',1);
 /*!40000 ALTER TABLE `post` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -333,4 +332,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-05-10  0:10:31
+-- Dump completed on 2019-05-10 17:37:37
