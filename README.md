@@ -26,5 +26,3 @@ TO DO:
 - Edit group
 - Join group petition
 - Friendship request
-- Create message between people
-- ...
