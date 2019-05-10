@@ -65,7 +65,8 @@
                     </li>
                 </ul>
             </div>  
-            <form class="form-inline right input-group">
+            <form class="form-inline right input-group" action="SearchSevlet">
+                <input type="hidden" name="filter" value="0">
                 <input class="form-control" type="text" placeholder="Search.." name="search">
                 <button class="btn btn-primary" type="submit">
                     <i class="fa fa-search"></i>
