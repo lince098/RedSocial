@@ -4,7 +4,7 @@
     Author     : Rafa
 --%>
 
-<%@page import="RedSocialEntities.Groups"%>
+<%@page import="RedSocialEntities.Grupos"%>
 <%@page import="java.util.List"%>
 <%@page import="RedSocialEntities.Users"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -13,7 +13,7 @@
     <head>
         <%
             List<Users> listUsers = (List<Users>) request.getAttribute("listUsers");
-            List<Groups> listGroups = (List<Groups>) request.getAttribute("listGroups");
+            List<Grupos> listGroups = (List<Grupos>) request.getAttribute("listGroups");
             Integer filter = (Integer) request.getAttribute("filter");
         %>
         <style>
@@ -86,7 +86,7 @@
                 <%
                     if (u.getProfilePicture().equals(null)) {
                 %>
-                <a class ="customLink" href="#">
+                <a class ="customLink" href="UserPageLoadServlet?userID=<%= u.getId()%>">
                     <img src="/img/icon.jpg" class="rounded-circle" width="50" height="50">
                     <%= u.getName()%> <%= u.getSurname()%>
                 </a>
@@ -98,7 +98,7 @@
                 <%
                 } else {
                 %>
-                <a class ="customLink" href="#">
+                <a class ="customLink" href="UserPageLoadServlet?userID=<%= u.getId()%>">
                     <img src="<%= u.getProfilePicture()%>" class="rounded-circle" width="50" height="50">
                     <%= u.getName()%> <%= u.getSurname()%>
                 </a>
@@ -120,25 +120,24 @@
                 <h2>Not results found</h2>
                 <%
                 } else {
-                    for (Groups g : listGroups) {
+                    for (Grupos g : listGroups) {
                 %>
                 <hr class="style1">
-                <%--<%
-                    if (g.getProfilePicture().equals(null)) {
+                <%
+                    if (g.getImagePath().equals(null)) {
                 %>
-                <a class ="customLink" href="#">
-                    <img src="/img/icon.jpg" class="rounded-circle" width="50" height="50">
+                <a class ="customLink" href="GroupPageServlet?groupId=<%= g.getId() %>">
+                    <img src="/img/groupIcon.jpg" class="rounded-circle" width="50" height="50">
                     <%= g.getName()%>
                 </a>
                 <%
                 } else {
                 %>
-                <a class ="customLink" href="#">
-                    <img src="<%= g.getProfilePicture()%>" class="rounded-circle" width="50" height="50">
+                <a class ="customLink" href="GroupPageServlet?groupId=<%= g.getId() %>">
+                    <img src="<%= g.getImagePath()%>" class="rounded-circle" width="50" height="50">
                     <%= g.getName()%>
                 </a>
                 <% } %>
-                --%>
                 <%
                         }
                     }

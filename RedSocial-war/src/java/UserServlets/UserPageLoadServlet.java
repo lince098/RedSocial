@@ -3,17 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlets;
+package UserServlets;
 
-import RedSocialEntities.Post;
-import RedSocialEntities.Profileposts;
 import RedSocialEntities.Users;
-import RedSocialFacades.PostFacade;
-import RedSocialFacades.ProfilepostsFacade;
 import RedSocialFacades.UsersFacade;
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -26,17 +20,11 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Rafa
  */
-@WebServlet(name = "SubmitPostServlet", urlPatterns = {"/SubmitPostServlet"})
-public class SubmitPostServlet extends HttpServlet {
+@WebServlet(name = "UserPageLoadServlet", urlPatterns = {"/UserPageLoadServlet"})
+public class UserPageLoadServlet extends HttpServlet {
 
     @EJB
     private UsersFacade usersFacade;
-
-    @EJB
-    private ProfilepostsFacade profilepostsFacade;
-
-    @EJB
-    private PostFacade postFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -49,64 +37,16 @@ public class SubmitPostServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String title = request.getParameter("title");
-        String message = request.getParameter("postMessage");
-        String vision = request.getParameter("vision");
-        Users author = (Users) request.getSession().getAttribute("currentSession");
-        String id = request.getParameter("receiverID");
-
-        Post p = new Post();
-        p.setAuthor(author);
-        p.setText(message);
-        p.setTitle(title);
-        p.setDate(new Date());
-        postFacade.create(p);
-
-        List<Post> listPostAuthor = author.getPostList();
-        listPostAuthor.add(p);
-        author.setPostList(listPostAuthor);
-        usersFacade.edit(author);
-
-        Profileposts profilePost = new Profileposts();
-        profilePost.setPost(p);
-        Users receiver = null;
-        if (id == null || id.equals("")) {
-            profilePost.setReceiver(author);
-        } else {
-            receiver = usersFacade.find(Integer.parseInt(id));
-            profilePost.setReceiver(receiver);
-        }
-
-        profilePost.setVision(vision);
-        p.setProfileposts(profilePost);
-        profilepostsFacade.create(profilePost);
-        postFacade.edit(p);
-
-        if (receiver == null) {
-            List<Profileposts> listProfilePostAuthor = author.getProfilepostsList();
-            listProfilePostAuthor.add(profilePost);
-
-            author.setProfilepostsList(listProfilePostAuthor);
-            usersFacade.edit(author);
-
-            request.getSession().setAttribute("currentSession", author);
-            
-            RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/MainPage.jsp");
+        Integer id = Integer.parseInt(request.getParameter("userID"));
+        Users u = usersFacade.find(id);
+        if(u == null){
+            RequestDispatcher rd = request.getRequestDispatcher("/MainPage.jsp");
             rd.forward(request, response);
-        } else {
-            List<Profileposts> listProfilePostAuthor = receiver.getProfilepostsList();
-            listProfilePostAuthor.add(profilePost);
-
-            receiver.setProfilepostsList(listProfilePostAuthor);
-            usersFacade.edit(receiver);
-
-            request.getSession().setAttribute("currentSession", author);
-            request.setAttribute("user", receiver);
-            
+        }else{
+            request.setAttribute("user", u);
             RequestDispatcher rd = request.getRequestDispatcher("/UserPage.jsp");
             rd.forward(request, response);
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -100,7 +100,7 @@
                         for (Users u : friendsPetitionList) {
                             if (u.getProfilePicture().equals(null)) {
                     %>
-                    <a class ="customLink" href="#">
+                    <a class ="customLink" href="UserPageLoadServlet?userID=<%= u.getId() %>">
                         <img src="/img/icon.jpg" class="rounded-circle" width="50" height="50">
                         <%= u.getName()%> <%= u.getSurname()%>
                     </a>
@@ -119,7 +119,7 @@
                     <%
                     } else {
                     %>
-                    <a class ="customLink" href="#">
+                    <a class ="customLink" href="UserPageLoadServlet?userID=<%= u.getId() %>">
                         <img src="<%= u.getProfilePicture()%>" class="rounded-circle" width="50" height="50">
                         <%= u.getName()%> <%= u.getSurname()%>
                     </a>
@@ -155,7 +155,7 @@
                     <%
                         if (u.getProfilePicture().equals(null)) {
                     %>
-                    <a class ="customLink" href="#">
+                    <a class ="customLink" href="UserPageLoadServlet?userID=<%= u.getId() %>">
                         <img src="/img/icon.jpg" class="rounded-circle" width="50" height="50">
                         <%= u.getName()%> <%= u.getSurname()%>
                     </a>
@@ -168,7 +168,7 @@
                     <%
                     } else {
                     %>
-                    <a class ="customLink" href="#">
+                    <a class ="customLink" href="UserPageLoadServlet?userID=<%= u.getId() %>">
                         <img src="<%= u.getProfilePicture()%>" class="rounded-circle" width="50" height="50">
                         <%= u.getName()%> <%= u.getSurname()%>
                     </a>

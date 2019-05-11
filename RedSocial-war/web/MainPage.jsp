@@ -138,7 +138,7 @@
                     <br/>
                     <br/>
                     <%
-                        if (!postList.equals(null)) {
+                        if (!postList.equals(null) && !postList.isEmpty()) {
                             for (Profileposts p : postList) {
                                 Post post = p.getPost();
                     %>

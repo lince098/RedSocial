@@ -100,7 +100,7 @@
                             if (g.getImagePath().equals(null)) {
                     %>
                     <a class ="customLink" href="GroupPageServlet?groupId=<%= g.getId() %>">
-                        <img src="/img/icon.jpg" class="rounded-circle" width="50" height="50">
+                        <img src="/img/groupIcon.jpg" class="rounded-circle" width="50" height="50">
                         <%= g.getName()%>
                     </a>
                     <%
