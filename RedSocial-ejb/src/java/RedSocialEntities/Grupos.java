@@ -43,7 +43,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Grupos.findByName", query = "SELECT g FROM Grupos g WHERE g.name = :name")
     , @NamedQuery(name = "Grupos.findByCreationDate", query = "SELECT g FROM Grupos g WHERE g.creationDate = :creationDate")
     , @NamedQuery(name = "Grupos.findByImagePath", query = "SELECT g FROM Grupos g WHERE g.imagePath = :imagePath")
-    , @NamedQuery(name = "Groups.findBySearchText", query = "SELECT g FROM Groups g WHERE g.name Like CONCAT(:name,'%')")})
+    , @NamedQuery(name = "Grupos.findBySearchText", query = "SELECT g FROM Grupos g WHERE g.name Like CONCAT(:name,'%')")
+    , @NamedQuery(name = "Grupos.findJoinedGroupsOfUser", query = "SELECT g FROM Grupos g WHERE :user IN g.usersList2")})
 public class Grupos implements Serializable {
 
     private static final long serialVersionUID = 1L;
