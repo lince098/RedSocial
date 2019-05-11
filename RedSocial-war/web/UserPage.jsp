@@ -104,7 +104,7 @@
                             <%
                                 if (!currentSession.getUsersList().contains(user)) {
                             %>
-                            <a class="btn btn-primary" href="#">
+                            <a class="btn btn-primary" href="FriendshipPetitionServlet?userID=<%= user.getId() %>">
                                 Send friend petition
                                 <i class="fas fa-user-plus"></i>
                             </a>

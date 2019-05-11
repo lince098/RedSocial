@@ -12,6 +12,7 @@
 <html>
     <head>
         <%
+            Users currentSession = (Users) session.getAttribute("currentSession");
             List<Users> listUsers = (List<Users>) request.getAttribute("listUsers");
             List<Grupos> listGroups = (List<Grupos>) request.getAttribute("listGroups");
             Integer filter = (Integer) request.getAttribute("filter");
@@ -96,6 +97,14 @@
                     </i>
                 </a>
                 <%
+                    if (!currentSession.getUsersList().contains(u)) {
+                %>
+                <a class="btn btn-primary" href="FriendshipPetitionServlet?userID=<%= u.getId()%>">
+                    Send friend petition
+                    <i class="fas fa-user-plus"></i>
+                </a>
+                <%
+                    }
                 } else {
                 %>
                 <a class ="customLink" href="UserPageLoadServlet?userID=<%= u.getId()%>">
@@ -108,6 +117,14 @@
                     </i>
                 </a>
                 <%
+                    if (!currentSession.getUsersList().contains(u)) {
+                %>
+                <a class="btn btn-primary" href="FriendshipPetitionServlet?userID=<%= u.getId()%>">
+                    Send friend petition
+                    <i class="fas fa-user-plus"></i>
+                </a>
+                <%
+                                }
                             }
                         }
                     }
@@ -126,14 +143,14 @@
                 <%
                     if (g.getImagePath().equals(null)) {
                 %>
-                <a class ="customLink" href="GroupPageServlet?groupId=<%= g.getId() %>">
+                <a class ="customLink" href="GroupPageServlet?groupId=<%= g.getId()%>">
                     <img src="/img/groupIcon.jpg" class="rounded-circle" width="50" height="50">
                     <%= g.getName()%>
                 </a>
                 <%
                 } else {
                 %>
-                <a class ="customLink" href="GroupPageServlet?groupId=<%= g.getId() %>">
+                <a class ="customLink" href="GroupPageServlet?groupId=<%= g.getId()%>">
                     <img src="<%= g.getImagePath()%>" class="rounded-circle" width="50" height="50">
                     <%= g.getName()%>
                 </a>
@@ -177,6 +194,7 @@
                     bA.disabled = true;
                 }
             }
+
             function myFunctionOnlyPeople() {
                 var peopleTable = document.getElementById("peopleTable");
                 var groupTable = document.getElementById("groupTable");
@@ -202,6 +220,7 @@
                 bGroup.disabled = true;
                 bA.disabled = false;
             }
+
             function myFunctionAll() {
                 var peopleTable = document.getElementById("peopleTable");
                 var groupTable = document.getElementById("groupTable");
