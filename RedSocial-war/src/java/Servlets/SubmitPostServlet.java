@@ -58,7 +58,6 @@ public class SubmitPostServlet extends HttpServlet {
         p.setAuthor(author);
         p.setText(message);
         p.setTitle(title);
-        p.setVision(vision);
         p.setDate(new Date());
         postFacade.create(p);
         

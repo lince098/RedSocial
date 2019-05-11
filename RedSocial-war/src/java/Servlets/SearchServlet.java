@@ -5,9 +5,9 @@
  */
 package Servlets;
 
-import RedSocialEntities.Groups;
+import RedSocialEntities.Grupos;
 import RedSocialEntities.Users;
-import RedSocialFacades.GroupsFacade;
+import RedSocialFacades.GruposFacade;
 import RedSocialFacades.UsersFacade;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 public class SearchServlet extends HttpServlet {
 
     @EJB
-    private GroupsFacade groupsFacade;
+    private GruposFacade gruposFacade;
 
     @EJB
     private UsersFacade usersFacade;
@@ -52,7 +52,7 @@ public class SearchServlet extends HttpServlet {
         }
 
         List<Users> listUsers = new ArrayList<>();
-        List<Groups> listGroups = new ArrayList<>();
+        List<Grupos> listGroups = new ArrayList<>();
         String searchText = request.getParameter("search");
         if(searchText==null){
             searchText = "";
@@ -64,12 +64,12 @@ public class SearchServlet extends HttpServlet {
                 break;
             case 2:
                 //2 == only groups
-                listGroups.addAll(groupsFacade.findBySearchText(searchText));
+                listGroups.addAll(gruposFacade.findBySearchText(searchText));
                 break;
             default:
                 //0 == all
                 listUsers.addAll(usersFacade.findBySearchText(searchText));
-                listGroups.addAll(groupsFacade.findBySearchText(searchText));
+                listGroups.addAll(gruposFacade.findBySearchText(searchText));
         }
 
         request.setAttribute("listUsers", listUsers);
