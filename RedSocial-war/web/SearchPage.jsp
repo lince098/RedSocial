@@ -50,7 +50,7 @@
                         <a class="nav-link" href="FriendlistPage.jsp">FriendList</a>
                     </li>
                     <li>
-                        <a class="nav-link" href="#">Groups</a>
+                        <a class="nav-link" href="GroupList.jsp">Groups</a>
                     </li>
                 </ul>
             </div>  
