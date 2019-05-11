@@ -36,9 +36,4 @@ public class GruposFacade extends AbstractFacade<Grupos> {
         Query q = em.createNamedQuery("Groups.findBySearchText").setParameter("searchText", searchText);
         return (List<Grupos>) q.getResultList();
     }
-    
-    public List<Grupos> findJoinedGroups(Users u){
-        Query q = em.createNamedQuery("Groups.findJoinedGroupsOfUser").setParameter("user", u);
-        return (List<Grupos>) q.getResultList();
-    }
 }
