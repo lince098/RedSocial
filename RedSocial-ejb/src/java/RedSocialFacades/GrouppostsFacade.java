@@ -6,9 +6,12 @@
 package RedSocialFacades;
 
 import RedSocialEntities.Groupposts;
+import RedSocialEntities.Grupos;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,5 +31,35 @@ public class GrouppostsFacade extends AbstractFacade<Groupposts> {
     public GrouppostsFacade() {
         super(Groupposts.class);
     }
-    
+
+    /**
+     * @Author Pablo Gamarro Lozano
+     * @param n
+     * @param group
+     * @return
+     */
+    public List<Groupposts> onlyNPublicGroupPosts(int n, Grupos group) {
+        Query q;
+        q = this.getEntityManager().createQuery("SELECT gp FROM Groupposts gp JOIN gp.post p  WHERE  gp.grupo = :grupo AND gp.vision = 'Public'  ORDER BY p.date DESC");
+
+        q.setMaxResults(n);
+        q.setParameter("grupo", group);
+
+        return q.getResultList();
+    }
+
+    /**
+     * @Author Pablo Gamarro Lozano
+     * @param n
+     * @param group
+     * @return
+     */
+    public List<Groupposts> everyNGroupPosts(int n, Grupos group) {
+        Query q = this.getEntityManager().createQuery("SELECT gp FROM Groupposts gp JOIN gp.post p  WHERE  gp.grupo = :grupo ORDER BY p.date DESC");
+
+        q.setMaxResults(n);
+        q.setParameter("grupo", group);
+
+        return q.getResultList();
+    }
 }

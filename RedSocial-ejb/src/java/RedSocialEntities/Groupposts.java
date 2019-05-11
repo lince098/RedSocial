@@ -17,6 +17,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -28,7 +29,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Groupposts.findAll", query = "SELECT g FROM Groupposts g")
-    , @NamedQuery(name = "Groupposts.findById", query = "SELECT g FROM Groupposts g WHERE g.id = :id")})
+    , @NamedQuery(name = "Groupposts.findById", query = "SELECT g FROM Groupposts g WHERE g.id = :id")
+    , @NamedQuery(name = "Groupposts.findByVision", query = "SELECT g FROM Groupposts g WHERE g.vision = :vision")})
 public class Groupposts implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -37,9 +39,14 @@ public class Groupposts implements Serializable {
     @NotNull
     @Column(name = "id")
     private Integer id;
-    @JoinColumn(name = "group", referencedColumnName = "id")
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 6)
+    @Column(name = "vision")
+    private String vision;
+    @JoinColumn(name = "grupo", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Groups group1;
+    private Grupos grupo;
     @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private Post post;
@@ -51,6 +58,11 @@ public class Groupposts implements Serializable {
         this.id = id;
     }
 
+    public Groupposts(Integer id, String vision) {
+        this.id = id;
+        this.vision = vision;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -59,12 +71,20 @@ public class Groupposts implements Serializable {
         this.id = id;
     }
 
-    public Groups getGroup1() {
-        return group1;
+    public String getVision() {
+        return vision;
     }
 
-    public void setGroup1(Groups group1) {
-        this.group1 = group1;
+    public void setVision(String vision) {
+        this.vision = vision;
+    }
+
+    public Grupos getGrupo() {
+        return grupo;
+    }
+
+    public void setGrupo(Grupos grupo) {
+        this.grupo = grupo;
     }
 
     public Post getPost() {
