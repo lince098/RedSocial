@@ -6,7 +6,6 @@
 package RedSocialFacades;
 
 import RedSocialEntities.Grupos;
-import RedSocialEntities.Users;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
