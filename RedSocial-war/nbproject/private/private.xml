@@ -3,18 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/PabloGL/Desktop/Tercero%20de%20carrera/Tecnologías%20Web/RedSocial/RedSocial-war/src/java/GroupServlets/EliminateFromGroup.java</file>
-            <file>file:/C:/Users/PabloGL/Desktop/Tercero%20de%20carrera/Tecnologías%20Web/RedSocial/RedSocial-war/src/java/GroupServlets/GroupPageServlet.java</file>
-            <file>file:/C:/Users/PabloGL/Desktop/Tercero%20de%20carrera/Tecnologías%20Web/RedSocial/RedSocial-war/src/java/GroupServlets/GroupMemberlist.java</file>
-            <file>file:/C:/Users/PabloGL/Desktop/Tercero%20de%20carrera/Tecnologías%20Web/RedSocial/RedSocial-war/src/java/GroupServlets/AcceptPetition.java</file>
-            <file>file:/C:/Users/PabloGL/Desktop/Tercero%20de%20carrera/Tecnologías%20Web/RedSocial/RedSocial-war/web/WEB-INF/web.xml</file>
-            <file>file:/C:/Users/PabloGL/Desktop/Tercero%20de%20carrera/Tecnologías%20Web/RedSocial/RedSocial-war/src/java/UserServlets/LoginServlet.java</file>
-            <file>file:/C:/Users/PabloGL/Desktop/Tercero%20de%20carrera/Tecnologías%20Web/RedSocial/RedSocial-war/src/java/GroupServlets/CreateGroup.java</file>
-            <file>file:/C:/Users/PabloGL/Desktop/Tercero%20de%20carrera/Tecnologías%20Web/RedSocial/RedSocial-war/src/java/GroupServlets/IgnorePetition.java</file>
-            <file>file:/C:/Users/PabloGL/Desktop/Tercero%20de%20carrera/Tecnologías%20Web/RedSocial/RedSocial-war/src/java/GroupServlets/EditGroupServlet.java</file>
-            <file>file:/C:/Users/PabloGL/Desktop/Tercero%20de%20carrera/Tecnologías%20Web/RedSocial/RedSocial-war/src/java/GroupServlets/GroupJoinPetition.java</file>
-            <file>file:/C:/Users/PabloGL/Desktop/Tercero%20de%20carrera/Tecnologías%20Web/RedSocial/RedSocial-war/src/java/GroupServlets/GroupCancelPetition.java</file>
-            <file>file:/C:/Users/PabloGL/Desktop/Tercero%20de%20carrera/Tecnologías%20Web/RedSocial/RedSocial-war/src/java/UserServlets/RegistroServlet.java</file>
+            <file>file:/C:/Users/PabloGL/Desktop/Tercero%20de%20carrera/Tecnologías%20Web/RedSocial/RedSocial-war/web/Pruebas/PruebaUserService.jsp</file>
+            <file>file:/C:/Users/PabloGL/Desktop/Tercero%20de%20carrera/Tecnologías%20Web/RedSocial/RedSocial-war/src/java/PostServlets/EliminatePost.java</file>
+            <file>file:/C:/Users/PabloGL/Desktop/Tercero%20de%20carrera/Tecnologías%20Web/RedSocial/RedSocial-war/web/GroupPages/GroupPage.jsp</file>
+            <file>file:/C:/Users/PabloGL/Desktop/Tercero%20de%20carrera/Tecnologías%20Web/RedSocial/RedSocial-war/src/java/PostServlets/CreatePostLike.java</file>
         </group>
     </open-files>
 </project-private>

@@ -99,6 +99,8 @@ public class Users implements Serializable {
     private List<Users> usersList1;
     @ManyToMany(mappedBy = "usersList2")
     private List<Grupos> gruposList2;
+    @ManyToMany(mappedBy = "usersList")
+    private List<Post> postList;
     @JoinTable(name = "friendshippetition", joinColumns = {
         @JoinColumn(name = "applicant", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "requested", referencedColumnName = "id")})
@@ -107,7 +109,7 @@ public class Users implements Serializable {
     @ManyToMany(mappedBy = "usersList2")
     private List<Users> usersList3;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
-    private List<Post> postList;
+    private List<Post> postList1;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "receiver")
     private List<Messages> messagesList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "sender")
@@ -248,6 +250,15 @@ public class Users implements Serializable {
     }
 
     @XmlTransient
+    public List<Post> getPostList() {
+        return postList;
+    }
+
+    public void setPostList(List<Post> postList) {
+        this.postList = postList;
+    }
+
+    @XmlTransient
     public List<Users> getUsersList2() {
         return usersList2;
     }
@@ -266,12 +277,12 @@ public class Users implements Serializable {
     }
 
     @XmlTransient
-    public List<Post> getPostList() {
-        return postList;
+    public List<Post> getPostList1() {
+        return postList1;
     }
 
-    public void setPostList(List<Post> postList) {
-        this.postList = postList;
+    public void setPostList1(List<Post> postList1) {
+        this.postList1 = postList1;
     }
 
     @XmlTransient

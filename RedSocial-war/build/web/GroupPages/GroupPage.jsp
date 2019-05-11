@@ -7,6 +7,8 @@
 --%>
 
 
+<%@page import="RedSocialEntities.Post"%>
+<%@page import="Services.PostService"%>
 <%@page import="java.util.List"%>
 <%@page import="sun.nio.cs.ext.GB18030"%>
 <%@page import="Services.GrupoService"%>
@@ -44,9 +46,11 @@
             Grupos group = (Grupos) request.getAttribute("group");
             List<Groupposts> postList = (List) request.getAttribute("postList");
             boolean isAdmin = (Boolean) request.getAttribute("isAdmin"), isMember = (Boolean) request.getAttribute("isMember");
-            
-            String disablePublish= isMember?"":"disabled";
-            
+
+            String disablePublish = isMember ? "" : "disabled";
+
+            Integer groupId = group.getId();
+
             SimpleDateFormat dfPost = new SimpleDateFormat("dd-MM-yyyy HH:mm");
             SimpleDateFormat dfGroupCreationDate = new SimpleDateFormat("dd-MM-yyyy");
             int numberOfPetitions = GrupoService.getGroupJoinPetitions(group).size();
@@ -94,7 +98,7 @@
                     <form id="editGroupForm" action="PreEditGroup"  >
                         <input type="hidden" value="<%= group.getId()%>" name="groupId">
                     </form>
-                    
+
                     <%
                         // Si el usuario no esta dentro del grupo  y ha mandado petición
                         if (!isMember && GrupoService.getGroupJoinPetitions(group).contains(currentSession)) {
@@ -122,7 +126,7 @@
                     <%
                         if (isAdmin) {
                     %>
-                    <button type="submit" class="btn btn-primary btn-sm btn-info" form="editGroupForm" >
+                    <button type="submit" class="btn btn-primary btn-sm btn-info" form="editGroupForm" formmethod="post" >
                         Edit
                     </button>
                     <button type="submit" form="petitionListForm" formmethod="post" class="btn btn-primary btn-sm btn-info">Join petitions <%= numberOfPetitions%></button>
@@ -224,53 +228,76 @@
                     <br><br>
                     <div class="btn-toolbar justify-content-between">
                         <div class="btn-group">
-                            <button type="submit" class="btn btn-primary" <%= disablePublish %>>Publish</button>
+                            <button type="submit" class="btn btn-primary" <%= disablePublish%>>Publish</button>
                         </div>
                     </div>
                 </div>
             </form>
-
         </div>
-
-
         <%
+            String action;
+            String buttonLabel;
+            String form;
 
-            // Cambiar por post to show y hacer las queries que saquen los 10 primeros publicos y 10 primeros (publicos y de grupo)
-            for (Groupposts p : postList) {
+            for (Groupposts gp : postList) {
+                Post p = gp.getPost();
         %>
         <div class="card-body">
-            <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"><%= dfPost.format(p.getPost().getDate())%></i>   
+            <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"><%= dfPost.format(p.getDate())%></i>   
             </div>
             <a class="card-link" href="#">
-                <h5 class="card-title"><%= p.getPost().getAuthor().getName()%> <%= p.getPost().getAuthor().getSurname()%> </h5>
+                <h5 class="card-title"><%= p.getAuthor().getName()%> <%= p.getAuthor().getSurname()%> </h5>
             </a>
-
-
-
             <p class="card-text">
-                <%= p.getPost().getText()%>
+                <%= p.getText()%>
             </p>
-            <div class="card-footer">
 
-                <a href="#" class="card-link"><i class="fa fa-gittip"></i> Like</a>
-                <a href="#" class="card-link"><i class="fa fa-comment"></i> Comment</a>
-                <a href="#" class="card-link"><i class="fa fa-mail-forward"></i> Share</a>
+            <%
+                form = "formPost" + p.getId();
+                List<Users> likes = PostService.getLikeList(p);
+                if (likes.contains(currentSession)) {
+                    buttonLabel = "Dislike";
+                    action = "EliminatePostLike";
+                } else {
+                    buttonLabel = "Like";
+                    action = "CreatePostLike";
+                }
+            %>
+
+            <form id="<%= form%>" action="<%= action%>">
+                <input type="hidden" name="groupId" value="<%= groupId%>" >
+                <input type="hidden" name="isGroupPost" value="true">
+                <input type="hidden" name="postId" value="<%= p.getId()%>">
+            </form>
+            <div class="card-footer">
+                <button type="submit" form="<%= form%>" formmethod="post"  class="btn btn-link ">
+                    <%= buttonLabel%> <span class="badge badge-pill badge-info"><%= likes.size()%></span>
+                </button>
+                <%
+                    if (p.getAuthor().equals(currentSession) || isAdmin) {
+                        form = "eliminatePost" + p.getId();
+                        action = "EliminatePost";
+                %>
+                <button type="submit" form="<%= form%>" formmethod="post"  class="btn btn-link ">
+                    Eliminate
+                </button>
             </div>
+            <form id="<%= form%>" action="<%= action%>">
+                <input type="hidden" name="groupId" value="<%= groupId%>" >
+                <input type="hidden" name="isGroupPost" value="true">
+                <input type="hidden" name="postId" value="<%= p.getId()%>">
+            </form>
+            <%
+                }
+            %>
+
         </div>
         <%
-
             }
         %>
-
-
-
-
-
-
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     </body>
-
 </html>
 

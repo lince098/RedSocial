@@ -11,18 +11,19 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2019-05-10T19:11:06")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2019-05-11T17:17:24")
 @StaticMetamodel(Users.class)
 public class Users_ { 
 
     public static volatile SingularAttribute<Users, Date> birthday;
+    public static volatile ListAttribute<Users, Post> postList1;
     public static volatile ListAttribute<Users, Users> usersList;
     public static volatile ListAttribute<Users, Users> usersList1;
     public static volatile SingularAttribute<Users, Character> gender;
     public static volatile ListAttribute<Users, Grupos> gruposList;
     public static volatile ListAttribute<Users, Users> usersList3;
-    public static volatile ListAttribute<Users, Users> usersList2;
     public static volatile ListAttribute<Users, Post> postList;
+    public static volatile ListAttribute<Users, Users> usersList2;
     public static volatile ListAttribute<Users, Profileposts> profilepostsList;
     public static volatile SingularAttribute<Users, Short> isAdmin;
     public static volatile SingularAttribute<Users, String> profilePicture;

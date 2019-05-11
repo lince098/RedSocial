@@ -28,13 +28,17 @@ public List<Groupposts> onlyNPublicGroupPosts(int n, Grupos group) {
 
 
 
-grouppost clicar en nombre y redirigir al usuario NECESITO SABER HACIA DONDE REDIRIGIR
+grouppost clicar en nombre y redirigir al usuario 
+		NECESITO SABER HACIA DONDE REDIRIGIR
+
+FALTA TERMINAR LOS SERVLETS DE LOS POST. Estan implementados de forma que se puedan usar tanto desde una ProfilePage como desde una GroupPage
+
+		NECESITARE BUESTRA AYUDA
 
 
 
+FALTA LeaveGroup.java En el caso que se borra el grupo no está la redirección hecha.
+	NECESITO VUESTRA AYUDA
 
-LeaveGroup.java En el caso que se borra el grupo no está la redirección hecha HACIA LA PAG INICIAL.
-
-FALTA POR PONERLE HEADERS A MIS JSP	
-	
+FALTA POR PONERLE HEADERS A MIS JSP (si al final tenemos)
 	

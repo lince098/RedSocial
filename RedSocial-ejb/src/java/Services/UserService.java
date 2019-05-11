@@ -7,6 +7,7 @@
 package Services;
 
 import RedSocialEntities.Grupos;
+import RedSocialEntities.Post;
 import RedSocialEntities.Users;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -31,4 +32,12 @@ public class UserService {
     public static List<Grupos> getGroupJoinPetitions(Users user) {
         return user.getGruposList();
     }
+    
+    public static List<Post> getLikeList(Users user){
+        return  user.getPostList();
+    }
+    public static List<Post> getUserPosts(Users user){
+        return  user.getPostList1();
+    }
+    
 }
