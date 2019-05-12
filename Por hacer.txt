@@ -1,16 +1,26 @@
-grouppost clicar en nombre y redirigir al usuario 
+grouppost clicar en nombre y redirigir al usuario y tambien en members
+
+
 		NECESITO SABER HACIA DONDE REDIRIGIR
 
-FALTA TERMINAR LOS SERVLETS DE LOS POST. Estan implementados de forma que se puedan usar tanto desde una ProfilePage como desde una GroupPage
 
-		NECESITARE BUESTRA AYUDA
 
 
 
 FALTA LeaveGroup.java En el caso que se borra el grupo no está la redirección hecha.
+	
+	
 	NECESITO VUESTRA AYUDA
 
-FALTA POR PONERLE HEADERS A MIS JSP (si al final tenemos)
+
 	
 
-linkar los nombres de usuario hacia sus perfiles en la pagina de grupos
+
+
+
+
+Cosas que doy por hecho que habeis terminado vosotros
+___________________________________________________
+
+Servlets de los POST. Estan implementados de forma que se puedan usar tanto desde una ProfilePage como desde una GroupPage
+En principio esta hecho
