@@ -154,8 +154,8 @@
                     <img src="<%= g.getImagePath()%>" class="rounded-circle" width="50" height="50">
                     <%= g.getName()%>
                 </a>
-                <% } %>
                 <%
+                            }
                         }
                     }
                 %>

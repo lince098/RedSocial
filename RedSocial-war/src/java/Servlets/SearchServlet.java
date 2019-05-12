@@ -47,29 +47,16 @@ public class SearchServlet extends HttpServlet {
         Integer filter;
         try {
             filter = Integer.parseInt(request.getParameter("filter"));//0 is all, 1 is only people and 2 only groups
-        }catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             filter = 0;
         }
 
         List<Users> listUsers = new ArrayList<>();
         List<Grupos> listGroups = new ArrayList<>();
         String searchText = request.getParameter("search");
-        if(searchText==null){
-            searchText = "";
-        }
-        switch (filter) {
-            case 1:
-                //1 == only people
-                listUsers.addAll(usersFacade.findBySearchText(searchText));
-                break;
-            case 2:
-                //2 == only groups
-                listGroups.addAll(gruposFacade.findBySearchText(searchText));
-                break;
-            default:
-                //0 == all
-                listUsers.addAll(usersFacade.findBySearchText(searchText));
-                listGroups.addAll(gruposFacade.findBySearchText(searchText));
+        if (searchText != null) {
+            listUsers.addAll(usersFacade.findBySearchText(searchText));
+            listGroups.addAll(gruposFacade.findBySearchText(searchText));
         }
 
         request.setAttribute("listUsers", listUsers);
