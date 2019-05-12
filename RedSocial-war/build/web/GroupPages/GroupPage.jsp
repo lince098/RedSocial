@@ -61,10 +61,10 @@
     </head>
 
     <body>
-        
-        
+
+
         <!-- Navbar  -->
-        
+
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark form-inline">
             <div class="navbar-header">
                 <a class="navbar-brand" href="MainPage.jsp">Main Page</a>
@@ -91,10 +91,10 @@
                 </button>
             </form>
         </nav>
-                    
+
         <!-- Navbar  -->          
-        
-        
+
+
         <div class="bg-light p-4 rounded">
             <div class="portlet light profile-sidebar-portlet bordered">
                 <div class="profile-userpic">
@@ -272,16 +272,27 @@
             String action;
             String buttonLabel;
             String form;
-
+            Post p;
+            String formAuthor;
+            int idAuthor;
             for (Groupposts gp : postList) {
-                Post p = gp.getPost();
+                p = gp.getPost();
+                idAuthor = p.getAuthor().getId();
+                formAuthor = "user" + idAuthor;
+
         %>
+
+        <form id="<%= formAuthor%>" action="UserPageLoadServlet" >
+            <input type="hidden" name="userID" value="<%= idAuthor %>" >
+        </form>
         <div class="card-body">
+
+
             <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"><%= dfPost.format(p.getDate())%></i>   
             </div>
-            <a class="card-link" href="#">
+            <button type="submit" form="<%= formAuthor%>" formmethod="post" class="btn btn-link card-link" href="#">
                 <h5 class="card-title"><%= p.getAuthor().getName()%> <%= p.getAuthor().getSurname()%> </h5>
-            </a>
+            </button>
             <p class="card-text">
                 <%= p.getText()%>
             </p>

@@ -1,20 +1,3 @@
-grouppost clicar en nombre y redirigir al usuario y tambien en members
-
-
-		NECESITO SABER HACIA DONDE REDIRIGIR
-
-
-
-
-
-FALTA LeaveGroup.java En el caso que se borra el grupo no está la redirección hecha.
-	
-	
-	NECESITO VUESTRA AYUDA
-
-
-	
-
 
 
 

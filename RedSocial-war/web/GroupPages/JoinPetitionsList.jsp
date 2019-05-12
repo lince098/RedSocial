@@ -15,7 +15,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Join Petitions</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        
+
         <%
             Grupos group = (Grupos) request.getAttribute("group");
             List<Users> joinPetitions = GrupoService.getGroupJoinPetitions(group);
@@ -24,10 +24,10 @@
 
     </head>
     <body>
-        
-        
+
+
         <!-- Navbar  -->
-        
+
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark form-inline">
             <div class="navbar-header">
                 <a class="navbar-brand" href="MainPage.jsp">Main Page</a>
@@ -54,15 +54,15 @@
                 </button>
             </form>
         </nav>
-        
-        
+
+
         <!-- Navbar  -->
-        
-        
+
+
         <form id="groupForm" action="GroupPageServlet" method="post" >
             <input type="hidden" value="<%= group.getId()%>" name="groupId">
         </form>
-        <h1 align="center"><%= group.getName() %></h1>
+        <h1 align="center"><%= group.getName()%></h1>
         <br><br>
         <p align="center">
             <button type="submit" form="groupForm" formmethod="post" >Back</button>
@@ -81,23 +81,53 @@
                 </tr>
             </thead>
             <tbody>
-                <%            
-                    int i = 1;
-                    for (Users u : joinPetitions) {
-                %>
-                <tr>
-                    <th scope="row"><%= i %></th>
-                    <td><%= u.getName() %> <%= u.getSurname() %></td>
-                    <td><a href="<%= request.getContextPath() %>/AcceptPetition?groupId=<%= group.getId() %>&userId=<%= u.getId() %>">
-                            Accept</a></td>
-                    <td><a href="<%= request.getContextPath() %>/IgnorePetition?groupId=<%= group.getId() %>&userId=<%= u.getId() %>">
-                            Ignore</a></td>
-                </tr>
                 <%
-                    i++;
-                    }
+                    int i = 1;
+                    int idUser;
+                    int groupId = group.getId();
+                    String formUser;
+                    String acceptUser;
+                    String declineUser;
+                    for (Users u : joinPetitions) {
+                        idUser = u.getId();
+                        formUser = "user" + idUser;
+                        acceptUser = "accept" + idUser;
+                        declineUser = "decline" + idUser;
+
                 %>
-            </tbody>
-        </table>
-    </body>
+
+            <form id="<%= formUser%>" action="UserPageLoadServlet" >
+                <input type="hidden" name="userID" value="<%= idUser%>" >
+            </form>
+
+            <form id="<%= acceptUser %>" action="AcceptPetition" >
+                <input type="hidden" name="groupId" value="<%= groupId%>" >
+                <input type="hidden" name="userId" value="<%= idUser%>" >
+            </form>
+            <form id="<%= declineUser %>" action="IgnorePetition" >
+                <input type="hidden" name="groupId" value="<%= groupId%>" >
+                <input type="hidden" name="userId" value="<%= idUser%>" >
+            </form>
+            <tr>
+                <th scope="row"><%= i%></th>
+                
+                <td><button type="submit" form="<%= formUser%>" formmethod="post" class="btn btn-link"> <%= u.getName()%> <%= u.getSurname()%></button></td>
+
+                <td>
+                    <button  type="submit" form="<%= acceptUser %>" formmethod="post" class="btn btn-link">
+                        Accept
+                    </button>
+                </td>
+                <td>
+                    <button  type="submit" form="<%= declineUser %>" formmethod="post" class="btn btn-link">
+                        Decline
+                    </button>
+                </td>
+            <%
+                    i++;
+                }
+            %>
+        </tbody>
+    </table>
+</body>
 </html>
