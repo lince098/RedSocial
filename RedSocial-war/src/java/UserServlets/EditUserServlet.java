@@ -4,11 +4,12 @@
  * and open the template in the editor.
  */
 
-package Servlets;
+package UserServlets;
 
 import RedSocialEntities.Users;
 import RedSocialFacades.UsersFacade;
 import java.io.IOException;
+import java.util.Date;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -21,8 +22,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Alae Akalay
  */
-@WebServlet(name = "UserDestMessageServlet", urlPatterns = {"/UserDestMessageServlet"})
-public class UserDestMessageServlet extends HttpServlet {
+@WebServlet(name = "EditUserServlet", urlPatterns = {"/EditUserServlet"})
+public class EditUserServlet extends HttpServlet {
     
     @EJB
     private UsersFacade usersFacade;
@@ -39,14 +40,45 @@ public class UserDestMessageServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String dst = (String) request.getParameter("id");
-        Users u = (Users) usersFacade.find(dst);
+        String email, password, name, surname, birthday, profile_picture;
         
-        request.setAttribute("destino", u);
+        email = request.getParameter("email");
+        password = request.getParameter("password");
+        name = request.getParameter("name");
+        surname = request.getParameter("surname");
+        birthday = request.getParameter("birthday");
+        profile_picture = request.getParameter("profilePicture");
         
-        RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/NewMessage.jsp");
+        if (email == null || password == null || name == null || surname == null || birthday == null || profile_picture == null) {
+
+            request.setAttribute("Error", "There are some null/wrong parameters.");
+
+            RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/EditUser.jsp");
+            rd.forward(request, response);
+        }
+        
+        
+        Users u = (Users)request.getSession().getAttribute("currentSession");
+        
+        u.setEmail(email);
+        u.setPassword(password);
+        u.setName(name);
+        u.setSurname(surname);
+        
+        String[] split = birthday.split("-");
+        Date birthDate = new java.util.Date(new Integer(split[0]) - 1900, new Integer(split[1]) - 1, new Integer(split[2]) + 1);
+        u.setBirthday(birthDate);
+     
+        u.setProfilePicture(profile_picture);
+        
+        request.setAttribute("Success", "The modification proccess was succesfully.");
+        usersFacade.edit(u);
+
+        RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/EditUser.jsp");
         rd.forward(request, response);
+
     }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

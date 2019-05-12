@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package UserServlets;
 
-package Servlets;
-
+import RedSocialEntities.Messages;
 import RedSocialEntities.Users;
-import RedSocialFacades.UsersFacade;
 import java.io.IOException;
-import javax.ejb.EJB;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,15 +18,11 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author ak
+ * @author Alae Akalay
  */
-@WebServlet(name = "ReplyMessageServlet", urlPatterns = {"/ReplyMessageServlet"})
-public class ReplyMessageServlet extends HttpServlet {
+@WebServlet(name = "UserOutboxServlet", urlPatterns = {"/UserOutboxServlet"})
+public class UserOutboxServlet extends HttpServlet {
 
-    @EJB
-    private UsersFacade usersFacade;
-
-    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -39,14 +34,14 @@ public class ReplyMessageServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String title = request.getParameter("messageTitle");
-        Integer id = Integer.parseInt(request.getParameter("messageSender"));
-        Users receiver = usersFacade.find(id);
+
+        Users currentUser = (Users) request.getSession().getAttribute("currentSession");
         
-        request.setAttribute("receiver", receiver);
-        request.setAttribute("title", title);
-        
-        RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/ReplyMessage.jsp");
+        List<Messages> listaMensajesSalientes = currentUser.getMessagesList1();
+
+        request.setAttribute("listaSalientes", listaMensajesSalientes);
+
+        RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/UserOutbox.jsp");
         rd.forward(request, response);
     }
 

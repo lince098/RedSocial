@@ -1,3 +1,4 @@
+<%@page import="Services.PostService"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="RedSocialEntities.Post"%>
 <%@page import="RedSocialEntities.Profileposts"%>
@@ -43,6 +44,15 @@
                 margin-top: 12px; 
                 padding-left: 40px; 
                 padding-right: 40px;
+            }
+            a.like{
+                color: blue;
+            }
+            a.like.disabled{
+                color: lightblue;
+            }
+            a.dislike{
+                color: red;
             }
         </style>
     </head>
@@ -159,6 +169,25 @@
                     <h5><%= post.getDate().toString()%></h5>
                     <p><%= post.getText()%></p>
                     <%
+                        List<Users> likes = PostService.getLikeList(post);
+                        if (likes.contains(currentSession)) {
+                    %>
+                    <%= likes.size()%>   
+                    <a class="btn like disabled" href="CreatePostLike?isGroupPost=false&postID=<%= post.getId()%>&isMainPage=true" style="width: 0px">
+                        <span class="fa fa-thumbs-up"></span>
+                    </a>
+                    <a class="btn dislike" href="?isGroupPost=false&postID=<%= post.getId()%>&isMainPage=true">
+                        <span class="fa fa-thumbs-down" style="width: 0px"></span>
+                    </a>
+                    <%
+                    } else {
+                    %>
+                    <%= likes.size()%>
+                    <a class="btn like" href="CreatePostLike?isGroupPost=false&postID=<%= post.getId()%>&isMainPage=true">
+                        <span class="fa fa-thumbs-up"> <%= likes.size()%></span>
+                    </a>
+                    <%
+                                }
                             }
                         }
                     %>

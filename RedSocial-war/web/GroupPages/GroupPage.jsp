@@ -245,7 +245,7 @@
         <div class="card-body">
             <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"><%= dfPost.format(p.getDate())%></i>   
             </div>
-            <a class="card-link" href="#">
+            <a class="card-link" href="UserPageLoadServlet?userID=<%= p.getAuthor().getId() %>">
                 <h5 class="card-title"><%= p.getAuthor().getName()%> <%= p.getAuthor().getSurname()%> </h5>
             </a>
             <p class="card-text">

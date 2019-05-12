@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlets;
+package UserServlets;
 
 import RedSocialEntities.Users;
 import RedSocialFacades.UsersFacade;
@@ -21,8 +21,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Rafa
  */
-@WebServlet(name = "AddFriendServlet", urlPatterns = {"/AddFriendServlet"})
-public class AddFriendServlet extends HttpServlet {
+@WebServlet(name = "RemoveFriendServlet", urlPatterns = {"/RemoveFriendServlet"})
+public class RemoveFriendServlet extends HttpServlet {
 
     @EJB
     private UsersFacade usersFacade;
@@ -39,25 +39,16 @@ public class AddFriendServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Integer id = Integer.parseInt(request.getParameter("id"));
-        Users newFriend = usersFacade.find(id);
+        Users friendToRemove = usersFacade.find(id);
         Users currentSession = (Users) request.getSession().getAttribute("currentSession");
         
-        List<Users> currentSessionFriendsPetitionList = currentSession.getUsersList2();
-        List<Users> uFriendsPetitionList = newFriend.getUsersList2();
-        currentSessionFriendsPetitionList.remove(newFriend);
-        uFriendsPetitionList.remove(currentSession);
-        currentSession.setUsersList2(currentSessionFriendsPetitionList);
-        newFriend.setUsersList2(uFriendsPetitionList);
-        
-        List<Users> currentSessionFriendsList = currentSession.getUsersList();
-        List<Users> uFriendsList = newFriend.getUsersList();
-        currentSessionFriendsList.add(newFriend);
-        uFriendsList.add(currentSession);
-        currentSession.setUsersList(currentSessionFriendsList);
-        newFriend.setUsersList(uFriendsList);
+        List<Users> currentSessionFriendList = currentSession.getUsersList();
+        List<Users> friendToRemoveFriendList = friendToRemove.getUsersList();
+        currentSessionFriendList.remove(friendToRemove);
+        friendToRemoveFriendList.remove(currentSession);
         
         usersFacade.edit(currentSession);
-        usersFacade.edit(newFriend);
+        usersFacade.edit(friendToRemove);
         
         request.getSession().setAttribute("currentSession", currentSession);
         

@@ -4,15 +4,12 @@
  * and open the template in the editor.
  */
 
-package Servlets;
+package UserServlets;
 
 import RedSocialEntities.Messages;
 import RedSocialEntities.Users;
-import RedSocialFacades.MessagesFacade;
-import RedSocialFacades.UsersFacade;
 import java.io.IOException;
-import java.util.Date;
-import javax.ejb.EJB;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,15 +21,9 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Alae Akalay
  */
-@WebServlet(name = "SendMessageServlet", urlPatterns = {"/SendMessageServlet"})
-public class SendMessageServlet extends HttpServlet {
-    
-    @EJB
-    private MessagesFacade messagesFacade;
-    @EJB
-    private UsersFacade usersFacade;
+@WebServlet(name = "UserInboxServlet", urlPatterns = {"/UserInboxServlet"})
+public class UserInboxServlet extends HttpServlet {
 
-    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -45,23 +36,13 @@ public class SendMessageServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        Users currentUser = (Users) request.getSession().getAttribute("currentSession");    
-        String title, text;
+        Users currentUser = (Users)request.getSession().getAttribute("currentSession");
         
-        title = request.getParameter("tittle");
-        text = request.getParameter("msg");
-        Integer receiverID = Integer.parseInt(request.getParameter("receiverID"));
+        List<Messages> listaMensajesEntrantes = currentUser.getMessagesList();
+
+        request.setAttribute("listaEntrantes", listaMensajesEntrantes);
         
-        Messages m = new Messages();
-        m.setTitle(title);
-        m.setText(text);
-        m.setReceiver(usersFacade.find(receiverID));
-        m.setSender(currentUser);
-        m.setDate(new Date());
-        
-        messagesFacade.create(m);
-        
-        RequestDispatcher rd = this.getServletContext().getRequestDispatcher("UserInboxServlet");
+        RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/UserInbox.jsp");
         rd.forward(request, response);
     }
 

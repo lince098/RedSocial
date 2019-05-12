@@ -10,9 +10,9 @@ import RedSocialEntities.Post;
 import RedSocialEntities.Users;
 import RedSocialFacades.GruposFacade;
 import RedSocialFacades.PostFacade;
+import RedSocialFacades.UsersFacade;
 import Services.PostService;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,6 +26,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "CreatePostLike", urlPatterns = {"/CreatePostLike"})
 public class CreatePostLike extends HttpServlet {
+
+    @EJB
+    private UsersFacade usersFacade;
 
     @EJB
     PostFacade pf;
@@ -61,7 +64,15 @@ public class CreatePostLike extends HttpServlet {
             request.getRequestDispatcher("/GroupPageServlet").forward(request, response);
 
         } else {
-
+            boolean isMainPage = Boolean.parseBoolean(request.getParameter("isMainPage"));
+            if (isMainPage) {
+                request.getRequestDispatcher("/MainPage.jsp").forward(request, response);
+            } else {
+                Integer userID = Integer.parseInt(request.getParameter("userID"));
+                Users u = usersFacade.find(userID);
+                request.setAttribute("user", u);
+                request.getRequestDispatcher("/UserPage.jsp").forward(request, response);
+            }
         }
     }
 

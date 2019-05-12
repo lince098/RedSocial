@@ -26,7 +26,6 @@ import RedSocialFacades.GruposFacade;
 import RedSocialFacades.PostFacade;
 import RedSocialFacades.UsersFacade;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Date;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;

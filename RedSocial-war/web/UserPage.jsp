@@ -1,3 +1,4 @@
+<%@page import="Services.PostService"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="RedSocialEntities.Post"%>
 <%@page import="RedSocialEntities.Profileposts"%>
@@ -104,7 +105,7 @@
                             <%
                                 if (!currentSession.getUsersList().contains(user)) {
                             %>
-                            <a class="btn btn-primary" href="FriendshipPetitionServlet?userID=<%= user.getId() %>">
+                            <a class="btn btn-primary" href="FriendshipPetitionServlet?userID=<%= user.getId()%>">
                                 Send friend petition
                                 <i class="fas fa-user-plus"></i>
                             </a>
@@ -117,8 +118,8 @@
                 </div>
                 <div class="col-sm-8">
                     <form action="SubmitPostServlet">
-                        <input type="hidden" name="receiverID" value="<%= user.getId() %>"
-                        <textarea class="form-control" name="title" id="title" rows="1" placeholder="Title"></textarea>
+                        <input type="hidden" name="receiverID" value="<%= user.getId()%>"
+                               <textarea class="form-control" name="title" id="title" rows="1" placeholder="Title"></textarea>
                         <textarea class="form-control" name="postMessage" id="postMessage" rows="3" placeholder="What are you thinking?"></textarea>
                         <select class="form-control" name="vision" id="vision" style="margin-top: 12px;">
                             <option name="Public">Public</option>
@@ -150,6 +151,25 @@
                     <h5><%= post.getDate().toString()%></h5>
                     <p><%= post.getText()%></p>
                     <%
+                        List<Users> likes = PostService.getLikeList(post);
+                        if (likes.contains(currentSession)) {
+                    %>
+                    <%= likes.size()%>   
+                    <a class="btn like disabled" href="CreatePostLike?isGroupPost=false&postID=<%= post.getId()%>&isMainPage=false&userID=<%= user.getId() %>" style="width: 0px">
+                        <span class="fa fa-thumbs-up"></span>
+                    </a>
+                    <a class="btn dislike" href="EliminatePostLike?isGroupPost=false&postID=<%= post.getId()%>&isMainPage=false&userID=<%= user.getId() %>">
+                        <span class="fa fa-thumbs-down" style="width: 0px"></span>
+                    </a>
+                    <%
+                    } else {
+                    %>
+                    <%= likes.size()%>
+                    <a class="btn like" href="CreatePostLike?isGroupPost=false&postID=<%= post.getId()%>&isMainPage=false&userID=<%= user.getId() %>">
+                        <span class="fa fa-thumbs-up"> <%= likes.size()%></span>
+                    </a>
+                    <%
+                                }
                             }
                         }
                     %>

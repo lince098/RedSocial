@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlets;
+
+package UserServlets;
 
 import RedSocialEntities.Users;
 import RedSocialFacades.UsersFacade;
 import java.io.IOException;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -19,14 +19,15 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author PabloGL
+ * @author ak
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/loginServlet"})
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "ReplyMessageServlet", urlPatterns = {"/ReplyMessageServlet"})
+public class ReplyMessageServlet extends HttpServlet {
 
     @EJB
-    UsersFacade usersFacade;
+    private UsersFacade usersFacade;
 
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,28 +39,15 @@ public class LoginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        //Chequear email y password parametros : "email","password"
-        String email = request.getParameter("email"), password = request.getParameter("password");
-        List<Users> userList = usersFacade.checkCredentials(email, password);
+        String title = request.getParameter("messageTitle");
+        Integer id = Integer.parseInt(request.getParameter("messageSender"));
+        Users receiver = usersFacade.find(id);
         
-        if (userList.isEmpty()) {
-            //Si no se encuentra usuario error como el de abajo
-            String error = "No user found with that credentials.";
-            request.setAttribute("loginError", error);
-
-            RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/Login.jsp");
-            rd.forward(request, response);
-        } else {
-            Users user = userList.get(0);
-            
-            //En caso de ser encontrado llevarlo a la pagina principal con su usuario en la sesión para gestionar todo.
-            
-            request.getSession().setAttribute("currentSession", user);
-            
-            RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/MainPage.jsp");
-            rd.forward(request, response);
-        }
+        request.setAttribute("receiver", receiver);
+        request.setAttribute("title", title);
+        
+        RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/ReplyMessage.jsp");
+        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
