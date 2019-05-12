@@ -2,7 +2,6 @@
     Document   : GroupPage
     Created on : 29-abr-2019, 10:33:34
     Author     : PabloGL
-
     The frontend was mostly made by kamila
 --%>
 
@@ -15,22 +14,17 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="RedSocialEntities.Groupposts"%>
 <!--
-
     Receive
     currentSession
     group
     isAdmin, isMember : boolean
     postToShow    Visibilidad total o sólo los públicos
-
-
     Sends to GroupJoinPetition   
     
     groupId
-
     Sends to PetitionListServlet
     
     group (id)
-
 -->
 
 
@@ -46,11 +40,8 @@
             Grupos group = (Grupos) request.getAttribute("group");
             List<Groupposts> postList = (List) request.getAttribute("postList");
             boolean isAdmin = (Boolean) request.getAttribute("isAdmin"), isMember = (Boolean) request.getAttribute("isMember");
-
             String disablePublish = isMember ? "" : "disabled";
-
             Integer groupId = group.getId();
-
             SimpleDateFormat dfPost = new SimpleDateFormat("dd-MM-yyyy HH:mm");
             SimpleDateFormat dfGroupCreationDate = new SimpleDateFormat("dd-MM-yyyy");
             int numberOfPetitions = GrupoService.getGroupJoinPetitions(group).size();
@@ -61,6 +52,40 @@
     </head>
 
     <body>
+
+
+        <!-- Navbar  -->
+
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark form-inline">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="MainPage.jsp">Main Page</a>
+            </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="nav navbar-nav">
+                    <%-- <li class="active"> --%>
+                    <li>
+                        <a class="nav-link" href="FriendlistPage.jsp">FriendList</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="GroupList.jsp">Groups</a>
+                    </li>
+                </ul>
+            </div>  
+            <form class="form-inline right input-group" action="SearchSevlet">
+                <input type="hidden" name="filter" value="0">
+                <input class="form-control" type="text" placeholder="Search.." name="search">
+                <button class="btn btn-primary" type="submit">
+                    <i class="fa fa-search"></i>
+                </button>
+            </form>
+        </nav>
+
+        <!-- Navbar  -->          
+
+
         <div class="bg-light p-4 rounded">
             <div class="portlet light profile-sidebar-portlet bordered">
                 <div class="profile-userpic">
@@ -238,16 +263,26 @@
             String action;
             String buttonLabel;
             String form;
-
+            Post p;
+            String formAuthor;
+            int idAuthor;
             for (Groupposts gp : postList) {
-                Post p = gp.getPost();
+                p = gp.getPost();
+                idAuthor = p.getAuthor().getId();
+                formAuthor = "user" + idAuthor;
         %>
+
+        <form id="<%= formAuthor%>" action="UserPageLoadServlet" >
+            <input type="hidden" name="userID" value="<%= idAuthor %>" >
+        </form>
         <div class="card-body">
+
+
             <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"><%= dfPost.format(p.getDate())%></i>   
             </div>
-            <a class="card-link" href="UserPageLoadServlet?userID=<%= p.getAuthor().getId() %>">
+            <button type="submit" form="<%= formAuthor%>" formmethod="post" class="btn btn-link card-link" href="#">
                 <h5 class="card-title"><%= p.getAuthor().getName()%> <%= p.getAuthor().getSurname()%> </h5>
-            </a>
+            </button>
             <p class="card-text">
                 <%= p.getText()%>
             </p>

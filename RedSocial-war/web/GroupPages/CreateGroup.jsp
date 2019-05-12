@@ -18,6 +18,42 @@
         %>
     </head>
     <body>
+        
+        
+        <!-- Navbar  -->
+        
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark form-inline">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="MainPage.jsp">Main Page</a>
+            </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="nav navbar-nav">
+                    <%-- <li class="active"> --%>
+                    <li>
+                        <a class="nav-link" href="FriendlistPage.jsp">FriendList</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="GroupList.jsp">Groups</a>
+                    </li>
+                </ul>
+            </div>  
+            <form class="form-inline right input-group" action="SearchSevlet">
+                <input type="hidden" name="filter" value="0">
+                <input class="form-control" type="text" placeholder="Search.." name="search">
+                <button class="btn btn-primary" type="submit">
+                    <i class="fa fa-search"></i>
+                </button>
+            </form>
+        </nav>
+                    
+                    
+        <!-- Navbar  -->            
+                    
+         
+        
         <form id="cancelForm" action="<%= request.getContextPath()%>/MainPage.jsp" method="post">
         </form>
 
