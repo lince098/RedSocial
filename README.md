@@ -19,12 +19,11 @@ DONE:
 - UserInbox.jsp
 - UserOutbox.jsp
 - UserPage.jsp
+- Likes for user posts
 
 IN PROGRESS:
 -
 - Google drive (optional)
-- Likes for user posts
 
 TO DO:
 -
-
