@@ -12,6 +12,21 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Edit Group</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style>
+            .right {
+                position: relative;
+                right: 0px;
+                padding-top: 9px;
+                padding-bottom: 9px;
+            } 
+            .navbar-toggler {
+                position: relative;
+                right: 0px;
+                margin-right: 0px;
+            }
+        </style>
         <%
             Grupos group = (Grupos) request.getAttribute("group");
             String error = (String) request.getAttribute("error");

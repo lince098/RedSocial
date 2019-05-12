@@ -15,7 +15,21 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Join Petitions</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style>
+            .right {
+                position: relative;
+                right: 0px;
+                padding-top: 9px;
+                padding-bottom: 9px;
+            } 
+            .navbar-toggler {
+                position: relative;
+                right: 0px;
+                margin-right: 0px;
+            }
+        </style>
         <%
             Grupos group = (Grupos) request.getAttribute("group");
             List<Users> joinPetitions = GrupoService.getGroupJoinPetitions(group);
@@ -98,34 +112,34 @@
                 <input type="hidden" name="userID" value="<%= idUser%>" >
             </form>
 
-            <form id="<%= acceptUser %>" action="AcceptPetition" >
+            <form id="<%= acceptUser%>" action="AcceptPetition" >
                 <input type="hidden" name="groupId" value="<%= groupId%>" >
                 <input type="hidden" name="userId" value="<%= idUser%>" >
             </form>
-            <form id="<%= declineUser %>" action="IgnorePetition" >
+            <form id="<%= declineUser%>" action="IgnorePetition" >
                 <input type="hidden" name="groupId" value="<%= groupId%>" >
                 <input type="hidden" name="userId" value="<%= idUser%>" >
             </form>
             <tr>
                 <th scope="row"><%= i%></th>
-                
+
                 <td><button type="submit" form="<%= formUser%>" formmethod="post" class="btn btn-link"> <%= u.getName()%> <%= u.getSurname()%></button></td>
 
                 <td>
-                    <button  type="submit" form="<%= acceptUser %>" formmethod="post" class="btn btn-link">
+                    <button  type="submit" form="<%= acceptUser%>" formmethod="post" class="btn btn-link">
                         Accept
                     </button>
                 </td>
                 <td>
-                    <button  type="submit" form="<%= declineUser %>" formmethod="post" class="btn btn-link">
+                    <button  type="submit" form="<%= declineUser%>" formmethod="post" class="btn btn-link">
                         Decline
                     </button>
                 </td>
-            <%
-                    i++;
-                }
-            %>
-        </tbody>
-    </table>
-</body>
+                <%
+                        i++;
+                    }
+                %>
+                </tbody>
+        </table>
+    </body>
 </html>
