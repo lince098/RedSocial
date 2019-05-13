@@ -85,7 +85,23 @@
                 %>
                 <hr class="style1">
                 <%
-                    if (u.getProfilePicture() == null) {
+                    if (u.equals(currentSession)) {
+                        if (u.getProfilePicture() == null) {
+                %>
+                <a class ="customLink" href="MainPage.jsp">
+                    <img src="/img/icon.jpg" class="rounded-circle" width="50" height="50">
+                    <%= u.getName()%> <%= u.getSurname()%>
+                </a>
+                <%
+                } else {
+                %>
+                <a class ="customLink" href="MainPage.jsp">
+                    <img src="<%= u.getProfilePicture()%>" class="rounded-circle" width="50" height="50">
+                    <%= u.getName()%> <%= u.getSurname()%>
+                </a>
+                <%
+                    }
+                } else if (u.getProfilePicture() == null) {
                 %>
                 <a class ="customLink" href="UserPageLoadServlet?userID=<%= u.getId()%>">
                     <img src="/img/icon.jpg" class="rounded-circle" width="50" height="50">
