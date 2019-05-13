@@ -32,7 +32,7 @@ public class GruposFacade extends AbstractFacade<Grupos> {
     }
 
     public List<Grupos> findBySearchText(String searchText) {
-        Query q = em.createNamedQuery("Groups.findBySearchText").setParameter("searchText", searchText);
+        Query q = em.createNamedQuery("Grupos.findBySearchText").setParameter("name", searchText);
         return (List<Grupos>) q.getResultList();
     }
 }
