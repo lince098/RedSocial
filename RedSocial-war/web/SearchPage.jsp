@@ -85,7 +85,7 @@
                 %>
                 <hr class="style1">
                 <%
-                    if (u.getProfilePicture().equals(null)) {
+                    if (u.getProfilePicture() == null) {
                 %>
                 <a class ="customLink" href="UserPageLoadServlet?userID=<%= u.getId()%>">
                     <img src="/img/icon.jpg" class="rounded-circle" width="50" height="50">
@@ -141,7 +141,7 @@
                 %>
                 <hr class="style1">
                 <%
-                    if (g.getImagePath().equals(null)) {
+                    if (g.getImagePath() == null) {
                 %>
                 <a class ="customLink" href="GroupPageServlet?groupId=<%= g.getId()%>">
                     <img src="/img/groupIcon.jpg" class="rounded-circle" width="50" height="50">

@@ -98,9 +98,9 @@
                     <h2>Pending friendship request:</h2>
                     <%
                         for (Users u : friendsPetitionList) {
-                            if (u.getProfilePicture().equals(null)) {
+                            if (u.getProfilePicture() == null) {
                     %>
-                    <a class ="customLink" href="UserPageLoadServlet?userID=<%= u.getId() %>">
+                    <a class ="customLink" href="UserPageLoadServlet?userID=<%= u.getId()%>">
                         <img src="/img/icon.jpg" class="rounded-circle" width="50" height="50">
                         <%= u.getName()%> <%= u.getSurname()%>
                     </a>
@@ -119,7 +119,7 @@
                     <%
                     } else {
                     %>
-                    <a class ="customLink" href="UserPageLoadServlet?userID=<%= u.getId() %>">
+                    <a class ="customLink" href="UserPageLoadServlet?userID=<%= u.getId()%>">
                         <img src="<%= u.getProfilePicture()%>" class="rounded-circle" width="50" height="50">
                         <%= u.getName()%> <%= u.getSurname()%>
                     </a>
@@ -153,9 +153,9 @@
                     %>
                     <hr class="style1">
                     <%
-                        if (u.getProfilePicture().equals(null)) {
+                        if (u.getProfilePicture() == null) {
                     %>
-                    <a class ="customLink" href="UserPageLoadServlet?userID=<%= u.getId() %>">
+                    <a class ="customLink" href="UserPageLoadServlet?userID=<%= u.getId()%>">
                         <img src="/img/icon.jpg" class="rounded-circle" width="50" height="50">
                         <%= u.getName()%> <%= u.getSurname()%>
                     </a>
@@ -168,7 +168,7 @@
                     <%
                     } else {
                     %>
-                    <a class ="customLink" href="UserPageLoadServlet?userID=<%= u.getId() %>">
+                    <a class ="customLink" href="UserPageLoadServlet?userID=<%= u.getId()%>">
                         <img src="<%= u.getProfilePicture()%>" class="rounded-circle" width="50" height="50">
                         <%= u.getName()%> <%= u.getSurname()%>
                     </a>

@@ -130,13 +130,13 @@
                     <br/>
                     <br/>
                     <%
-                        if (!postList.equals(null) && !postList.isEmpty()) {
+                        if (postList != null && !postList.isEmpty()) {
                             for (Profileposts p : postList) {
                                 Post post = p.getPost();
                     %>
                     <hr class="style1">
                     <%
-                        if (post.getAuthor().getProfilePicture().equals(null)) {
+                        if (post.getAuthor().getProfilePicture() == null) {
                     %>
                     <img src="/img/icon.jpg" class="rounded-circle" width="50" height="50">
                     <%
