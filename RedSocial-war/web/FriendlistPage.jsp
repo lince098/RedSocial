@@ -4,6 +4,7 @@
     Author     : Rafa
 --%>
 
+<%@page import="Services.UserService"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page import="RedSocialEntities.Users"%>
@@ -13,15 +14,20 @@
     <head>
         <%
             Users currentSession = (Users) session.getAttribute("currentSession");
-            List<Users> friendsList = new ArrayList<Users>();
-            List<Users> friendsPetitionList = new ArrayList<Users>();
-            if (currentSession != null) {
-                if (!currentSession.getUsersList().isEmpty()) {
-                    friendsList = currentSession.getUsersList();
-                }
-                if (!currentSession.getUsersList2().isEmpty()) {
-                    friendsPetitionList = currentSession.getUsersList2();
-                }
+            List<Users> friendsList;
+            List<Users> friendsPetitionList;
+            List<Users> friendsPetitionListSent;
+            friendsList = UserService.getFriends(currentSession);
+            if (friendsList == null) {
+                friendsList = new ArrayList<Users>();
+            }
+            friendsPetitionList = UserService.getFriendshipPetitionApplicant(currentSession);
+            if (friendsPetitionList == null) {
+                friendsPetitionList = new ArrayList<Users>();
+            }
+            friendsPetitionListSent = UserService.getFriendshipPetitionRequested(currentSession);
+            if (friendsPetitionListSent == null) {
+                friendsPetitionListSent = new ArrayList<Users>();
             }
         %>
         <title>Red social</title>
@@ -29,6 +35,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -77,7 +84,7 @@
                         <a class="nav-link active" href="FriendlistPage.jsp">FriendList</a>
                     </li>
                     <li>
-                        <a class="nav-link" href="#">Groups</a>
+                        <a class="nav-link" href="GroupList.jsp">Groups</a>
                     </li>
                 </ul>
             </div>  
@@ -93,15 +100,55 @@
             <div class="row">
                 <div class="col-sm-8">
                     <%
+                        if (!friendsPetitionListSent.isEmpty()) {
+                    %>
+                    <h2>Friendship request sent:</h2>
+                    <%
+                        for (Users u : friendsPetitionListSent) {
+                    %>
+                    <hr class="style1">
+                    <%
+                        if (u.getProfilePicture() == null) {
+                    %>
+                    <a class ="customLink" href="UserPageLoadServlet?userID=<%= u.getId()%>">
+                        <img src="img/icon.jpg" class="rounded-circle" width="50" height="50">
+                        <%= u.getName()%> <%= u.getSurname()%>
+                    </a>
+                    <a href="RemoveFriendRequest?id=<%= u.getId()%>" class="btn btn-danger">
+                        Remove
+                        <i class="material-icons">
+                            delete
+                        </i>
+                    </a>
+                    <%
+                    } else {
+                    %>
+                    <a class ="customLink" href="UserPageLoadServlet?userID=<%= u.getId()%>">
+                        <img src="<%= u.getProfilePicture()%>" class="rounded-circle" width="50" height="50">
+                        <%= u.getName()%> <%= u.getSurname()%>
+                    </a>
+                    <a href="RemoveFriendRequest?id=<%= u.getId()%>" class="btn btn-danger">
+                        Remove
+                        <i class="material-icons">
+                            delete
+                        </i>
+                    </a>
+                    <%
+                                }
+                            }
+                        }
                         if (!friendsPetitionList.isEmpty()) {
                     %>    
                     <h2>Pending friendship request:</h2>
                     <%
                         for (Users u : friendsPetitionList) {
-                            if (u.getProfilePicture() == null) {
+                    %>
+                    <hr class="style1">
+                    <%
+                        if (u.getProfilePicture() == null) {
                     %>
                     <a class ="customLink" href="UserPageLoadServlet?userID=<%= u.getId()%>">
-                        <img src="/img/icon.jpg" class="rounded-circle" width="50" height="50">
+                        <img src="img/icon.jpg" class="rounded-circle" width="50" height="50">
                         <%= u.getName()%> <%= u.getSurname()%>
                     </a>
                     <a href="AddFriendServlet?id=<%= u.getId()%>" class="btn btn-primary">
@@ -111,10 +158,10 @@
                         Add friend
                     </a>
                     <a href="RemoveFriendRequest?id=<%= u.getId()%>" class="btn btn-danger">
+                        Remove
                         <i class="material-icons">
                             delete
                         </i>
-                        Remove
                     </a>
                     <%
                     } else {
@@ -130,16 +177,13 @@
                         Add friend
                     </a>
                     <a href="RemoveFriendRequest?id=<%= u.getId()%>" class="btn btn-danger">
+                        Remove
                         <i class="material-icons">
                             delete
                         </i>
-                        Remove
                     </a>
                     <%
-                        }
-                    %>
-                    <hr class="style1">
-                    <%
+                                }
                             }
                         }
                     %>
@@ -156,14 +200,14 @@
                         if (u.getProfilePicture() == null) {
                     %>
                     <a class ="customLink" href="UserPageLoadServlet?userID=<%= u.getId()%>">
-                        <img src="/img/icon.jpg" class="rounded-circle" width="50" height="50">
+                        <img src="img/icon.jpg" class="rounded-circle" width="50" height="50">
                         <%= u.getName()%> <%= u.getSurname()%>
                     </a>
                     <a href="RemoveFriendServlet?id=<%= u.getId()%>" class="btn btn-danger">
+                        Remove
                         <i class="material-icons">
                             delete
                         </i>
-                        Remove
                     </a>
                     <%
                     } else {
@@ -173,10 +217,10 @@
                         <%= u.getName()%> <%= u.getSurname()%>
                     </a>
                     <a href="RemoveFriendServlet?id=<%= u.getId()%>" class="btn btn-danger">
+                        Remove
                         <i class="material-icons">
                             delete
                         </i>
-                        Remove
                     </a>
                     <%
                                 }

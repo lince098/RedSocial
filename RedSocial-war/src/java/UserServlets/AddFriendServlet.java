@@ -43,7 +43,7 @@ public class AddFriendServlet extends HttpServlet {
         Users currentSession = (Users) request.getSession().getAttribute("currentSession");
         
         List<Users> currentSessionFriendsPetitionList = currentSession.getUsersList2();
-        List<Users> uFriendsPetitionList = newFriend.getUsersList2();
+        List<Users> uFriendsPetitionList = newFriend.getUsersList3();
         currentSessionFriendsPetitionList.remove(newFriend);
         uFriendsPetitionList.remove(currentSession);
         currentSession.setUsersList2(currentSessionFriendsPetitionList);

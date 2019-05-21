@@ -96,14 +96,16 @@
                     <%
                         }
                     %>
+                    <br/>
                     <ul class="nav nav-pills flex-column">
                         <li class="nav-item">
                             <a class="btn btn-primary" href="UserDestMessageServlet?id=<%= user.getId()%>">
                                 Send Message
                                 <i class="far fa-envelope"></i>
                             </a>
+                            <br/>
                             <%
-                                if (!currentSession.getUsersList().contains(user)) {
+                                if (!currentSession.getUsersList3().contains(user)&& !currentSession.getUsersList1().contains(user)) {
                             %>
                             <a class="btn btn-primary" href="FriendshipPetitionServlet?userID=<%= user.getId()%>">
                                 Send friend petition
@@ -138,7 +140,7 @@
                     <%
                         if (post.getAuthor().getProfilePicture() == null) {
                     %>
-                    <img src="/img/icon.jpg" class="rounded-circle" width="50" height="50">
+                    <img src="img/icon.jpg" class="rounded-circle" width="50" height="50">
                     <%
                     } else {
                     %>
@@ -155,18 +157,18 @@
                         if (likes.contains(currentSession)) {
                     %>
                     <%= likes.size()%>   
-                    <a class="btn like disabled" href="CreatePostLike?isGroupPost=false&postID=<%= post.getId()%>&isMainPage=false&userID=<%= user.getId() %>" style="width: 0px">
+                    <a class="btn like disabled" href="CreatePostLike?isGroupPost=false&postID=<%= post.getId()%>&isMainPage=false&userID=<%= user.getId()%>" style="width: 0px">
                         <span class="fa fa-thumbs-up"></span>
                     </a>
-                    <a class="btn dislike" href="EliminatePostLike?isGroupPost=false&postID=<%= post.getId()%>&isMainPage=false&userID=<%= user.getId() %>">
+                    <a class="btn dislike" href="EliminatePostLike?isGroupPost=false&postID=<%= post.getId()%>&isMainPage=false&userID=<%= user.getId()%>">
                         <span class="fa fa-thumbs-down" style="width: 0px"></span>
                     </a>
                     <%
                     } else {
                     %>
                     <%= likes.size()%>
-                    <a class="btn like" href="CreatePostLike?isGroupPost=false&postID=<%= post.getId()%>&isMainPage=false&userID=<%= user.getId() %>">
-                        <span class="fa fa-thumbs-up"> <%= likes.size()%></span>
+                    <a class="btn like" href="CreatePostLike?isGroupPost=false&postID=<%= post.getId()%>&isMainPage=false&userID=<%= user.getId()%>">
+                        <span class="fa fa-thumbs-up"></span>
                     </a>
                     <%
                                 }

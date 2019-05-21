@@ -97,10 +97,13 @@
                     <h2>Joined groups:</h2>
                     <%
                         for (Grupos g : groupsList) {
-                            if (g.getImagePath() == null) {
+                    %>
+                    <hr class="style1">
+                    <%
+                        if (g.getImagePath() == null) {
                     %>
                     <a class ="customLink" href="GroupPageServlet?groupId=<%= g.getId()%>">
-                        <img src="/img/groupIcon.jpg" class="rounded-circle" width="50" height="50">
+                        <img src="img/groupIcon.jpg" class="rounded-circle" width="50" height="50">
                         <%= g.getName()%>
                     </a>
                     <%
@@ -111,10 +114,7 @@
                         <%= g.getName()%>
                     </a>
                     <%
-                        }
-                    %>
-                    <hr class="style1">
-                    <%
+                                }
                             }
                         }
                     %>

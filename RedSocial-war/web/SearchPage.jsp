@@ -11,6 +11,12 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <%
             Users currentSession = (Users) session.getAttribute("currentSession");
             List<Users> listUsers = (List<Users>) request.getAttribute("listUsers");
@@ -78,7 +84,8 @@
                 <%
                     if (listUsers == null || listUsers.isEmpty()) {
                 %>
-                <h2>Not results found</h2>
+                <br/>
+                <h2>Not users found</h2>
                 <%
                 } else {
                     for (Users u : listUsers) {
@@ -89,7 +96,7 @@
                         if (u.getProfilePicture() == null) {
                 %>
                 <a class ="customLink" href="MainPage.jsp">
-                    <img src="/img/icon.jpg" class="rounded-circle" width="50" height="50">
+                    <img src="img/icon.jpg" class="rounded-circle" width="50" height="50">
                     <%= u.getName()%> <%= u.getSurname()%>
                 </a>
                 <%
@@ -104,7 +111,7 @@
                 } else if (u.getProfilePicture() == null) {
                 %>
                 <a class ="customLink" href="UserPageLoadServlet?userID=<%= u.getId()%>">
-                    <img src="/img/icon.jpg" class="rounded-circle" width="50" height="50">
+                    <img src="img/icon.jpg" class="rounded-circle" width="50" height="50">
                     <%= u.getName()%> <%= u.getSurname()%>
                 </a>
                 <a href="UserDestMessageServlet?id=<%= u.getId()%>" class="btn btn-primary">
@@ -150,7 +157,8 @@
                 <%
                     if (listGroups == null || listGroups.isEmpty()) {
                 %>
-                <h2>Not results found</h2>
+                <br/>
+                <h2>Not groups found</h2>
                 <%
                 } else {
                     for (Grupos g : listGroups) {
@@ -160,7 +168,7 @@
                     if (g.getImagePath() == null) {
                 %>
                 <a class ="customLink" href="GroupPageServlet?groupId=<%= g.getId()%>">
-                    <img src="/img/groupIcon.jpg" class="rounded-circle" width="50" height="50">
+                    <img src="img/groupIcon.jpg" class="rounded-circle" width="50" height="50">
                     <%= g.getName()%>
                 </a>
                 <%

@@ -156,7 +156,7 @@
                     <%
                         if (post.getAuthor().getProfilePicture() == null) {
                     %>
-                    <img src="/img/icon.jpg" class="rounded-circle" width="50" height="50">
+                    <img src="img/icon.jpg" class="rounded-circle" width="50" height="50">
                     <%
                     } else {
                     %>
@@ -173,18 +173,18 @@
                         if (likes.contains(currentSession)) {
                     %>
                     <%= likes.size()%>   
-                    <a class="btn like disabled" href="CreatePostLike?isGroupPost=false&postID=<%= post.getId()%>&isMainPage=true" style="width: 0px">
+                    <a class="btn like disabled" href="CreatePostLike?isGroupPost=false&postId=<%= post.getId()%>&isMainPage=true" style="width: 0px">
                         <span class="fa fa-thumbs-up"></span>
                     </a>
-                    <a class="btn dislike" href="?isGroupPost=false&postID=<%= post.getId()%>&isMainPage=true">
+                    <a class="btn dislike" href="EliminatePostLike?isGroupPost=false&postId=<%= post.getId()%>&isMainPage=true">
                         <span class="fa fa-thumbs-down" style="width: 0px"></span>
                     </a>
                     <%
                     } else {
                     %>
                     <%= likes.size()%>
-                    <a class="btn like" href="CreatePostLike?isGroupPost=false&postID=<%= post.getId()%>&isMainPage=true">
-                        <span class="fa fa-thumbs-up"> <%= likes.size()%></span>
+                    <a class="btn like" href="CreatePostLike?isGroupPost=false&postId=<%= post.getId()%>&isMainPage=true">
+                        <span class="fa fa-thumbs-up"></span>
                     </a>
                     <%
                                 }

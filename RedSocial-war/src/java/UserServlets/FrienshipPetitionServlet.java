@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Rafa
  */
-@WebServlet(name = "FrienshipPetitionServlet", urlPatterns = {"/FrienshipPetitionServlet"})
+@WebServlet(name = "FriendshipPetitionServlet", urlPatterns = {"/FriendshipPetitionServlet"})
 public class FrienshipPetitionServlet extends HttpServlet {
 
     @EJB
@@ -43,17 +43,14 @@ public class FrienshipPetitionServlet extends HttpServlet {
         Users currentSession = (Users) request.getSession().getAttribute("currentSession");
         Users u = usersFacade.find(id);
         if(u != null){
-            List<Users> friendRequestCurrentSession = currentSession.getUsersList2();
+            List<Users> friendRequestCurrentSession = currentSession.getUsersList3();
             friendRequestCurrentSession.add(u);
-            currentSession.setUsersList2(friendRequestCurrentSession);
-            
-            List<Users> friendRequestUser = u.getUsersList2();
-            friendRequestUser.add(u);
-            u.setUsersList2(friendRequestUser);
+            currentSession.setUsersList3(friendRequestCurrentSession);
+            currentSession.getUsersList2().add(currentSession);
             
             usersFacade.edit(currentSession);
-            usersFacade.edit(u);
             
+            u = usersFacade.find(id);
             request.getSession().setAttribute("currentSession", currentSession);
             request.setAttribute("user", u);
             

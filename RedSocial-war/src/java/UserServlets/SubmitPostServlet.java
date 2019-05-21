@@ -69,6 +69,7 @@ public class SubmitPostServlet extends HttpServlet {
 
         Profileposts profilePost = new Profileposts();
         profilePost.setPost(p);
+        profilePost.setId(p.getId());
         Users receiver = null;
         if (id == null || id.equals("")) {
             profilePost.setReceiver(author);
@@ -79,6 +80,7 @@ public class SubmitPostServlet extends HttpServlet {
 
         profilePost.setVision(vision);
         p.setProfileposts(profilePost);
+       
         profilepostsFacade.create(profilePost);
         postFacade.edit(p);
 

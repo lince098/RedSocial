@@ -66,6 +66,7 @@ public class CreatePostLike extends HttpServlet {
         } else {
             boolean isMainPage = Boolean.parseBoolean(request.getParameter("isMainPage"));
             if (isMainPage) {
+                request.getSession().setAttribute("currentSession", usersFacade.find(user.getId()));
                 request.getRequestDispatcher("/MainPage.jsp").forward(request, response);
             } else {
                 Integer userID = Integer.parseInt(request.getParameter("userID"));
