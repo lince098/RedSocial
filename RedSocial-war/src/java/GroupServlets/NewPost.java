@@ -1,8 +1,6 @@
 /**
  * @author Pablo Gamarro Lozano
  */
-
-
 /*  
         Recive:
         
@@ -26,7 +24,6 @@ import RedSocialFacades.GruposFacade;
 import RedSocialFacades.PostFacade;
 import RedSocialFacades.UsersFacade;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Date;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -75,33 +72,35 @@ public class NewPost extends HttpServlet {
         String text = request.getParameter("postText");
         String visibilidad = request.getParameter("visibilidad");
 
-        Post post = new Post();
-        post.setAuthor(currentSession);
-        post.setDate(new Date());
-        post.setText(text);
-        post.setTitle("titulo");
+        if (!(text == null || visibilidad == null)) {
+            Post post = new Post();
+            post.setAuthor(currentSession);
+            post.setDate(new Date());
+            post.setText(text);
+            post.setTitle("titulo");
 
-        pf.create(post);
-        
-        Groupposts gp = new Groupposts();
-        gp.setPost(post);
-        gp.setGrupo(grupo);
-        gp.setVision(visibilidad);
-        gp.setId(post.getId());
+            pf.create(post);
 
-        //relación autor
-        currentSession.getPostList().add(post);
-        uf.edit(currentSession);
+            Groupposts gp = new Groupposts();
+            gp.setPost(post);
+            gp.setGrupo(grupo);
+            gp.setVision(visibilidad);
+            gp.setId(post.getId());
 
-        post.setGroupposts(gp);
-        
-        gpf.create(gp);
+            //relación autor
+            currentSession.getPostList().add(post);
+            uf.edit(currentSession);
 
-        pf.edit(post);
+            post.setGroupposts(gp);
 
-        grupo.getGrouppostsList().add(gp);
+            gpf.create(gp);
 
-        gf.edit(grupo);
+            pf.edit(post);
+
+            grupo.getGrouppostsList().add(gp);
+
+            gf.edit(grupo);
+        }
 
         request.setAttribute("group", grupo);
 
