@@ -7,6 +7,7 @@ package UserServlets;
 
 import RedSocialEntities.Users;
 import RedSocialFacades.UsersFacade;
+import Services.UserService;
 import java.io.IOException;
 import java.util.List;
 import javax.ejb.EJB;
@@ -42,19 +43,13 @@ public class AddFriendServlet extends HttpServlet {
         Users newFriend = usersFacade.find(id);
         Users currentSession = (Users) request.getSession().getAttribute("currentSession");
         
-        List<Users> currentSessionFriendsPetitionList = currentSession.getUsersList2();
-        List<Users> uFriendsPetitionList = newFriend.getUsersList3();
-        currentSessionFriendsPetitionList.remove(newFriend);
-        uFriendsPetitionList.remove(currentSession);
-        currentSession.setUsersList2(currentSessionFriendsPetitionList);
-        newFriend.setUsersList2(uFriendsPetitionList);
+        newFriend.getUsersList2().remove(currentSession);
+        newFriend.getUsersList3().remove(currentSession);
+        currentSession.getUsersList2().remove(newFriend);
+        currentSession.getUsersList3().remove(newFriend);
         
-        List<Users> currentSessionFriendsList = currentSession.getUsersList();
-        List<Users> uFriendsList = newFriend.getUsersList();
-        currentSessionFriendsList.add(newFriend);
-        uFriendsList.add(currentSession);
-        currentSession.setUsersList(currentSessionFriendsList);
-        newFriend.setUsersList(uFriendsList);
+        newFriend.getUsersList().add(currentSession);
+        currentSession.getUsersList1().add(newFriend);
         
         usersFacade.edit(currentSession);
         usersFacade.edit(newFriend);

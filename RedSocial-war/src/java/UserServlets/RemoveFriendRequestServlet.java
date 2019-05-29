@@ -42,10 +42,10 @@ public class RemoveFriendRequestServlet extends HttpServlet {
         Users friendRequestToRemove = usersFacade.find(id);
         Users currentSession = (Users) request.getSession().getAttribute("currentSession");
         
-        List<Users> currentSessionFriendList = currentSession.getUsersList2();
-        List<Users> friendRequestToRemoveFriendList = friendRequestToRemove.getUsersList2();
-        currentSessionFriendList.remove(friendRequestToRemove);
-        friendRequestToRemoveFriendList.remove(currentSession);
+        currentSession.getUsersList2().remove(friendRequestToRemove);
+        currentSession.getUsersList3().remove(friendRequestToRemove);
+        friendRequestToRemove.getUsersList2().remove(currentSession);
+        friendRequestToRemove.getUsersList3().remove(currentSession);
         
         usersFacade.edit(currentSession);
         usersFacade.edit(friendRequestToRemove);

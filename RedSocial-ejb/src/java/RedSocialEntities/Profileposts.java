@@ -30,7 +30,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Profileposts.findAll", query = "SELECT p FROM Profileposts p")
     , @NamedQuery(name = "Profileposts.findById", query = "SELECT p FROM Profileposts p WHERE p.id = :id")
-    , @NamedQuery(name = "Profileposts.findByVision", query = "SELECT p FROM Profileposts p WHERE p.vision = :vision")})
+    , @NamedQuery(name = "Profileposts.findByVision", query = "SELECT p FROM Profileposts p WHERE p.vision = :vision")
+    , @NamedQuery(name = "Profileposts.findByUser", query = "SELECT p FROM Profileposts p WHERE p.receiver.id = :userID")})
 public class Profileposts implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -119,5 +120,5 @@ public class Profileposts implements Serializable {
     public String toString() {
         return "RedSocialEntities.Profileposts[ id=" + id + " ]";
     }
-    
+
 }

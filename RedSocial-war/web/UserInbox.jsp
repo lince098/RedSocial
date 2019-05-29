@@ -72,11 +72,12 @@
                     <i class="fa fa-search"></i>
                 </button>
             </form>
+            <a href="LogOutServlet" class="btn btn-danger">Log Out</a>
         </nav>
         <div class="container col-9" style="margin-top:30px">
-            <a href="SearchServlet?filter=1">Create new message</a><br/><br/>
+            <a href="SearchSevlet?filter=1">Create new message</a><br/><br/>
             <a href="UserOutboxServlet">Check Outbox</a><br/><br/>
-            
+
             <h2>Inbox:</h2>
 
             <table>

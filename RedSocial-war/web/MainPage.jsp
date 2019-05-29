@@ -30,6 +30,7 @@
                 right: 0px;
                 padding-top: 9px;
                 padding-bottom: 9px;
+                padding-right: 18px;
             } 
             .navbar-toggler {
                 position: relative;
@@ -45,14 +46,11 @@
                 padding-left: 40px; 
                 padding-right: 40px;
             }
-            a.like{
+            a.like.disabled{
                 color: blue;
             }
-            a.like.disabled{
+            a.like{
                 color: lightblue;
-            }
-            a.dislike{
-                color: red;
             }
         </style>
     </head>
@@ -82,6 +80,7 @@
                     <i class="fa fa-search"></i>
                 </button>
             </form>
+            <a href="LogOutServlet" class="btn btn-danger">Log Out</a>
         </nav>
 
         <div class="container col-9" style="margin-top:30px">
@@ -175,9 +174,6 @@
                     <%= likes.size()%>   
                     <a class="btn like disabled" href="CreatePostLike?isGroupPost=false&postId=<%= post.getId()%>&isMainPage=true" style="width: 0px">
                         <span class="fa fa-thumbs-up"></span>
-                    </a>
-                    <a class="btn dislike" href="EliminatePostLike?isGroupPost=false&postId=<%= post.getId()%>&isMainPage=true">
-                        <span class="fa fa-thumbs-down" style="width: 0px"></span>
                     </a>
                     <%
                     } else {

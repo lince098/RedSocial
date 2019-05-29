@@ -9,9 +9,7 @@ package Services;
 import RedSocialEntities.Grupos;
 import RedSocialEntities.Post;
 import RedSocialEntities.Users;
-import RedSocialFacades.UsersFacade;
 import java.util.List;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
 
@@ -22,9 +20,6 @@ import javax.ejb.LocalBean;
 @Stateless
 @LocalBean
 public class UserService {
-
-    @EJB
-    private static UsersFacade usersFacade;
 
     public static List<Grupos> getGrupos(Users user) {
         return user.getGruposList2();
@@ -46,11 +41,23 @@ public class UserService {
     }
     
     public static List<Users> getFriendshipPetitionApplicant(Users user){
-        return user.getUsersList3();
+        List<Users> friendPetitionList = user.getUsersList2();
+        if(friendPetitionList != null){
+            while(friendPetitionList.contains(user)){
+                friendPetitionList.remove(user);
+            }
+        }
+        return friendPetitionList;
     }
     
     public static List<Users> getFriendshipPetitionRequested(Users user){
-        return user.getUsersList2();
+        List<Users> friendPetitionList = user.getUsersList3();
+        if(friendPetitionList != null){
+            while(friendPetitionList.contains(user)){
+                friendPetitionList.remove(user);
+            }
+        }
+        return friendPetitionList;
     }
     
     public static List<Users> getFriends(Users user){

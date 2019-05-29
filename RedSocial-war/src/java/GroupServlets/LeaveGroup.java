@@ -62,13 +62,17 @@ public class LeaveGroup extends HttpServlet {
 
                     admins.add(members.get(i));
                     admins.remove(currentSession);
+                    members.remove(currentSession);
                     administeredGroups.remove(group);
                     groupMembership.remove(group);
                 } else { //Elimina el grupo
+                    administeredGroups.remove(group);
+                    groupMembership.remove(group);
                     gf.remove(group);
                     
                     //Recargo la session para que se actualice la lista de grupos.
-                    request.getSession().setAttribute("currentSession", uf.find(currentSession.getId()));
+                    
+                   uf.edit(currentSession);
                    
                     request.getRequestDispatcher("/MainPage.jsp").forward(request, response);
                     return;

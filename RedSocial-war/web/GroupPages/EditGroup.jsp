@@ -33,9 +33,9 @@
         %>
     </head>
     <body>
-        
+
         <!-- Navbar  -->
-        
+
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark form-inline">
             <div class="navbar-header">
                 <a class="navbar-brand" href="MainPage.jsp">Main Page</a>
@@ -61,14 +61,15 @@
                     <i class="fa fa-search"></i>
                 </button>
             </form>
+            <a href="LogOutServlet" class="btn btn-danger">Log Out</a>
         </nav>    
-        
-        
+
+
         <!-- Navbar  -->
-        
-        
-        
-        
+
+
+
+
         <form id="cancelForm" action="GroupPageServlet" method="post">
             <input type="hidden" name="groupId" value="<%= group.getId()%>">
         </form>

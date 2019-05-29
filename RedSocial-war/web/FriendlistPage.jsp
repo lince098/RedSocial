@@ -95,6 +95,7 @@
                     <i class="fa fa-search"></i>
                 </button>
             </form>
+            <a href="LogOutServlet" class="btn btn-danger">Log Out</a>
         </nav>
         <div class="container" style="margin-top:30px">
             <div class="row">
@@ -114,7 +115,7 @@
                         <img src="img/icon.jpg" class="rounded-circle" width="50" height="50">
                         <%= u.getName()%> <%= u.getSurname()%>
                     </a>
-                    <a href="RemoveFriendRequest?id=<%= u.getId()%>" class="btn btn-danger">
+                    <a href="RemoveFriendRequestServlet?id=<%= u.getId()%>" class="btn btn-danger">
                         Remove
                         <i class="material-icons">
                             delete
@@ -127,7 +128,7 @@
                         <img src="<%= u.getProfilePicture()%>" class="rounded-circle" width="50" height="50">
                         <%= u.getName()%> <%= u.getSurname()%>
                     </a>
-                    <a href="RemoveFriendRequest?id=<%= u.getId()%>" class="btn btn-danger">
+                    <a href="RemoveFriendRequestServlet?id=<%= u.getId()%>" class="btn btn-danger">
                         Remove
                         <i class="material-icons">
                             delete
@@ -139,6 +140,8 @@
                         }
                         if (!friendsPetitionList.isEmpty()) {
                     %>    
+                    <br/>
+                    <br/>
                     <h2>Pending friendship request:</h2>
                     <%
                         for (Users u : friendsPetitionList) {
@@ -157,7 +160,7 @@
                         </i>
                         Add friend
                     </a>
-                    <a href="RemoveFriendRequest?id=<%= u.getId()%>" class="btn btn-danger">
+                    <a href="RemoveFriendRequestServlet?id=<%= u.getId()%>" class="btn btn-danger">
                         Remove
                         <i class="material-icons">
                             delete
@@ -176,7 +179,7 @@
                         </i>
                         Add friend
                     </a>
-                    <a href="RemoveFriendRequest?id=<%= u.getId()%>" class="btn btn-danger">
+                    <a href="RemoveFriendRequestServlet?id=<%= u.getId()%>" class="btn btn-danger">
                         Remove
                         <i class="material-icons">
                             delete
@@ -186,11 +189,10 @@
                                 }
                             }
                         }
-                    %>
-                    <br>
-                    <%
                         if (!friendsList.isEmpty()) {
-                    %>    
+                    %> 
+                    <br/>
+                    <br/>
                     <h2>Friends:</h2>
                     <%
                         for (Users u : friendsList) {

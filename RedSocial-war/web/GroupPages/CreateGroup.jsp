@@ -29,14 +29,13 @@
         </style>
         <%
             String error = (String) request.getAttribute("error");
-            Users currentSession = (Users) request.getSession().getAttribute("currentSession");
         %>
     </head>
     <body>
-        
-        
+
+
         <!-- Navbar  -->
-        
+
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark form-inline">
             <div class="navbar-header">
                 <a class="navbar-brand" href="MainPage.jsp">Main Page</a>
@@ -62,13 +61,14 @@
                     <i class="fa fa-search"></i>
                 </button>
             </form>
+            <a href="LogOutServlet" class="btn btn-danger">Log Out</a>
         </nav>
-                    
-                    
+
+
         <!-- Navbar  -->            
-                    
-         
-        
+
+
+
         <form id="cancelForm" action="<%= request.getContextPath()%>/MainPage.jsp" method="post">
         </form>
 
@@ -83,7 +83,7 @@
                 }
             %>
 
-            <form id="createForm" method="post" action="CreateGroup">
+            <form id="createForm" method="post" action="../CreateGroup">
                 <div class="form-group ">
                     <label for="nameInput">Name</label>
                     <input type="text" class="form-control" name="name" id="nameInput" placeholder="Enter name here">

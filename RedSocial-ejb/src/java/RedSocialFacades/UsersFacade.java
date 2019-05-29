@@ -5,6 +5,7 @@
  */
 package RedSocialFacades;
 
+import RedSocialEntities.Post;
 import RedSocialEntities.Users;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -45,13 +46,4 @@ public class UsersFacade extends AbstractFacade<Users> {
         Query q = em.createNamedQuery("Users.findBySearchText").setParameter("searchText", searchText);
         return (List<Users>) q.getResultList();
     }
-    
-    public List<Users> findFriends(Users user){
-        Query q = em.createNamedQuery("Users.findFriends").setParameter("id", user.getId());
-        return (List<Users>) q.getResultList();
-    }
-    /* public List<Users> findFriendsv2(Users user){
-        Query q = em.createQuery("SELECT l FROM Users u JOIN u.usersList l ");
-        return (List<Users>) q.getResultList();
-    }*/
 }

@@ -5,12 +5,7 @@
  */
 package UserServlets;
 
-import RedSocialEntities.Users;
-import RedSocialFacades.UsersFacade;
 import java.io.IOException;
-import java.util.List;
-import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,13 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Rafa
+ * @author PabloGL
  */
-@WebServlet(name = "RemoveFriendServlet", urlPatterns = {"/RemoveFriendServlet"})
-public class RemoveFriendServlet extends HttpServlet {
-
-    @EJB
-    private UsersFacade usersFacade;
+@WebServlet(name = "LogOutServlet", urlPatterns = {"/LogOutServlet"})
+public class LogOutServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,22 +30,9 @@ public class RemoveFriendServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Integer id = Integer.parseInt(request.getParameter("id"));
-        Users friendToRemove = usersFacade.find(id);
-        Users currentSession = (Users) request.getSession().getAttribute("currentSession");
-        
-        currentSession.getUsersList().remove(friendToRemove);
-        currentSession.getUsersList1().remove(friendToRemove);
-        friendToRemove.getUsersList().remove(currentSession);
-        friendToRemove.getUsersList1().remove(currentSession);
-        
-        usersFacade.edit(currentSession);
-        usersFacade.edit(friendToRemove);
-        
-        request.getSession().setAttribute("currentSession", currentSession);
-        
-        RequestDispatcher rd = request.getRequestDispatcher("/FriendlistPage.jsp");
-        rd.forward(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        request.getSession().removeAttribute("currentSession");
+        request.getRequestDispatcher("/UserPages/Login.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

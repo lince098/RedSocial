@@ -11,7 +11,6 @@ import RedSocialFacades.UsersFacade;
 import Services.GrupoService;
 import Services.UserService;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Date;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -43,7 +42,8 @@ public class CreateGroup extends HttpServlet {
         
         if (name == null || description == null) {
             request.setAttribute("error", "Se ha dejado un parámetro nulo.");
-            request.getRequestDispatcher("CreateGroup.jsp").forward(request, response);
+            request.getRequestDispatcher("/GroupPages/CreateGroup.jsp").forward(request, response);
+            return;
         }
        
         Users currentSession = (Users) request.getSession().getAttribute("currentSession");

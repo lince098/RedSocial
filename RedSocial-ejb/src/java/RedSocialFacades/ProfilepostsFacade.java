@@ -6,9 +6,12 @@
 package RedSocialFacades;
 
 import RedSocialEntities.Profileposts;
+import RedSocialEntities.Users;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -29,4 +32,8 @@ public class ProfilepostsFacade extends AbstractFacade<Profileposts> {
         super(Profileposts.class);
     }
     
+    public List<Profileposts> getPublicPosts(Users user){
+        Query q = em.createNamedQuery("Profileposts.findByUser").setParameter("userID", user.getId());
+        return (List<Profileposts>) q.getResultList();
+    }
 }

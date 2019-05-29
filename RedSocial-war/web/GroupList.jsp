@@ -4,6 +4,7 @@
     Author     : Rafa
 --%>
 
+<%@page import="Services.UserService"%>
 <%@page import="RedSocialEntities.Grupos"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
@@ -17,9 +18,13 @@
         <%
             Users currentSession = (Users) session.getAttribute("currentSession");
             List<Grupos> groupsList = new ArrayList<Grupos>();
+            List<Grupos> groupJoinPetitionList = new ArrayList<Grupos>();
             if (currentSession != null) {
-                if (!currentSession.getGruposList2().isEmpty()) {
-                    groupsList = currentSession.getGruposList2();
+                if (!UserService.getGrupos(currentSession).isEmpty()) {
+                    groupsList = UserService.getGrupos(currentSession);
+                }
+                if (!UserService.getGroupJoinPetitions(currentSession).isEmpty()) {
+                    groupJoinPetitionList = UserService.getGroupJoinPetitions(currentSession);
                 }
             }
         %>
@@ -87,8 +92,44 @@
                     <i class="fa fa-search"></i>
                 </button>
             </form>
+            <a href="LogOutServlet" class="btn btn-danger">Log Out</a>
         </nav>
         <div class="container" style="margin-top:30px">
+            <a class="btn btn-success" href="GroupPages/CreateGroup.jsp">Create group</a>
+            <br/>
+            <br/>
+            <div class="row">
+                <div class="col-sm-8">
+                    <%
+                        if (!groupJoinPetitionList.isEmpty()) {
+                    %>    
+                    <h2>Group join requests:</h2>
+                    <%
+                        for (Grupos g : groupJoinPetitionList) {
+                    %>
+                    <hr class="style1">
+                    <%
+                        if (g.getImagePath() == null) {
+                    %>
+                    <a class ="customLink" href="GroupPageServlet?groupId=<%= g.getId()%>">
+                        <img src="img/groupIcon.jpg" class="rounded-circle" width="50" height="50">
+                        <%= g.getName()%>
+                    </a>
+                    <%
+                    } else {
+                    %>
+                    <a class ="customLink" href="GroupPageServlet?groupId=<%= g.getId()%>">
+                        <img src="<%= g.getImagePath()%>" class="rounded-circle" width="50" height="50">
+                        <%= g.getName()%>
+                    </a>
+                    <%
+                                }
+                            }
+                        }
+                    %>
+                </div>
+            </div>
+            <br/>
             <div class="row">
                 <div class="col-sm-8">
                     <%

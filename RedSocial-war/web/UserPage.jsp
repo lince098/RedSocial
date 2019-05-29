@@ -11,9 +11,9 @@
         <%
             Users currentSession = (Users) session.getAttribute("currentSession");
             Users user = (Users) request.getAttribute("user");
-            List<Profileposts> postList = new ArrayList<Profileposts>();
-            if (user != null && !user.getProfilepostsList().isEmpty()) {
-                postList = user.getProfilepostsList();
+            List<Profileposts> postList = (List<Profileposts>) request.getAttribute("postList");
+            if (postList == null) {
+                postList = new ArrayList<>();
             }
         %>
         <title>Red social</title>
@@ -46,6 +46,12 @@
                 padding-left: 40px; 
                 padding-right: 40px;
             }
+            a.like.disabled{
+                color: blue;
+            }
+            a.like{
+                color: lightblue;
+            }
         </style>
     </head>
     <body>
@@ -74,6 +80,7 @@
                     <i class="fa fa-search"></i>
                 </button>
             </form>
+            <a href="LogOutServlet" class="btn btn-danger">Log Out</a>
         </nav>
 
         <div class="container col-9" style="margin-top:30px">
@@ -105,7 +112,7 @@
                             </a>
                             <br/>
                             <%
-                                if (!currentSession.getUsersList3().contains(user)&& !currentSession.getUsersList1().contains(user)) {
+                                if (!currentSession.getUsersList3().contains(user) && !currentSession.getUsersList1().contains(user)) {
                             %>
                             <a class="btn btn-primary" href="FriendshipPetitionServlet?userID=<%= user.getId()%>">
                                 Send friend petition
@@ -159,9 +166,6 @@
                     <%= likes.size()%>   
                     <a class="btn like disabled" href="CreatePostLike?isGroupPost=false&postID=<%= post.getId()%>&isMainPage=false&userID=<%= user.getId()%>" style="width: 0px">
                         <span class="fa fa-thumbs-up"></span>
-                    </a>
-                    <a class="btn dislike" href="EliminatePostLike?isGroupPost=false&postID=<%= post.getId()%>&isMainPage=false&userID=<%= user.getId()%>">
-                        <span class="fa fa-thumbs-down" style="width: 0px"></span>
                     </a>
                     <%
                     } else {

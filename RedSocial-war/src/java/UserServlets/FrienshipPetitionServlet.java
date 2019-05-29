@@ -7,6 +7,7 @@ package UserServlets;
 
 import RedSocialEntities.Users;
 import RedSocialFacades.UsersFacade;
+import Services.UserService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -43,14 +44,12 @@ public class FrienshipPetitionServlet extends HttpServlet {
         Users currentSession = (Users) request.getSession().getAttribute("currentSession");
         Users u = usersFacade.find(id);
         if(u != null){
-            List<Users> friendRequestCurrentSession = currentSession.getUsersList3();
-            friendRequestCurrentSession.add(u);
-            currentSession.setUsersList3(friendRequestCurrentSession);
-            currentSession.getUsersList2().add(currentSession);
+            currentSession.getUsersList3().add(u);
+            u.getUsersList2().add(currentSession);
             
             usersFacade.edit(currentSession);
+            usersFacade.edit(u);
             
-            u = usersFacade.find(id);
             request.getSession().setAttribute("currentSession", currentSession);
             request.setAttribute("user", u);
             

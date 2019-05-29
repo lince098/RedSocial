@@ -6,7 +6,9 @@
 package UserServlets;
 
 import RedSocialEntities.Users;
+import RedSocialFacades.ProfilepostsFacade;
 import RedSocialFacades.UsersFacade;
+import Services.UserService;
 import java.io.IOException;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -24,6 +26,9 @@ import javax.servlet.http.HttpServletResponse;
 public class UserPageLoadServlet extends HttpServlet {
 
     @EJB
+    private ProfilepostsFacade profilepostsFacade;
+
+    @EJB
     private UsersFacade usersFacade;
 
     /**
@@ -39,10 +44,16 @@ public class UserPageLoadServlet extends HttpServlet {
             throws ServletException, IOException {
         Integer id = Integer.parseInt(request.getParameter("userID"));
         Users u = usersFacade.find(id);
+        Users currUser = (Users) request.getAttribute("currentSession");
         if(u == null){
             RequestDispatcher rd = request.getRequestDispatcher("/MainPage.jsp");
             rd.forward(request, response);
         }else{
+            if(UserService.getFriends(u).contains(currUser)){
+                request.setAttribute("postList", u.getProfilepostsList());
+            }else{
+                request.setAttribute("postList", profilepostsFacade.getPublicPosts(u));
+            }
             request.setAttribute("user", u);
             RequestDispatcher rd = request.getRequestDispatcher("/UserPage.jsp");
             rd.forward(request, response);
