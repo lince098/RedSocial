@@ -7,12 +7,17 @@ package RedSocialEntities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -23,6 +28,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -36,14 +42,13 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Post.findById", query = "SELECT p FROM Post p WHERE p.id = :id")
     , @NamedQuery(name = "Post.findByTitle", query = "SELECT p FROM Post p WHERE p.title = :title")
     , @NamedQuery(name = "Post.findByText", query = "SELECT p FROM Post p WHERE p.text = :text")
-    , @NamedQuery(name = "Post.findByDate", query = "SELECT p FROM Post p WHERE p.date = :date")
-    , @NamedQuery(name = "Post.findByVision", query = "SELECT p FROM Post p WHERE p.vision = :vision")})
+    , @NamedQuery(name = "Post.findByDate", query = "SELECT p FROM Post p WHERE p.date = :date")})
 public class Post implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
@@ -59,13 +64,13 @@ public class Post implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 11)
-    @Column(name = "vision")
-    private String vision;
+    @JoinTable(name = "postlikes", joinColumns = {
+        @JoinColumn(name = "post", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "user", referencedColumnName = "id")})
+    @ManyToMany
+    private List<Users> usersList;
     @JoinColumn(name = "author", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Users author;
@@ -81,12 +86,11 @@ public class Post implements Serializable {
         this.id = id;
     }
 
-    public Post(Integer id, String title, String text, Date date, String vision) {
+    public Post(Integer id, String title, String text, Date date) {
         this.id = id;
         this.title = title;
         this.text = text;
         this.date = date;
-        this.vision = vision;
     }
 
     public Integer getId() {
@@ -121,12 +125,13 @@ public class Post implements Serializable {
         this.date = date;
     }
 
-    public String getVision() {
-        return vision;
+    @XmlTransient
+    public List<Users> getUsersList() {
+        return usersList;
     }
 
-    public void setVision(String vision) {
-        this.vision = vision;
+    public void setUsersList(List<Users> usersList) {
+        this.usersList = usersList;
     }
 
     public Users getAuthor() {

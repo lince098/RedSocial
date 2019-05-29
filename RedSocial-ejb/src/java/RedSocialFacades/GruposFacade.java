@@ -5,17 +5,19 @@
  */
 package RedSocialFacades;
 
-import RedSocialEntities.Groups;
+import RedSocialEntities.Grupos;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
  * @author PabloGL
  */
 @Stateless
-public class GroupsFacade extends AbstractFacade<Groups> {
+public class GruposFacade extends AbstractFacade<Grupos> {
 
     @PersistenceContext(unitName = "RedSocial-ejbPU")
     private EntityManager em;
@@ -25,8 +27,12 @@ public class GroupsFacade extends AbstractFacade<Groups> {
         return em;
     }
 
-    public GroupsFacade() {
-        super(Groups.class);
+    public GruposFacade() {
+        super(Grupos.class);
     }
-    
+
+    public List<Grupos> findBySearchText(String searchText) {
+        Query q = em.createNamedQuery("Grupos.findBySearchText").setParameter("name", searchText);
+        return (List<Grupos>) q.getResultList();
+    }
 }

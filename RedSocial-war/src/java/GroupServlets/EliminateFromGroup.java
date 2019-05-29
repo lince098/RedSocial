@@ -1,21 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * @author Pablo Gamarro Lozano
  */
-package Servlets;
 
+package GroupServlets;
+
+import RedSocialEntities.Grupos;
 import RedSocialEntities.Users;
+import RedSocialFacades.GruposFacade;
 import RedSocialFacades.UsersFacade;
+import Services.GrupoService;
+import Services.UserService;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List;
 import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,11 +24,13 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author PabloGL
  */
-@WebServlet(name = "RegistroServlet", urlPatterns = {"/RegistroServlet"})
-public class RegistroServlet extends HttpServlet {
+@WebServlet(name = "EliminateFromGroup", urlPatterns = {"/EliminateFromGroup"})
+public class EliminateFromGroup extends HttpServlet {
 
     @EJB
-    UsersFacade usersFacade;
+    GruposFacade gf;
+    @EJB
+    UsersFacade uf;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,41 +44,21 @@ public class RegistroServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String email, password, name, surname, birthday, sex;
+        Integer userId = Integer.parseInt(request.getParameter("userId"));
+        Integer groupId = Integer.parseInt(request.getParameter("groupId"));
 
-        email = request.getParameter("email");
-        password = request.getParameter("password");
-        name = request.getParameter("name");
-        surname = request.getParameter("surname");
-        birthday = request.getParameter("birthday");
-        sex = request.getParameter("sex");
+        Grupos grupo = gf.find(groupId);
+        Users user = uf.find(userId);
 
-        if (email == null || password == null || name == null || surname == null || birthday == null || sex == null) {
+        GrupoService.getMembers(grupo).remove(user);
+        UserService.getGrupos(user).remove(grupo);
 
-            request.setAttribute("error", "There are some null parameters.");
+        gf.edit(grupo);
+        uf.edit(user);
 
-            RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/Register.jsp");
-            rd.forward(request, response);
-            return;
-        }
+        request.setAttribute("group", grupo);
 
-        Users u = new Users();
-        u.setEmail(email);
-
-        String[] split = birthday.split("-");
-        Date birthDate = new java.util.Date(new Integer(split[0]) - 1900, new Integer(split[1]) - 1, new Integer(split[2]) + 1);
-        u.setBirthday(birthDate);
-
-        u.setGender(sex.charAt(0));
-        u.setName(name);
-        u.setPassword(password);
-        u.setSurname(surname);
-
-        request.setAttribute("success", "The registration proccess was succesfully.");
-        usersFacade.create(u);
-
-        RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/Register.jsp");
-        rd.forward(request, response);
+        request.getRequestDispatcher("/GroupMemberlist").forward(request, response);
 
     }
 

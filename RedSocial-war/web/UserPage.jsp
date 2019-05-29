@@ -1,99 +1,186 @@
-<%-- 
-    Document   : UserPage
-    Created on : 2019-04-07, 23:49:56
-    Author     : Kamila
---%>
+<%@page import="Services.PostService"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="RedSocialEntities.Post"%>
+<%@page import="RedSocialEntities.Profileposts"%>
+<%@page import="java.util.List"%>
+<%@page import="RedSocialEntities.Users"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <title>RedSocial</title>
+        <%
+            Users currentSession = (Users) session.getAttribute("currentSession");
+            Users user = (Users) request.getAttribute("user");
+            List<Profileposts> postList = (List<Profileposts>) request.getAttribute("postList");
+            if (postList == null) {
+                postList = new ArrayList<>();
+            }
+        %>
+        <title>Red social</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <style>
+            .right {
+                position: relative;
+                right: 0px;
+                padding-top: 9px;
+                padding-bottom: 9px;
+            } 
+            .navbar-toggler {
+                position: relative;
+                right: 0px;
+                margin-left: 150px;
+            } 
+            hr.style1{
+                border-top: 1px solid #8c8b8b;
+            }
+            .postButton{
+                float:right; 
+                margin-top: 12px; 
+                padding-left: 40px; 
+                padding-right: 40px;
+            }
+            a.like.disabled{
+                color: blue;
+            }
+            a.like{
+                color: lightblue;
+            }
+        </style>
     </head>
     <body>
-        <div class="bg-light p-4 rounded">
-            <div class="portlet light profile-sidebar-portlet bordered">
-                <div class="profile-userpic">
-                    <img src="https://pbs.twimg.com/profile_images/2755433470/331f139a4cf14ed329a893ca189154f8.jpeg" class="img-responsive" alt=""> </div>
-                <div class="profile-username">
-                    <div class="profile-usertitle-name"> Jike Glynn </div>
-                </div>
-                <div class="profile-userbuttons">
-                    <button type="button" class="btn btn-info  btn-sm">Add To Friends</button>
-                    <button type="button" class="btn btn-info  btn-sm">Message</button>
-                    <button type="button" class="btn btn-info  btn-sm">Groups</button>
-                    <button type="button" class="btn btn-info  btn-sm">Information</button>
-                </div>
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark form-inline">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="MainPage.jsp">Main Page</a>
             </div>
-        </div>
-
-        <!-- Nav tabs -->
-        <div class="bg-light p-4 rounded">
-            <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Posts:</a></li>
-            </ul>
-        </div>
-        <!--- \\\\\\\Post-->
-        <div class="card gedf-card">
-            <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true">Make
-                            a publication</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="nav navbar-nav">
+                    <%-- <li class="active"> --%>
+                    <li>
+                        <a class="nav-link" href="FriendlistPage.jsp">FriendList</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="images-tab" data-toggle="tab" role="tab" aria-controls="images" aria-selected="false" href="#images">Images</a>
+                    <li>
+                        <a class="nav-link" href="GroupList.jsp">Groups</a>
                     </li>
                 </ul>
-            </div>
-            <div class="card-body">
-                <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
-                        <div class="form-group">
-                            <label class="sr-only" for="message">post</label>
-                            <textarea class="form-control" id="message" rows="3" placeholder="What are you thinking?"></textarea>
-                        </div>
+            </div>  
+            <form class="form-inline right input-group" action="SearchSevlet">
+                <input type="hidden" name="filter" value="0">
+                <input class="form-control" type="text" placeholder="Search.." name="search">
+                <button class="btn btn-primary" type="submit">
+                    <i class="fa fa-search"></i>
+                </button>
+            </form>
+            <a href="LogOutServlet" class="btn btn-danger">Log Out</a>
+        </nav>
 
-                    </div>
-                    <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab">
-                        <div class="form-group">
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="customFile">
-                                <label class="custom-file-label" for="customFile">Upload image</label>
-                            </div>
-                        </div>
-                        <div class="py-4"></div>
-                    </div>
+        <div class="container col-9" style="margin-top:30px">
+            <div class="row">
+                <div class="col-sm-4">
+                    <h2>About Me</h2>
+                    <h5>Name:</h5>
+                    <p><%= user.getName()%></p>
+                    <h5>Surname:</h5>
+                    <p><%= user.getSurname()%></p>
+                    <h5>Profile photo:</h5>
+                    <%
+                        if (user.getProfilePicture() == null) {
+                    %>
+                    <img src="img/icon.jpg" width="100" height="100">
+                    <%
+                    } else {
+                    %>
+                    <img src="<%= user.getProfilePicture()%>" width="100" height="100">
+                    <%
+                        }
+                    %>
+                    <br/>
+                    <ul class="nav nav-pills flex-column">
+                        <li class="nav-item">
+                            <a class="btn btn-primary" href="UserDestMessageServlet?id=<%= user.getId()%>">
+                                Send Message
+                                <i class="far fa-envelope"></i>
+                            </a>
+                            <br/>
+                            <%
+                                if (!currentSession.getUsersList3().contains(user) && !currentSession.getUsersList1().contains(user)) {
+                            %>
+                            <a class="btn btn-primary" href="FriendshipPetitionServlet?userID=<%= user.getId()%>">
+                                Send friend petition
+                                <i class="fas fa-user-plus"></i>
+                            </a>
+                            <%
+                                }
+                            %>
+                        </li>
+                    </ul>
+                    <hr class="d-sm-none">
                 </div>
-                <div class="btn-toolbar justify-content-between">
-                    <div class="btn-group">
-                        <button type="submit" class="btn btn-primary">share</button>
-                    </div>
-                    <div class="btn-group">
-                        <button id="btnGroupDrop1" type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
-                            <i class="fa fa-globe"></i>
-                        </button>
-                    </div>
-                    <div class="card-body">
-                        <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i>10 min ago</div>
-                        <a class="card-link" href="#">
-                            <h5 class="card-title">Sadzonki</h5>
-                        </a>
-
-                        <p class="card-text">
-                            Nie ma, ze jest dobrze, czy jest niedobrze. Lubie sadzic nawet marchew.
-                        </p>
-                    </div>
-                    <div class="card-footer">
-                        <br>
-                        <br>
-                        <a href="#" class="card-link"><i class="fa fa-gittip"></i> Like</a>
-                        <a href="#" class="card-link"><i class="fa fa-comment"></i> Comment</a>
-                        <a href="#" class="card-link"><i class="fa fa-mail-forward"></i> Share</a>
-                    </div>
+                <div class="col-sm-8">
+                    <form action="SubmitPostServlet">
+                        <input type="hidden" name="receiverID" value="<%= user.getId()%>"
+                               <textarea class="form-control" name="title" id="title" rows="1" placeholder="Title"></textarea>
+                        <textarea class="form-control" name="postMessage" id="postMessage" rows="3" placeholder="What are you thinking?"></textarea>
+                        <select class="form-control" name="vision" id="vision" style="margin-top: 12px;">
+                            <option name="Public">Public</option>
+                            <option name="FriendsOnly">Friends only</option>
+                        </select>
+                        <input type="submit" class="btn btn-primary postButton" value="Post">
+                    </form>
+                    <br/>
+                    <br/>
+                    <%
+                        if (postList != null && !postList.isEmpty()) {
+                            for (Profileposts p : postList) {
+                                Post post = p.getPost();
+                    %>
+                    <hr class="style1">
+                    <%
+                        if (post.getAuthor().getProfilePicture() == null) {
+                    %>
+                    <img src="img/icon.jpg" class="rounded-circle" width="50" height="50">
+                    <%
+                    } else {
+                    %>
+                    <img src="<%= post.getAuthor().getProfilePicture()%>" class="rounded-circle" width="50" height="50">
+                    <%
+                        }
+                    %>
+                    <%= post.getAuthor().getName()%> <%= post.getAuthor().getSurname()%>
+                    <h2><%= post.getTitle()%></h2>
+                    <h5><%= post.getDate().toString()%></h5>
+                    <p><%= post.getText()%></p>
+                    <%
+                        List<Users> likes = PostService.getLikeList(post);
+                        if (likes.contains(currentSession)) {
+                    %>
+                    <%= likes.size()%>   
+                    <a class="btn like disabled" href="CreatePostLike?isGroupPost=false&postID=<%= post.getId()%>&isMainPage=false&userID=<%= user.getId()%>" style="width: 0px">
+                        <span class="fa fa-thumbs-up"></span>
+                    </a>
+                    <%
+                    } else {
+                    %>
+                    <%= likes.size()%>
+                    <a class="btn like" href="CreatePostLike?isGroupPost=false&postID=<%= post.getId()%>&isMainPage=false&userID=<%= user.getId()%>">
+                        <span class="fa fa-thumbs-up"></span>
+                    </a>
+                    <%
+                                }
+                            }
+                        }
+                    %>
                 </div>
-
             </div>
         </div>
-    </div>
-</body>
+    </body>
+</html>

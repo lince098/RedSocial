@@ -37,9 +37,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "users")
 @XmlRootElement
 @NamedQueries({
-    //OurNamedQueries
-    
-    //DefaultQueries
     @NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u")
     , @NamedQuery(name = "Users.findById", query = "SELECT u FROM Users u WHERE u.id = :id")
     , @NamedQuery(name = "Users.findByEmail", query = "SELECT u FROM Users u WHERE u.email = :email")
@@ -49,7 +46,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Users.findByBirthday", query = "SELECT u FROM Users u WHERE u.birthday = :birthday")
     , @NamedQuery(name = "Users.findByGender", query = "SELECT u FROM Users u WHERE u.gender = :gender")
     , @NamedQuery(name = "Users.findByProfilePicture", query = "SELECT u FROM Users u WHERE u.profilePicture = :profilePicture")
-    , @NamedQuery(name = "Users.findByIsAdmin", query = "SELECT u FROM Users u WHERE u.isAdmin = :isAdmin")})
+    , @NamedQuery(name = "Users.findByIsAdmin", query = "SELECT u FROM Users u WHERE u.isAdmin = :isAdmin")
+    , @NamedQuery(name = "Users.findBySearchText", query = "SELECT u FROM Users u WHERE CONCAT(u.name,' ',u.surname) LIKE CONCAT(:searchText,'%')")})
 public class Users implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -90,7 +88,9 @@ public class Users implements Serializable {
     @Column(name = "isAdmin")
     private Short isAdmin;
     @ManyToMany(mappedBy = "usersList")
-    private List<Groups> groupsList;
+    private List<Grupos> gruposList;
+    @ManyToMany(mappedBy = "usersList1")
+    private List<Grupos> gruposList1;
     @JoinTable(name = "friendship", joinColumns = {
         @JoinColumn(name = "user1", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "user2", referencedColumnName = "id")})
@@ -98,8 +98,10 @@ public class Users implements Serializable {
     private List<Users> usersList;
     @ManyToMany(mappedBy = "usersList")
     private List<Users> usersList1;
-    @ManyToMany(mappedBy = "usersList1")
-    private List<Groups> groupsList1;
+    @ManyToMany(mappedBy = "usersList2")
+    private List<Grupos> gruposList2;
+    @ManyToMany(mappedBy = "usersList")
+    private List<Post> postList;
     @JoinTable(name = "friendshippetition", joinColumns = {
         @JoinColumn(name = "applicant", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "requested", referencedColumnName = "id")})
@@ -108,7 +110,7 @@ public class Users implements Serializable {
     @ManyToMany(mappedBy = "usersList2")
     private List<Users> usersList3;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
-    private List<Post> postList;
+    private List<Post> postList1;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "receiver")
     private List<Messages> messagesList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "sender")
@@ -204,12 +206,21 @@ public class Users implements Serializable {
     }
 
     @XmlTransient
-    public List<Groups> getGroupsList() {
-        return groupsList;
+    public List<Grupos> getGruposList() {
+        return gruposList;
     }
 
-    public void setGroupsList(List<Groups> groupsList) {
-        this.groupsList = groupsList;
+    public void setGruposList(List<Grupos> gruposList) {
+        this.gruposList = gruposList;
+    }
+
+    @XmlTransient
+    public List<Grupos> getGruposList1() {
+        return gruposList1;
+    }
+
+    public void setGruposList1(List<Grupos> gruposList1) {
+        this.gruposList1 = gruposList1;
     }
 
     @XmlTransient
@@ -231,12 +242,21 @@ public class Users implements Serializable {
     }
 
     @XmlTransient
-    public List<Groups> getGroupsList1() {
-        return groupsList1;
+    public List<Grupos> getGruposList2() {
+        return gruposList2;
     }
 
-    public void setGroupsList1(List<Groups> groupsList1) {
-        this.groupsList1 = groupsList1;
+    public void setGruposList2(List<Grupos> gruposList2) {
+        this.gruposList2 = gruposList2;
+    }
+
+    @XmlTransient
+    public List<Post> getPostList() {
+        return postList;
+    }
+
+    public void setPostList(List<Post> postList) {
+        this.postList = postList;
     }
 
     @XmlTransient
@@ -258,12 +278,12 @@ public class Users implements Serializable {
     }
 
     @XmlTransient
-    public List<Post> getPostList() {
-        return postList;
+    public List<Post> getPostList1() {
+        return postList1;
     }
 
-    public void setPostList(List<Post> postList) {
-        this.postList = postList;
+    public void setPostList1(List<Post> postList1) {
+        this.postList1 = postList1;
     }
 
     @XmlTransient

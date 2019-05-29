@@ -17,6 +17,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -28,7 +29,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Profileposts.findAll", query = "SELECT p FROM Profileposts p")
-    , @NamedQuery(name = "Profileposts.findById", query = "SELECT p FROM Profileposts p WHERE p.id = :id")})
+    , @NamedQuery(name = "Profileposts.findById", query = "SELECT p FROM Profileposts p WHERE p.id = :id")
+    , @NamedQuery(name = "Profileposts.findByVision", query = "SELECT p FROM Profileposts p WHERE p.vision = :vision")
+    , @NamedQuery(name = "Profileposts.findByUser", query = "SELECT p FROM Profileposts p WHERE p.receiver.id = :userID")})
 public class Profileposts implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -37,6 +40,11 @@ public class Profileposts implements Serializable {
     @NotNull
     @Column(name = "id")
     private Integer id;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 11)
+    @Column(name = "vision")
+    private String vision;
     @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private Post post;
@@ -51,12 +59,25 @@ public class Profileposts implements Serializable {
         this.id = id;
     }
 
+    public Profileposts(Integer id, String vision) {
+        this.id = id;
+        this.vision = vision;
+    }
+
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getVision() {
+        return vision;
+    }
+
+    public void setVision(String vision) {
+        this.vision = vision;
     }
 
     public Post getPost() {
@@ -99,5 +120,5 @@ public class Profileposts implements Serializable {
     public String toString() {
         return "RedSocialEntities.Profileposts[ id=" + id + " ]";
     }
-    
+
 }

@@ -35,15 +35,16 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author PabloGL
  */
 @Entity
-@Table(name = "groups")
+@Table(name = "grupos")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Groups.findAll", query = "SELECT g FROM Groups g")
-    , @NamedQuery(name = "Groups.findById", query = "SELECT g FROM Groups g WHERE g.id = :id")
-    , @NamedQuery(name = "Groups.findByName", query = "SELECT g FROM Groups g WHERE g.name = :name")
-    , @NamedQuery(name = "Groups.findByNumberLimit", query = "SELECT g FROM Groups g WHERE g.numberLimit = :numberLimit")
-    , @NamedQuery(name = "Groups.findByCreationDate", query = "SELECT g FROM Groups g WHERE g.creationDate = :creationDate")})
-public class Groups implements Serializable {
+    @NamedQuery(name = "Grupos.findAll", query = "SELECT g FROM Grupos g")
+    , @NamedQuery(name = "Grupos.findById", query = "SELECT g FROM Grupos g WHERE g.id = :id")
+    , @NamedQuery(name = "Grupos.findByName", query = "SELECT g FROM Grupos g WHERE g.name = :name")
+    , @NamedQuery(name = "Grupos.findByCreationDate", query = "SELECT g FROM Grupos g WHERE g.creationDate = :creationDate")
+    , @NamedQuery(name = "Grupos.findByImagePath", query = "SELECT g FROM Grupos g WHERE g.imagePath = :imagePath")
+    , @NamedQuery(name = "Grupos.findBySearchText", query = "SELECT g FROM Grupos g WHERE g.name Like CONCAT(:name,'%')")})
+public class Grupos implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -56,8 +57,6 @@ public class Groups implements Serializable {
     @Size(min = 1, max = 25)
     @Column(name = "name")
     private String name;
-    @Column(name = "numberLimit")
-    private Integer numberLimit;
     @Lob
     @Size(max = 65535)
     @Column(name = "description")
@@ -65,27 +64,35 @@ public class Groups implements Serializable {
     @Column(name = "creation_date")
     @Temporal(TemporalType.DATE)
     private Date creationDate;
-    @JoinTable(name = "groupadmins", joinColumns = {
-        @JoinColumn(name = "group", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "admin", referencedColumnName = "id")})
+    @Size(max = 45)
+    @Column(name = "imagePath")
+    private String imagePath;
+    @JoinTable(name = "joinpetition", joinColumns = {
+        @JoinColumn(name = "groupId", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "userId", referencedColumnName = "id")})
     @ManyToMany
     private List<Users> usersList;
+    @JoinTable(name = "groupadmins", joinColumns = {
+        @JoinColumn(name = "grupo", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "admin", referencedColumnName = "id")})
+    @ManyToMany
+    private List<Users> usersList1;
     @JoinTable(name = "belongtogroup", joinColumns = {
         @JoinColumn(name = "groupId", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "userId", referencedColumnName = "id")})
     @ManyToMany
-    private List<Users> usersList1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "group1")
+    private List<Users> usersList2;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "grupo")
     private List<Groupposts> grouppostsList;
 
-    public Groups() {
+    public Grupos() {
     }
 
-    public Groups(Integer id) {
+    public Grupos(Integer id) {
         this.id = id;
     }
 
-    public Groups(Integer id, String name) {
+    public Grupos(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -106,14 +113,6 @@ public class Groups implements Serializable {
         this.name = name;
     }
 
-    public Integer getNumberLimit() {
-        return numberLimit;
-    }
-
-    public void setNumberLimit(Integer numberLimit) {
-        this.numberLimit = numberLimit;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -128,6 +127,14 @@ public class Groups implements Serializable {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     @XmlTransient
@@ -149,6 +156,15 @@ public class Groups implements Serializable {
     }
 
     @XmlTransient
+    public List<Users> getUsersList2() {
+        return usersList2;
+    }
+
+    public void setUsersList2(List<Users> usersList2) {
+        this.usersList2 = usersList2;
+    }
+
+    @XmlTransient
     public List<Groupposts> getGrouppostsList() {
         return grouppostsList;
     }
@@ -167,10 +183,10 @@ public class Groups implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Groups)) {
+        if (!(object instanceof Grupos)) {
             return false;
         }
-        Groups other = (Groups) object;
+        Grupos other = (Grupos) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -179,7 +195,7 @@ public class Groups implements Serializable {
 
     @Override
     public String toString() {
-        return "RedSocialEntities.Groups[ id=" + id + " ]";
+        return "RedSocialEntities.Grupos[ id=" + id + " ]";
     }
-    
+
 }

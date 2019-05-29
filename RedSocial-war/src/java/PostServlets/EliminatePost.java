@@ -3,30 +3,37 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlets;
+package PostServlets;
 
+import RedSocialEntities.Grupos;
+import RedSocialEntities.Post;
 import RedSocialEntities.Users;
+import RedSocialFacades.GruposFacade;
+import RedSocialFacades.PostFacade;
 import RedSocialFacades.UsersFacade;
+import Services.PostService;
 import java.io.IOException;
-import java.util.List;
+import java.io.PrintWriter;
 import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author PabloGL
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/loginServlet"})
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "EliminatePost", urlPatterns = {"/EliminatePost"})
+public class EliminatePost extends HttpServlet {
 
     @EJB
-    UsersFacade usersFacade;
+    PostFacade pf;
+    @EJB
+    GruposFacade gf;
+    @EJB
+    UsersFacade uf;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,27 +46,36 @@ public class LoginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        boolean isGroupPost = Boolean.parseBoolean(request.getParameter("isGroupPost"));
+        Users currentSession = (Users) request.getSession().getAttribute("currentSession");
+        Integer postId = Integer.parseInt(request.getParameter("postId"));
 
-        //Chequear email y password parametros : "email","password"
-        String email = request.getParameter("email"), password = request.getParameter("password");
-        List<Users> userList = usersFacade.checkCredentials(email, password);
+        Post post = pf.find(postId);
+
+        boolean esAutor = post.getAuthor().equals(currentSession);
+
+        pf.remove(post);
+
+        /*
+            Si existe algún método en el que un usuario ve todos sus post y se sacan de la sesión habría que actualizarlo.
         
-        if (userList.isEmpty()) {
-            //Si no se encuentra usuario error como el de abajo
-            String error = "No user found with that credentials.";
-            request.setAttribute("loginError", error);
+        if (esAutor) {
+            request.setAttribute("currentSession",uf.find(currentSession.getId()));
+        }
+        
+        */
+        
 
-            RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/Login.jsp");
-            rd.forward(request, response);
+        if (isGroupPost) {
+            Integer groupId = Integer.parseInt(request.getParameter("groupId"));
+            Grupos group = gf.find(groupId);
+            request.setAttribute("group", group);
+
+            request.getRequestDispatcher("/GroupPageServlet").forward(request, response);
+
         } else {
-            Users user = userList.get(0);
-            
-            //En caso de ser encontrado llevarlo a la pagina principal con su usuario en la sesión para gestionar todo.
-            
-            request.getSession().setAttribute("currentSession", user);
-            
-            RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/MainPage.jsp");
-            rd.forward(request, response);
+
         }
     }
 

@@ -5,18 +5,14 @@
  */
 package RedSocialFacades;
 
+import RedSocialEntities.Post;
 import RedSocialEntities.Users;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-/**
- *
- * @author PabloGL
- */
 @Stateless
 public class UsersFacade extends AbstractFacade<Users> {
 
@@ -33,10 +29,10 @@ public class UsersFacade extends AbstractFacade<Users> {
     }
 
     /**
-     *
+     * @author Pablo Gamarro Lozano
      * @param email
      * @param password
-     * @return null if not found any user or the user in case it founds it
+     * @return
      */
     public List<Users> checkCredentials(String email, String password) {
         Query q = em.createQuery("SELECT u FROM Users u WHERE u.email = :email and u.password = :password");
@@ -45,5 +41,9 @@ public class UsersFacade extends AbstractFacade<Users> {
 
         return (List<Users>) q.getResultList();
     }
-
+    
+    public List<Users> findBySearchText(String searchText) {
+        Query q = em.createNamedQuery("Users.findBySearchText").setParameter("searchText", searchText);
+        return (List<Users>) q.getResultList();
+    }
 }
